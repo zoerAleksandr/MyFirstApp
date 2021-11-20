@@ -2,14 +2,13 @@ package com.example.myfirstapp.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 // данный класс содержит все данные об одном маршруте машиниста
 // данный класс является родителем таких классов как FollowingByPassenger ("Следование пассажиром"),
 //  LocomotiveData ("Данные о локомотиве"), TrainData ("Данные о поезде")
 @Parcelize
 data class Itinerary(
-    var number: Byte = 0,
+    var number: String = "0",
     var appearanceAtWork: Byte = 8, // Изменить тип на Calendar
     var endOfWork: Byte = 11, // Изменить тип на Calendar
     var restAtThePointOfTurnover: Boolean = true,

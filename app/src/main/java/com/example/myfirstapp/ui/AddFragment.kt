@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myfirstapp.R
@@ -49,21 +48,14 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.textCount.text = viewModel.getRepoSize().toString()
-
-
-        viewModel.getDataSize().observe(viewLifecycleOwner, { renderDataSize(it) })
-        viewModel.getRepoSize()
-
-        viewModel.getDataItinerary().observe(viewLifecycleOwner, { renderDataItinerary() })
-
         // пример добавления новаго объекта
         binding.btnAdd.setOnClickListener {
-            var itinerary = Itinerary()
-            viewModel.setDataInLocal(itinerary)
+            viewModel.getDataUpdate(binding.editNumber.text.toString())
 
-            Log.e("MyLog", "Сработала кнопка + ")
         }
+        viewModel.getDataFromLocal()
+
+        viewModel.getData().observe(viewLifecycleOwner, { renderDataSize(it) })
 
         binding.btnBack.setOnClickListener {
             activity?.supportFragmentManager?.apply {
@@ -73,17 +65,11 @@ class AddFragment : Fragment() {
                     .commit()
             }
         }
-
     }
 
-    private fun renderDataItinerary() {
-        Toast.makeText(context, "add new Itinerary", Toast.LENGTH_SHORT).show()
-
-    }
-
-    private fun renderDataSize(it: Int) {
-        binding.textCount.text = it.toString()
-        Log.e("MyLog", "Вызван метод renderDataSize, it = $it")
-
+    private fun renderDataSize(it: List<Itinerary>) {
+        binding.textCount.text = it.size.toString()
+        Log.e("renderDataSize", "it = ${it.size}")
+        Log.e("AddNew", it.toString())
     }
 }

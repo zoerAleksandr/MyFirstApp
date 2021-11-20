@@ -8,49 +8,35 @@ import com.example.myfirstapp.Repository.RepositoryImpl
 import com.example.myfirstapp.data.Itinerary
 import java.lang.Thread.sleep
 
-class MainViewModel(private val repository: Repository = RepositoryImpl.newInstance()) :
+class MainViewModel() :
     ViewModel() {
 
+    private val repository: Repository = RepositoryImpl.newInstance()
     private val liveDataToObserve: MutableLiveData<List<Itinerary>> = MutableLiveData()
-    private val liveDataSizeToObserve: MutableLiveData<Int> = MutableLiveData()
-    private val liveDataItineraryToObserve: MutableLiveData<Itinerary> = MutableLiveData()
 
     fun getData(): LiveData<List<Itinerary>> {
         return liveDataToObserve
     }
 
+/*  Принцып работы viewModel совместно с Observer
+*   Во фрагменте создается экземпляр ViewModel и вызывается один из методов, которые возвращают LiveData,
+*   далее указывается слушатель (Observer) и в лямбде описывается событие,
+*   которое должно произойти при изменении LiveData
+*   viewModel.getData().observe(viewLifecycleOwner, { renderDataSize(it) })*/
 
-    fun getDataItinerary(): LiveData<Itinerary> {
-        return liveDataItineraryToObserve
-    }
-
-
-    fun getDataSize(): LiveData<Int> {
-        return liveDataSizeToObserve
-    }
-
+    // Для предоставления списка из репозитория
     fun getDataFromLocal() {
-        // liveDataToObserve.value = AppState.Loading
-        Thread {
-            sleep(2000)
-            liveDataToObserve.postValue(repository.getDataFromLocal())
-            sleep(5000)
-            liveDataToObserve.postValue(repository.getNewData())
-        }.start()
-    }
-
-
-    fun setDataInLocal(data: Itinerary) {
-        Thread {
-            repository.addData(data)
-        }.start()
-    }
-
-    fun getRepoSize() {
         Thread {
             sleep(1000)
-            liveDataSizeToObserve.postValue(repository.getSize())
+            liveDataToObserve.postValue(repository.getDataFromLocal())
         }.start()
     }
 
+    // Для обновления и предоставления списка из репощитория
+    fun getDataUpdate(number: String) {
+        Thread {
+            repository.addData(Itinerary(number))
+            liveDataToObserve.postValue(repository.getDataFromLocal())
+        }.start()
+    }
 }
