@@ -1,6 +1,7 @@
 package com.example.myfirstapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,12 +39,20 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        // Параметром ViewModelProvider является requireActivity() для того чтобы viewModel
+        // была одна у всех дочерних фрагметов активити
+        // тем самым можно добиться передачи данных между фрагментами с помощью viewModel
+        // viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapterItinerary
+        Log.e("2", "${viewModel.hashCode()}")
+
 
         // когда произойдет изменение в методе getData, observer увидит это и выполнит метод renderData
         // val observer = Observer<List<Itinerary>> { renderData(it) }
@@ -61,9 +70,11 @@ class MainFragment : Fragment() {
                     .commit()
             }
         }
+
+        Log.e("onViewCreated", "Start")
     }
 
-    private fun renderData(data: List<Itinerary>) {
+    private fun renderData(data: MutableList<Itinerary>) {
         // здесь можно обновить данные UI
         adapterItinerary.setData(data)
     }

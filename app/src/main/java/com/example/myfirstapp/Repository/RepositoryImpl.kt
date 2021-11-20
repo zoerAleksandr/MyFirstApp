@@ -1,6 +1,5 @@
 package com.example.myfirstapp.Repository
 
-import android.util.Log
 import com.example.myfirstapp.data.Itinerary
 
 class RepositoryImpl : Repository {
@@ -9,12 +8,7 @@ class RepositoryImpl : Repository {
         fun newInstance() = RepositoryImpl()
     }
 
-    private var data: MutableList<Itinerary> = mutableListOf(
-        Itinerary(),
-        Itinerary(),
-        Itinerary(),
-        Itinerary(),
-    )
+    private var data: MutableList<Itinerary> = mutableListOf()
 
     override fun getDataFromLocal() = data
 
@@ -31,18 +25,8 @@ class RepositoryImpl : Repository {
         return data
     }
 
-/*    override fun getNewData(): MutableList<Itinerary> {
-        data = mutableListOf(
-            Itinerary(),
-            Itinerary(),
-            Itinerary()
-        )
-        return data
-    }*/
-
     override fun addData(itinerary: Itinerary): Itinerary {
         data.add(itinerary)
-        Log.e("MyLog", data.size.toString())
         return itinerary
     }
 

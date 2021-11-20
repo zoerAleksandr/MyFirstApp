@@ -26,10 +26,16 @@ class AddFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-// экземпляр viewModel создается через ViewModelProvider, а не через конструктор,
-// чтобы при пересоздании fragment не создавалась новая ViewModel (тогда почему не сделать ViewModel object?)
+        // экземпляр viewModel создается через ViewModelProvider, а не через конструктор,
+        // чтобы при пересоздании fragment не создавалась новая ViewModel (тогда почему не сделать ViewModel object?)
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        // Параметром ViewModelProvider является requireActivity() для того чтобы viewModel
+        // была одна у всех дочерних фрагметов активити
+        // тем самым можно добиться передачи данных между фрагментами с помощью viewModel
+        // viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -47,6 +53,7 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("2", "${viewModel.hashCode()}")
 
         // пример добавления новаго объекта
         binding.btnAdd.setOnClickListener {
@@ -67,9 +74,9 @@ class AddFragment : Fragment() {
         }
     }
 
-    private fun renderDataSize(it: List<Itinerary>) {
-        binding.textCount.text = it.size.toString()
-        Log.e("renderDataSize", "it = ${it.size}")
-        Log.e("AddNew", it.toString())
+    private fun renderDataSize(data: MutableList<Itinerary>) {
+        binding.textCount.text = data.size.toString()
+        Log.e("renderDataSize", "it = ${data.size}")
+        Log.e("AddNew", data.toString())
     }
 }
