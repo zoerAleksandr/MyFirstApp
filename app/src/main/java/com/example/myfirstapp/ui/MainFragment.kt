@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myfirstapp.data.Itinerary
 import com.example.myfirstapp.databinding.FragmentMainBinding
+import com.example.myfirstapp.vm.AppState
 import com.example.myfirstapp.vm.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
 
@@ -70,12 +72,25 @@ class MainFragment : Fragment() {
                     .commit()
             }
         }
-
-        Log.e("onViewCreated", "Start")
     }
 
-    private fun renderData(data: MutableList<Itinerary>) {
+    private fun renderData(appState: AppState) {
         // здесь можно обновить данные UI
-        adapterItinerary.setData(data)
+        when (appState) {
+            is AppState.Success -> {
+                var data: MutableList<Itinerary> = appState.list
+                adapterItinerary.setData(data)
+                binding.loadingLayout.visibility = View.GONE
+            }
+            is AppState.Loading -> {
+                binding.loadingLayout.visibility = View.VISIBLE
+            }
+            is AppState.Error -> {
+                binding.loadingLayout.visibility = View.GONE
+                Snackbar.make(binding.fab, "Ошибка", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Обновить") { viewModel.getDataFromLocal() }
+                    .show()
+            }
+        }
     }
 }

@@ -12,11 +12,16 @@ import java.lang.Thread.sleep
 class MainViewModel(private var repository: Repository = RepositoryImpl.newInstance()) :
     ViewModel() {
 
-    private val liveDataToObserve: MutableLiveData<MutableList<Itinerary>> = MutableLiveData()
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
 
-    fun getData(): LiveData<MutableList<Itinerary>> {
+/*    fun getData(): LiveData<MutableList<Itinerary>> {
+        return liveDataToObserve
+    }*/
+
+    fun getData(): LiveData<AppState> {
         return liveDataToObserve
     }
+
 
 /*
     Принцып работы viewModel совместно с Observer
@@ -28,18 +33,32 @@ class MainViewModel(private var repository: Repository = RepositoryImpl.newInsta
 
     // Для предоставления списка из репозитория
     fun getDataFromLocal() {
+        liveDataToObserve.value = AppState.Loading
         Thread {
             sleep(1000)
-            liveDataToObserve.postValue(repository.getDataFromLocal())
-            Log.e("1", "${repository.hashCode()}")
+            liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
         }.start()
     }
 
-    // Для обновления и предоставления списка из репощитория
-    fun getDataUpdate(number: String) {
+    // Для добавления и предоставления списка из репозитория
+    fun getDataAdd(number: String) {
+        liveDataToObserve.value = AppState.Loading
         Thread {
+            sleep(2000)
             repository.addData(Itinerary(number))
-            liveDataToObserve.postValue(repository.getDataFromLocal())
+            liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
+        }.start()
+    }
+
+
+    // Для удаления и предоставления списка из репозитория
+    fun getDataRemove(position: Int){
+        liveDataToObserve.value = AppState.Loading
+        Thread{
+            sleep(2000)
+            Log.e("Remove", "$position")
+            repository.remove(position)
+            liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
         }.start()
     }
 }

@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myfirstapp.R
-import com.example.myfirstapp.data.Itinerary
 import com.example.myfirstapp.databinding.FragmentAddBinding
+import com.example.myfirstapp.vm.AppState
 import com.example.myfirstapp.vm.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class AddFragment : Fragment() {
 
@@ -57,9 +58,13 @@ class AddFragment : Fragment() {
 
         // пример добавления новаго объекта
         binding.btnAdd.setOnClickListener {
-            viewModel.getDataUpdate(binding.editNumber.text.toString())
-
+            viewModel.getDataAdd(binding.editNumber.text.toString())
         }
+
+        binding.btnRemove.setOnClickListener {
+            viewModel.getDataRemove(1)
+        }
+
         viewModel.getDataFromLocal()
 
         viewModel.getData().observe(viewLifecycleOwner, { renderDataSize(it) })
@@ -74,9 +79,22 @@ class AddFragment : Fragment() {
         }
     }
 
-    private fun renderDataSize(data: MutableList<Itinerary>) {
-        binding.textCount.text = data.size.toString()
-        Log.e("renderDataSize", "it = ${data.size}")
-        Log.e("AddNew", data.toString())
+    private fun renderDataSize(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                binding.textCount.text = appState.list.size.toString()
+                binding.loadingLayout.visibility = View.GONE
+            }
+            is AppState.Loading -> {
+                binding.loadingLayout.visibility = View.VISIBLE
+
+            }
+            is AppState.Error -> {
+                binding.loadingLayout.visibility = View.GONE
+                Snackbar.make(binding.btnBack, "Ошибка", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Обновить") { viewModel.getDataFromLocal() }
+                    .show()
+            }
+        }
     }
 }
