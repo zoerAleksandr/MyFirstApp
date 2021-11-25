@@ -63,8 +63,8 @@ class MainFragment : Fragment() {
 
         viewModel.getDataFromLocal()
 
+        // переход на фрагмент добавления данных
         binding.fab.setOnClickListener {
-            // переход на фрагмент добавления данных
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
                     .replace(binding.container.id, AddFragment.newInstance())

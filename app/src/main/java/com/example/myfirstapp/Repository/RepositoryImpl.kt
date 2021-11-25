@@ -20,7 +20,7 @@ class RepositoryImpl : Repository {
         data = mutableListOf(
             Itinerary(),
             Itinerary(),
-            Itinerary(),
+            Itinerary()
         )
         return data
     }

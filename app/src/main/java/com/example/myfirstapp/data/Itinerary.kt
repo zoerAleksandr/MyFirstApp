@@ -8,9 +8,9 @@ import kotlinx.android.parcel.Parcelize
 //  LocomotiveData ("Данные о локомотиве"), TrainData ("Данные о поезде")
 @Parcelize
 data class Itinerary(
-    var number: String,
-    var appearanceAtWork: Byte, // Изменить тип на Calendar
-    var endOfWork: Byte, // Изменить тип на Calendar
+    var number: String = "0",
+    var appearanceAtWork: Byte = 8, // Изменить тип на Calendar
+    var endOfWork: Byte = 11, // Изменить тип на Calendar
     var restAtThePointOfTurnover: Boolean = true,
     var notes: String = "Примечания",
 
