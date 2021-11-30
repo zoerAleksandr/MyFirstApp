@@ -41,20 +41,20 @@ class MainViewModel(private var repository: Repository = RepositoryImpl.newInsta
     }
 
     // Для добавления и предоставления списка из репозитория
-    fun getDataAdd(number: String) {
+    fun getDataAdd() {
         liveDataToObserve.value = AppState.Loading
         Thread {
-            sleep(2000)
-            repository.addData(Itinerary(number))
+            sleep(500)
+            repository.addData()
             liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
         }.start()
     }
 
 
     // Для удаления и предоставления списка из репозитория
-    fun getDataRemove(position: Int){
+    fun getDataRemove(position: Int) {
         liveDataToObserve.value = AppState.Loading
-        Thread{
+        Thread {
             sleep(2000)
             Log.e("Remove", "$position")
             repository.remove(position)

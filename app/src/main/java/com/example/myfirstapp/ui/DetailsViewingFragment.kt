@@ -1,10 +1,10 @@
 package com.example.myfirstapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.myfirstapp.R
 
 class DetailsViewingFragment : Fragment() {
@@ -23,6 +23,4 @@ class DetailsViewingFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_details_viewing, container, false)
     }
-
-
 }

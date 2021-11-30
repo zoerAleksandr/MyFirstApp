@@ -2,6 +2,8 @@ package com.example.myfirstapp.Repository
 
 import com.example.myfirstapp.data.Itinerary
 
+// Должен быть отдельный метод по созданию объекта и отдельный по заполнению необязательными данными
+
 class RepositoryImpl : Repository {
 
     companion object {
@@ -16,18 +18,8 @@ class RepositoryImpl : Repository {
         TODO("Not yet implemented")
     }
 
-    override fun getNewData(): MutableList<Itinerary> {
-        data = mutableListOf(
-            Itinerary(),
-            Itinerary(),
-            Itinerary()
-        )
-        return data
-    }
-
-    override fun addData(itinerary: Itinerary): Itinerary {
-        data.add(itinerary)
-        return itinerary
+    override fun addData() {
+        data.add(Itinerary())
     }
 
     override fun remove(position: Int) {
@@ -37,4 +29,6 @@ class RepositoryImpl : Repository {
     override fun getSize(): Int {
         return data.size
     }
+
+    override fun getItinerary(position: Int) = data[position]
 }

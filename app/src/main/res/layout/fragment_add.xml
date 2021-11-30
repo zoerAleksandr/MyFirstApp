@@ -1,54 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddFragment">
+    tools:context=".ui.addFragment.AddFragment">
 
-    <Button
-        android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+" />
-
-    <Button
-        android:id="@+id/btn_remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="-" />
-
-    <TextView
-        android:id="@+id/text_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        tools:text="0" />
-
-    <Button
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="Back" />
-
-    <EditText
-        android:id="@+id/edit_number"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp" />
+        android:layout_height="56dp"
+        android:background="@drawable/shadowline2">
 
-    <FrameLayout
-        android:id="@+id/loadingLayout"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="маршрут"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/StyleTextTitle"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background1">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabTextAppearance="@style/StyleTextTitleBlock">
 
-</FrameLayout>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_item_itinerary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="маршрут" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab_item_other_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="прочие работы" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

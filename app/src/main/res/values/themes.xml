@@ -24,6 +24,7 @@
 
     <style name="StyleTextData" parent="Theme.MyFirstApp">
         <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">18sp</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
@@ -69,6 +70,15 @@
         <item name="android:padding">10dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="StyleMiniFAB" parent="Theme.MyFirstApp">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:src">@drawable/ic_add_24</item>
+        <item name="elevation">6dp</item>
+        <item name="android:background">@drawable/shape_background_mini_fab</item>
     </style>
 
 

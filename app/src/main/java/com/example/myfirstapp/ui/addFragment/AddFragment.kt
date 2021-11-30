@@ -1,17 +1,13 @@
-package com.example.myfirstapp.ui
+package com.example.myfirstapp.ui.addFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddBinding
-import com.example.myfirstapp.vm.AppState
 import com.example.myfirstapp.vm.MainViewModel
-import com.google.android.material.snackbar.Snackbar
 
 class AddFragment : Fragment() {
 
@@ -54,47 +50,11 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("2", "${viewModel.hashCode()}")
 
-        // пример добавления новаго объекта
-        binding.btnAdd.setOnClickListener {
-            viewModel.getDataAdd(binding.editNumber.text.toString())
-        }
+     /*   val fragmentAdapter = FragmentAdapter(parentFragmentManager, lifecycle)
+        val viewPager = binding.viewPager
+        viewPager.adapter*/
 
-        binding.btnRemove.setOnClickListener {
-            viewModel.getDataRemove(1)
-        }
-
-        viewModel.getDataFromLocal()
-
-        viewModel.getData().observe(viewLifecycleOwner, { renderDataSize(it) })
-
-        binding.btnBack.setOnClickListener {
-            activity?.supportFragmentManager?.apply {
-                beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .addToBackStack("1")
-                    .commit()
-            }
-        }
     }
 
-    private fun renderDataSize(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                binding.textCount.text = appState.list.size.toString()
-                binding.loadingLayout.visibility = View.GONE
-            }
-            is AppState.Loading -> {
-                binding.loadingLayout.visibility = View.VISIBLE
-
-            }
-            is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
-                Snackbar.make(binding.btnBack, "Ошибка", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Обновить") { viewModel.getDataFromLocal() }
-                    .show()
-            }
-        }
-    }
 }

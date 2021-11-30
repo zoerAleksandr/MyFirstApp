@@ -1,7 +1,6 @@
 package com.example.myfirstapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myfirstapp.data.Itinerary
 import com.example.myfirstapp.databinding.FragmentMainBinding
+import com.example.myfirstapp.ui.addFragment.AddFragment
 import com.example.myfirstapp.vm.AppState
 import com.example.myfirstapp.vm.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -53,8 +53,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapterItinerary
-        Log.e("2", "${viewModel.hashCode()}")
-
 
         // когда произойдет изменение в методе getData, observer увидит это и выполнит метод renderData
         // val observer = Observer<List<Itinerary>> { renderData(it) }

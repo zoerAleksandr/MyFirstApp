@@ -2,13 +2,16 @@ package com.example.myfirstapp.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 // данный класс содержит все данные об одном маршруте машиниста
 // данный класс является родителем таких классов как FollowingByPassenger ("Следование пассажиром"),
 //  LocomotiveData ("Данные о локомотиве"), TrainData ("Данные о поезде")
 @Parcelize
 data class Itinerary(
-    var number: String = "0",
+
+    private val itineraryID: String = UUID.randomUUID().toString(),
+    //var number: String = "0",
     var appearanceAtWork: Byte = 8, // Изменить тип на Calendar
     var endOfWork: Byte = 11, // Изменить тип на Calendar
     var restAtThePointOfTurnover: Boolean = true,
@@ -19,6 +22,12 @@ data class Itinerary(
     var trainData: TrainData = TrainData()
 
 ) : Parcelable {
+
+    // Чтобы сделать поля не обязательные для заполнения, со значениями по умолчанию
+    // их необходимо вынести в тело класса
+    // Пример:
+    var number: String = "0"
+    fun getItineraryID() = this.itineraryID
 
     fun getAppearanceAtWork(): String {
         return appearanceAtWork.toString()
