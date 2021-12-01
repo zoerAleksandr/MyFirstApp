@@ -16,36 +16,25 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                style="@style/StyleBackgroundBlocks"
-                android:layout_width="wrap_content"
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginEnd="16dp"
+                android:hint="Номер"
+                app:endIconMode="clear_text">
 
-                <TextView
-                    style="@style/StyleTextData"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_number_itinerary"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="№ " />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:hint="1234"
-                    app:endIconMode="clear_text">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content" />
+                    android:inputType="number" />
 
 
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/StyleBackgroundBlocks"
@@ -112,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Домашний отдых  "
+                    android:text="Отдых в ПО "
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/block_end" />
 
@@ -160,6 +149,7 @@
                 </FrameLayout>
 
                 <ImageButton
+                    android:id="@+id/btn_add_loco"
                     style="@style/StyleMiniFAB"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/loco_data_block" />
@@ -212,6 +202,7 @@
                 </LinearLayout>
 
                 <ImageButton
+                    android:id="@+id/btn_add_train"
                     style="@style/StyleMiniFAB"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/train_data_block" />
@@ -272,6 +263,7 @@
                 </LinearLayout>
 
                 <ImageButton
+                    android:id="@+id/btn_add_passenger"
                     style="@style/StyleMiniFAB"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/passenger_data_block" />
@@ -312,6 +304,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton
+                    android:id="@+id/btn_open_camera"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="10dp"
@@ -331,11 +324,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
-        android:text="Сохранить"
-        android:backgroundTint="@color/red"
+        android:background="@drawable/shape_background_save_fab"
+        android:text="Cохранить"
         android:textAppearance="@style/StyleTextData"
-        android:textColor="@color/white"
-        app:icon="@drawable/ic_done_24"
-        app:iconTint="@color/white" />
+        android:textColor="@color/white" />
 
 </FrameLayout>
