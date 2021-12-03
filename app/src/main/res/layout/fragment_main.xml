@@ -136,10 +136,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:backgroundTint="@color/red"
-        android:src="@drawable/ic_add_white_48"
         app:layout_anchor="@id/container"
         app:layout_anchorGravity="bottom|right"
-        app:layout_behavior=".ui.CustomBehavior">
+        app:layout_behavior=".ui.CustomBehavior"
+        app:srcCompat="@drawable/ic_add_white_48">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 

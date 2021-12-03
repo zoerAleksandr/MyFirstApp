@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myfirstapp.databinding.FragmentAddBinding
 import com.example.myfirstapp.vm.MainViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 class AddFragment : Fragment() {
 
@@ -51,9 +52,16 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-     /*   val fragmentAdapter = FragmentAdapter(parentFragmentManager, lifecycle)
         val viewPager = binding.viewPager
-        viewPager.adapter*/
+        val tabLayout = binding.tabLayout
+
+        val fragmentAdapter = FragmentAdapter(parentFragmentManager, lifecycle)
+        viewPager.adapter = fragmentAdapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            if (position == 0) tab.text = "Маршрут"
+            else if (position == 1) tab.text = "Прочие работы"
+        }.attach()
 
     }
 
