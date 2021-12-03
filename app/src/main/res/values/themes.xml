@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
 
     </style>
+
     <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
@@ -81,9 +82,18 @@
         <item name="android:background">@drawable/shape_background_mini_fab</item>
     </style>
 
-<!--ShapeAppearanceOverlayExtended предназначен для изменения формы Extended FAB-->
+    <!--ShapeAppearanceOverlayExtended предназначен для изменения формы Extended FAB-->
     <style name="ShapeAppearanceOverlayExtended" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
     </style>
+
+    <!--ShapeAppearanceOverlayExtended предназначен для изменения формы FAB-->
+
+    <style name="ShapeAppearanceOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
+
+
 </resources>
