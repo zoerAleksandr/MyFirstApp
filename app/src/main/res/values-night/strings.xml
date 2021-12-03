@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="text_not_data">нет данных</string>
+    <string name="text_fab_save">Cохранить</string>
 </resources>

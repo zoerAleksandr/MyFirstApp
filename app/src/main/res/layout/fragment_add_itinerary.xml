@@ -322,13 +322,11 @@
         android:layout_width="196dp"
         android:layout_height="44dp"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/red"
-        android:gravity="center_horizontal"
-        android:text="Cохранить"
+        android:gravity="center"
+        android:text="@string/text_fab_save"
         android:textColor="@color/white"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlayExtended"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
-
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlayExtended" />
 
 </FrameLayout>

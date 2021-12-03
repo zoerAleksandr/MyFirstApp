@@ -86,6 +86,7 @@
     <style name="ShapeAppearanceOverlayExtended" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
+        <item name="layout_behavior">@string/hide_bottom_view_on_scroll_behavior</item>
     </style>
 
     <!--ShapeAppearanceOverlayExtended предназначен для изменения формы FAB-->
@@ -93,6 +94,7 @@
     <style name="ShapeAppearanceOverlay" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">25dp</item>
+        <item name="layout_behavior">@string/hide_bottom_view_on_scroll_behavior</item>
     </style>
 
 
