@@ -9,13 +9,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/shadowline2">
+        android:layout_height="66dp"
+        android:background="@color/transparent"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/menu_toolbar_add"
+            android:background="@drawable/gradient_mini"
             app:title="маршрут"
             app:titleCentered="true"
             app:titleTextAppearance="@style/StyleTextTitle"
@@ -54,16 +55,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-<!--        android:id="@+id/btn_save"-->
-<!--        android:layout_width="196dp"-->
-<!--        android:layout_height="44dp"-->
-<!--        android:layout_gravity="bottom|center"-->
-<!--        android:layout_marginBottom="16dp"-->
-<!--        android:backgroundTint="@color/red"-->
-<!--        android:gravity="center"-->
-<!--        android:text="Cохранить"-->
-<!--        android:textColor="@color/white"-->
-<!--        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>-->
+    <!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+    <!--        android:id="@+id/btn_save"-->
+    <!--        android:layout_width="196dp"-->
+    <!--        android:layout_height="44dp"-->
+    <!--        android:layout_gravity="bottom|center"-->
+    <!--        android:layout_marginBottom="16dp"-->
+    <!--        android:backgroundTint="@color/red"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="Cохранить"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

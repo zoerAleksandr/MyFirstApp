@@ -324,7 +324,7 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="60dp"
         android:backgroundTint="@color/red"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:text="Cохранить"
         android:textColor="@color/white"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlayExtended"

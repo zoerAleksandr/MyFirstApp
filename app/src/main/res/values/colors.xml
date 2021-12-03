@@ -13,4 +13,5 @@
     <color name="background1">#F0F0F0</color>
     <color name="background_gray">#25C4C4C4</color>
     <color name="background_mini_fab">#0E4DA4</color>
+    <color name="color_for_gradient">#555555</color>
 </resources>
