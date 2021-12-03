@@ -5,6 +5,8 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/drawable/background_btn_save.xml" value="0.2958904109589041" />
+        <entry key="app/src/main/res/drawable/background_circular.xml" value="0.29259259259259257" />
+        <entry key="app/src/main/res/drawable/background_circular_indiсator.xml" value="0.29259259259259257" />
         <entry key="app/src/main/res/drawable/background_stroke.xml" value="0.2598958333333333" />
         <entry key="app/src/main/res/drawable/gradient.xml" value="0.2958904109589041" />
         <entry key="app/src/main/res/drawable/gradient_mini.xml" value="0.2958904109589041" />
