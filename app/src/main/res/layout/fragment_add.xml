@@ -44,15 +44,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    app:tabTextColor="@color/text_color"
-                    app:tabIndicatorColor="@color/text_color"
-                    app:tabIndicatorHeight="1dp"
-                    app:tabIndicatorAnimationMode="elastic"
                     android:layout_marginEnd="32dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicatorAnimationMode="elastic"
+                    app:tabIndicatorColor="@color/text_color"
+                    app:tabIndicatorHeight="1dp"
                     app:tabInlineLabel="true"
+                    app:tabRippleColor="@color/gray"
+                    app:tabSelectedTextColor="@color/text_color"
                     app:tabTextAppearance="@style/StyleTextTitleBlock">
 
                 </com.google.android.material.tabs.TabLayout>

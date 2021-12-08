@@ -11,8 +11,12 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="red">#B02222</color>
     <color name="text_color">#434343</color>
+    <color name="gray">#BCBCBC</color>
     <color name="background1">#F0F0F0</color>
     <color name="background_gray">#25C4C4C4</color>
+    <color name="background_data">#15000000</color>
     <color name="background_mini_fab">#0E4DA4</color>
     <color name="color_for_gradient">#555555</color>
+    <color name="color_stroke">#15000000</color>
+    <color name="color_background_tab_layout">#797979</color>
 </resources>
