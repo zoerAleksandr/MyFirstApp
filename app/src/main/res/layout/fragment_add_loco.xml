@@ -54,7 +54,9 @@
                         android:id="@+id/et_series_loco"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:inputType="number" />
+                        android:inputType="text"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +73,9 @@
                         android:id="@+id/et_number_loco"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -322,8 +326,9 @@
                         android:id="@+id/data_energy_acceptance_1"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:paddingBottom="6dp"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -343,8 +348,9 @@
                         android:id="@+id/data_energy_delivery_1"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:paddingBottom="6dp"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -374,8 +380,9 @@
                         android:id="@+id/data_recovery_acceptance_1"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:paddingBottom="6dp"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -394,9 +401,9 @@
                         android:id="@+id/data_recovery_delivery_1"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:paddingBottom="6dp"
                         android:inputType="number"
-                        android:textAppearance="@style/StyleTextData" />
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -463,32 +470,50 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/energy_acceptance_2" />
 
-                <TextView
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/energy_acceptance_2"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123345"
+                    android:layout_marginEnd="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toStartOf="@id/energy_delivery_2"
                     app:layout_constraintStart_toStartOf="@id/guideline_sec2"
-                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec2" />
+                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec2">
 
-                <TextView
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_energy_acceptance_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/energy_delivery_2"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123347"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/energy_acceptance_2"
-                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec2" />
+                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_energy_delivery_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
                     android:id="@+id/image_recovery_2"
@@ -500,32 +525,48 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/recovery_acceptance_2" />
 
-                <TextView
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/recovery_acceptance_2"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123345"
+                    android:layout_marginEnd="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toStartOf="@id/recovery_delivery_2"
                     app:layout_constraintStart_toStartOf="@id/guideline_sec2"
-                    app:layout_constraintTop_toBottomOf="@id/energy_acceptance_2" />
+                    app:layout_constraintTop_toBottomOf="@id/energy_acceptance_2">
 
-                <TextView
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_recovery_acceptance_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextDataMini" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/recovery_delivery_2"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123347"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/recovery_acceptance_2"
-                    app:layout_constraintTop_toBottomOf="@id/energy_delivery_2" />
+                    app:layout_constraintTop_toBottomOf="@id/energy_delivery_2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_recovery_delivery_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -589,32 +630,50 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/energy_acceptance_3" />
 
-                <TextView
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/energy_acceptance_3"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123345"
+                    android:layout_marginEnd="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toStartOf="@id/energy_delivery_3"
                     app:layout_constraintStart_toStartOf="@id/guideline_sec3"
-                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec3" />
+                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec3">
 
-                <TextView
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_energy_acceptance_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/energy_delivery_3"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123347"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/energy_acceptance_3"
-                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec3" />
+                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec3">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_energy_delivery_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
                     android:id="@+id/image_recovery_3"
@@ -626,32 +685,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/recovery_acceptance_3" />
 
-                <TextView
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/recovery_acceptance_3"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123345"
+                    android:layout_marginEnd="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toStartOf="@id/recovery_delivery_3"
                     app:layout_constraintStart_toStartOf="@id/guideline_sec3"
-                    app:layout_constraintTop_toBottomOf="@id/energy_acceptance_3" />
+                    app:layout_constraintTop_toBottomOf="@id/energy_acceptance_3">
 
-                <TextView
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_recovery_acceptance_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/recovery_delivery_3"
-                    style="@style/StyleTextDataMini"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:text="123347"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/recovery_acceptance_3"
-                    app:layout_constraintTop_toBottomOf="@id/energy_delivery_3" />
+                    app:layout_constraintTop_toBottomOf="@id/energy_delivery_3">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_recovery_delivery_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -674,6 +750,7 @@
 
 
                 </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -681,6 +758,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:visibility="gone"
                 android:background="@drawable/shape_background_main_block"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
