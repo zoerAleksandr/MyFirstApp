@@ -28,48 +28,43 @@ class AddLocoFragment : Fragment() {
         _binding = null
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var tabLayoutLoco = binding.tabLayoutLoco
-        tabLayoutLoco.addTab(tabLayoutLoco.newTab().setText("Тепловоз"), 0, false)
-        tabLayoutLoco.addTab(tabLayoutLoco.newTab().setText("Электровоз"), 1, true)
+        binding.tabLayoutLoco.apply {
+            addTab(this.newTab().setText("Тепловоз"), 0, false)
+            addTab(this.newTab().setText("Электровоз"), 1, true)
+        }
 
-        var tabLayoutSection = binding.tabLayoutLocoSection
-        tabLayoutSection.addTab(tabLayoutSection.newTab().setText("1"), 0, false)
-        tabLayoutSection.addTab(tabLayoutSection.newTab().setText("2"), 1, true)
-        tabLayoutSection.addTab(tabLayoutSection.newTab().setText("3"), 2, false)
+        binding.tabLayoutLocoSection.apply {
+            addTab(this.newTab().setText("1"), 0, false)
+            addTab(this.newTab().setText("2"), 1, true)
+            addTab(this.newTab().setText("3"), 2, false)
 
-        tabLayoutSection.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when(tab.position){
-                    0 -> {
-                        binding.blockEnergySection2.visibility = View.GONE
-                        binding.blockEnergySection3.visibility = View.GONE
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    when (tab.position) {
+                        0 -> {
+                            binding.blockEnergySection2.visibility = View.GONE
+                            binding.blockEnergySection3.visibility = View.GONE
+                        }
+                        1 -> {
+                            binding.blockEnergySection2.visibility = View.VISIBLE
+                            binding.blockEnergySection3.visibility = View.GONE
+                        }
+                        2 -> binding.blockEnergySection3.visibility = View.VISIBLE
+
                     }
-                    1 -> {
-                        binding.blockEnergySection2.visibility = View.VISIBLE
-                        binding.blockEnergySection3.visibility = View.GONE
-                    }
-                    2 -> binding.blockEnergySection3.visibility = View.VISIBLE
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {
 
                 }
-            }
 
-            override fun onTabUnselected(tab: TabLayout.Tab) {
+                override fun onTabReselected(tab: TabLayout.Tab) {
 
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-
-            }
-        })
-
-
+                }
+            })
+        }
     }
 }
