@@ -43,16 +43,16 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
 
                 // здесь необходимо написать присвоение значений в Item из класса Itinerary
 
-                itemDay.text = itinerary.getAppearanceAtWork() // Day of month
-                itemMonth.text = itinerary.getAppearanceAtWork() // Month
-                itemTextTimeWork.text =
-                    itinerary.getAppearanceAtWork() // time the Start and the End work
-                itemTextWork.text =
-                    itinerary.trainData.stationStart + " - " + itinerary.trainData.stationFinish
-                itemTextOvertimeWork.text =
-                    itinerary.getAppearanceAtWork() // Посчитать разницу ао времени
-                itemTextLocomotive.text =
-                    itinerary.locomotiveData.series + " №" + itinerary.locomotiveData.number
+//                itemDay.text = itinerary.getAppearanceAtWork() // Day of month
+//                itemMonth.text = itinerary.getAppearanceAtWork() // Month
+//                itemTextTimeWork.text =
+//                    itinerary.getAppearanceAtWork() // time the Start and the End work
+//                itemTextWork.text =
+//                    itinerary.trainData.stationStart + " - " + itinerary.trainData.stationFinish
+//                itemTextOvertimeWork.text =
+//                    itinerary.getAppearanceAtWork() // Посчитать разницу ао времени
+//                itemTextLocomotive.text =
+//                    itinerary.locomotiveData.series + " №" + itinerary.locomotiveData.number
 
 
                 root.setOnClickListener {

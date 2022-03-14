@@ -5,14 +5,16 @@ import java.util.*
 data class Itinerary(
     // ID
     private val itineraryID: String = UUID.randomUUID().toString(),
+    // номер маршрута
+    var number: String?,
     // явка на работу
-    var appearanceAtWork: Byte = 8, // Изменить тип на Calendar
+    var appearanceAtWork: Byte, // Изменить тип на Calendar
     // окончание работы
-    var endOfWork: Byte = 11, // Изменить тип на Calendar
+    var endOfWork: Byte, // Изменить тип на Calendar
     // отдых в ПО
     var restAtThePointOfTurnover: Boolean = true,
     // примечания
-    var notes: String = "Примечания",
+    var notes: String,
 
     // следование пассажиром
     var followingByPassengerList: MutableList<FollowingByPassenger>,
@@ -25,7 +27,6 @@ data class Itinerary(
     // Чтобы сделать поля не обязательные для заполнения, со значениями по умолчанию
     // их необходимо вынести в тело класса
     // Пример:
-    var number: String = "0"
     fun getItineraryID() = this.itineraryID
 
     fun getAppearanceAtWork(): String {

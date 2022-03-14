@@ -18,8 +18,8 @@ class RepositoryImpl : Repository {
         TODO("Not yet implemented")
     }
 
-    override fun addData() {
-        data.add(Itinerary())
+    override fun addData(itinerary: Itinerary) {
+        data.add(itinerary)
     }
 
     override fun remove(position: Int) {

@@ -6,4 +6,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_not_data">нет данных</string>
     <string name="text_fab_save">Cохранить</string>
+    <string name="text_for_snackbar_error_ending_time">Время сдачи меньше времени явки</string>
+    <string name="text_for_snackbar_error_empty_date_turnout">Укажите время явки</string>
+    <string name="text_for_date_picker_ending">Дата сдачи</string>
+    <string name="text_for_date_picker_turnout">Дата явки</string>
+    <string name="text_for_time_picker_turnout">Время явки</string>
+    <string name="text_for_time_picker_ending">Время сдачи</string>
 </resources>

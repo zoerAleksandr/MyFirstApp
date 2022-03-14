@@ -24,7 +24,8 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
                 android:hint="Номер"
-                app:endIconMode="clear_text">
+                app:endIconMode="clear_text"
+                app:hintAnimationEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_number_itinerary"
@@ -40,59 +41,97 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_background_main_block">
 
+                <TextView
+                    android:id="@+id/turnout_label"
+                    style="@style/StyleTextTitleBlock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="явка"
+                    android:gravity="end"
+                    android:paddingEnd="20dp"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="@id/block_turnout"
+                    app:layout_constraintStart_toStartOf="@id/block_turnout"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/ending_label"
+                    style="@style/StyleTextTitleBlock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="время работы"
+                    android:gravity="end"
+                    app:layout_constraintEnd_toEndOf="@id/block_ending"
+                    app:layout_constraintStart_toStartOf="@id/block_ending"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <LinearLayout
-                    android:id="@+id/block_start"
+                    android:id="@+id/block_turnout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/shape_background_data_block"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="10dp"
-                    app:layout_constraintEnd_toStartOf="@id/block_end"
+                    app:layout_constraintEnd_toStartOf="@id/block_ending"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/turnout_label">
 
                     <TextView
+                        android:id="@+id/date_turnout"
                         style="@style/StyleTextData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:alpha="0.2"
                         android:padding="0dp"
-                        android:text="10.10.21" />
+                        android:text="01.01.22" />
 
                     <TextView
+                        android:id="@+id/time_turnout"
                         style="@style/StyleTextData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:alpha="0.2"
                         android:padding="0dp"
-                        android:text="08:00" />
+                        android:text="00:00" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/block_end"
+                    android:id="@+id/block_ending"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_background_data_block"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="10dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/block_start"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintStart_toEndOf="@id/block_turnout"
+                    app:layout_constraintTop_toBottomOf="@id/ending_label">
 
                     <TextView
+                        android:id="@+id/data_ending"
                         style="@style/StyleTextData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:alpha="0.2"
                         android:padding="0dp"
-                        android:text="10.10.21" />
+                        android:text="01.01.22" />
 
                     <TextView
+                        android:id="@+id/time_ending"
                         style="@style/StyleTextData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:alpha="0.2"
                         android:padding="0dp"
-                        android:text="08:00" />
+                        android:text="00:00" />
                 </LinearLayout>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -101,7 +140,7 @@
                     android:layout_marginTop="8dp"
                     android:text="Отдых в ПО "
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/block_end" />
+                    app:layout_constraintTop_toBottomOf="@id/block_ending" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

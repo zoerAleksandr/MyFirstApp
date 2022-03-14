@@ -45,7 +45,7 @@ class MainViewModel(private var repository: Repository = RepositoryImpl.newInsta
         liveDataToObserve.value = AppState.Loading
         Thread {
             sleep(500)
-            repository.addData()
+//            repository.addData()
             liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
         }.start()
     }

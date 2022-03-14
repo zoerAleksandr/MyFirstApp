@@ -10,5 +10,5 @@ data class TrainData(
     // условная длина
     var conditionalLength: Int,
     // станции
-    var stations: List<Itinerary.Station>
+    var stations: List<Station>
 )

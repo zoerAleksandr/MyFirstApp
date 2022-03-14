@@ -151,7 +151,7 @@
         app:borderWidth="0dp"
         app:layout_anchor="@id/container"
         app:layout_anchorGravity="bottom|right"
-        app:layout_behavior=".ui.CustomBehavior"
+        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         app:srcCompat="@drawable/ic_add_white_48">
 
