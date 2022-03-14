@@ -14,6 +14,7 @@ import com.example.myfirstapp.vm.setTextTime
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import java.util.Calendar.*
@@ -29,32 +30,61 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private var errorInputCalendar = false
     private var dateTurnoutFixed = false
 
+    private var restPointOfTurnover = false
+    private val numberItinerary: String? by lazy {
+        if (binding.etNumberItinerary.text.isNullOrEmpty()) null
+        else binding.etNumberItinerary.text.toString()
+    }
+
+
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+/*Данный селектор выбирает тип отдыха ЛБ*/
+        binding.selectorRestPointOfTurnover.apply {
+            addTab(this.newTab().setText(getString(R.string.text_for_selector_home_rest)), 0, true)
+            addTab(
+                this.newTab().setText(getString(R.string.text_for_selector_point_rest)),
+                1,
+                false
+            )
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    when (tab?.position) {
+                        0 -> {
+                            restPointOfTurnover = false
+                        }
+                        1 -> {
+                            restPointOfTurnover = true
+                        }
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    // нечего делать
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    // нечего делать
+                }
+
+            })
+        }
+
         binding.btnAddLoco.setOnClickListener {
-            activity?.let {
-                it.supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, AddLocoFragment())
-                    .commit()
-            }
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.container, AddLocoFragment())?.commit()
         }
 
         binding.btnAddPassenger.setOnClickListener {
-            activity?.let {
-                it.supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, AddPassangerFragment())
-                    .commit()
-            }
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.container, AddPassangerFragment())?.commit()
         }
 
         binding.btnAddTrain.setOnClickListener {
-            activity?.let {
-                it.supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, AddTrainFragment())
-                    .commit()
-            }
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.container, AddTrainFragment())?.commit()
         }
 
 /* Блок ввода даты и времени явки на работу */
@@ -127,12 +157,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 verificationWorkTime()
             }
         }
-
-        val numberItinerary: String? = if (binding.etNumberItinerary.text.isNullOrEmpty()) {
-            null
-        } else {
-            binding.etNumberItinerary.text.toString()
-        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -158,16 +182,11 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         if (!dateTurnoutFixed) {
             setErrorBackground(binding.blockTurnout)
             binding.root.snack(getString(R.string.text_for_snackbar_error_empty_date_turnout))
-        }
-        else setDefaultBackground(binding.blockTurnout)
-
-        Log.d("Debug", "${calendarTurnout.timeInMillis > calendarEnding.timeInMillis}")
+        } else setDefaultBackground(binding.blockTurnout)
 
         if (dateTurnoutFixed && calendarTurnout.timeInMillis > calendarEnding.timeInMillis) {
             setErrorBackground(binding.blockEnding)
             binding.root.snack(getString(R.string.text_for_snackbar_error_ending_time))
-        }
-        else setDefaultBackground(binding.blockEnding)
-
+        } else setDefaultBackground(binding.blockEnding)
     }
 }

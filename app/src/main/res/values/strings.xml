@@ -12,4 +12,6 @@
     <string name="text_for_date_picker_turnout">Дата явки</string>
     <string name="text_for_time_picker_turnout">Время явки</string>
     <string name="text_for_time_picker_ending">Время сдачи</string>
+    <string name="text_for_selector_home_rest">Домашний отдых</string>
+    <string name="text_for_selector_point_rest">Отдых в ПО</string>
 </resources>

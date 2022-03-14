@@ -59,7 +59,7 @@
                     style="@style/StyleTextTitleBlock"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="время работы"
+                    android:text="рабочее время"
                     android:gravity="end"
                     app:layout_constraintEnd_toEndOf="@id/block_ending"
                     app:layout_constraintStart_toStartOf="@id/block_ending"
@@ -134,13 +134,24 @@
                         android:text="00:00" />
                 </LinearLayout>
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Отдых в ПО "
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/block_ending" />
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/selector_rest_point_of_turnover"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_background_tab_layout"
+                    app:tabGravity="fill"
+                    app:tabIndicator="@drawable/tab_indicator"
+                    app:tabIndicatorAnimationMode="elastic"
+                    app:tabIndicatorColor="@color/white"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/text_color"
+                    app:tabTextAppearance="@style/StyleSecondaryText"
+                    app:tabTextColor="@color/text_color"
+                    app:layout_constraintStart_toStartOf="@id/block_turnout"
+                    app:layout_constraintEnd_toEndOf="@id/block_ending"
+                    app:layout_constraintTop_toBottomOf="@id/block_ending"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
