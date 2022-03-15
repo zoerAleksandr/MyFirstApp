@@ -2,15 +2,13 @@ package com.example.myfirstapp.ui.addFragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.ui.snack
-import com.example.myfirstapp.vm.setTextDate
-import com.example.myfirstapp.vm.setTextTime
+import com.example.myfirstapp.vm.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -23,10 +21,11 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     private val binding: FragmentAddItineraryBinding by viewBinding()
     private var dateTurnout: Long = 0
-    private val calendarNow by lazy { getInstance() }
-    private val calendarTurnout by lazy { getInstance() }
-    private val calendarEnding by lazy { getInstance() }
+    private val dateAndTimeNow by lazy { getInstance() }
+    private val dateAndTimeTurnout by lazy { getInstance() }
+    private val dateAndTimeEnding by lazy { getInstance() }
 
+    // определят можно ли сохранять маршрут или есть критическая ошибка ввода данных
     private var errorInputCalendar = false
     private var dateTurnoutFixed = false
 
@@ -74,17 +73,23 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
         binding.btnAddLoco.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.container, AddLocoFragment())?.commit()
+                ?.replace(R.id.container, AddLocoFragment())
+                ?.addToBackStack("")
+                ?.commit()
         }
 
         binding.btnAddPassenger.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.container, AddPassangerFragment())?.commit()
+                ?.replace(R.id.container, AddPassangerFragment())
+                ?.addToBackStack("")
+                ?.commit()
         }
 
         binding.btnAddTrain.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.container, AddTrainFragment())?.commit()
+                ?.replace(R.id.container, AddTrainFragment())
+                ?.addToBackStack("")
+                ?.commit()
         }
 
 /* Блок ввода даты и времени явки на работу */
@@ -97,14 +102,14 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             val timePicker = MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setTitleText(getString(R.string.text_for_time_picker_turnout))
-                .setHour(calendarNow.get(HOUR_OF_DAY))
-                .setMinute(calendarNow.get(MINUTE))
+                .setHour(dateAndTimeNow.get(HOUR_OF_DAY))
+                .setMinute(dateAndTimeNow.get(MINUTE))
                 .build()
 
             datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_TURNOUT")
 
             datePicker.addOnPositiveButtonClickListener { date ->
-                calendarTurnout.timeInMillis = date
+                dateAndTimeTurnout.timeInMillis = date
                 dateTurnout = date
                 binding.dateTurnout.text = setTextDate(date)
                 binding.dateTurnout.alpha = 1f
@@ -113,8 +118,8 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
             timePicker.addOnPositiveButtonClickListener {
                 dateTurnoutFixed = true
-                calendarTurnout.set(HOUR_OF_DAY, timePicker.hour)
-                calendarTurnout.set(MINUTE, timePicker.minute)
+                dateAndTimeTurnout.set(HOUR_OF_DAY, timePicker.hour)
+                dateAndTimeTurnout.set(MINUTE, timePicker.minute)
                 binding.timeTurnout.text = setTextTime(timePicker)
                 binding.timeTurnout.alpha = 1f
                 verificationWorkTime()
@@ -136,22 +141,22 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             val timePicker = MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setTitleText(getString(R.string.text_for_time_picker_ending))
-                .setHour(calendarNow.get(HOUR_OF_DAY))
-                .setMinute(calendarNow.get(MINUTE))
+                .setHour(dateAndTimeNow.get(HOUR_OF_DAY))
+                .setMinute(dateAndTimeNow.get(MINUTE))
                 .build()
 
             datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_ENDING")
 
             datePicker.addOnPositiveButtonClickListener { date ->
-                calendarEnding.timeInMillis = date
+                dateAndTimeEnding.timeInMillis = date
                 binding.dataEnding.text = setTextDate(date)
                 binding.dataEnding.alpha = 1f
                 timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_ENDING")
             }
 
             timePicker.addOnPositiveButtonClickListener {
-                calendarEnding.set(HOUR_OF_DAY, timePicker.hour)
-                calendarEnding.set(MINUTE, timePicker.minute)
+                dateAndTimeEnding.set(HOUR_OF_DAY, timePicker.hour)
+                dateAndTimeEnding.set(MINUTE, timePicker.minute)
                 binding.timeEnding.text = setTextTime(timePicker)
                 binding.timeEnding.alpha = 1f
                 verificationWorkTime()
@@ -159,34 +164,17 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun setErrorBackground(view: View) {
-        view.background = resources.getDrawable(
-            R.drawable.shape_background_data_block_error,
-            requireContext().theme
-        )
-        errorInputCalendar = !errorInputCalendar
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun setDefaultBackground(view: View) {
-        view.background = resources.getDrawable(
-            R.drawable.shape_background_data_block,
-            requireContext().theme
-        )
-        errorInputCalendar = !errorInputCalendar
-    }
 
     /* Метод для определения корректности введенных данных*/
     private fun verificationWorkTime() {
         if (!dateTurnoutFixed) {
-            setErrorBackground(binding.blockTurnout)
+            setErrorBackground(requireContext(), binding.blockTurnout, ColorForBackgroundError.RED)
             binding.root.snack(getString(R.string.text_for_snackbar_error_empty_date_turnout))
-        } else setDefaultBackground(binding.blockTurnout)
+        } else setDefaultBackground(requireContext(), binding.blockTurnout)
 
-        if (dateTurnoutFixed && calendarTurnout.timeInMillis > calendarEnding.timeInMillis) {
-            setErrorBackground(binding.blockEnding)
+        if (dateTurnoutFixed && dateAndTimeTurnout.timeInMillis > dateAndTimeEnding.timeInMillis) {
+            setErrorBackground(requireContext(), binding.blockEnding, ColorForBackgroundError.RED)
             binding.root.snack(getString(R.string.text_for_snackbar_error_ending_time))
-        } else setDefaultBackground(binding.blockEnding)
+        } else setDefaultBackground(requireContext(), binding.blockEnding)
     }
 }

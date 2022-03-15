@@ -46,9 +46,9 @@
                     style="@style/StyleTextTitleBlock"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="явка"
                     android:gravity="end"
                     android:paddingEnd="20dp"
+                    android:text="явка"
                     android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="@id/block_turnout"
                     app:layout_constraintStart_toStartOf="@id/block_turnout"
@@ -59,8 +59,8 @@
                     style="@style/StyleTextTitleBlock"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="рабочее время"
                     android:gravity="end"
+                    android:text="рабочее время"
                     app:layout_constraintEnd_toEndOf="@id/block_ending"
                     app:layout_constraintStart_toStartOf="@id/block_ending"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -69,34 +69,33 @@
                     android:id="@+id/block_turnout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:background="@drawable/shape_background_data_block"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp"
+
                     app:layout_constraintEnd_toStartOf="@id/block_ending"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/turnout_label">
 
                     <TextView
                         android:id="@+id/date_turnout"
-                        style="@style/StyleTextData"
+                        style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.2"
-                        android:padding="0dp"
                         android:text="01.01.22" />
 
                     <TextView
                         android:id="@+id/time_turnout"
-                        style="@style/StyleTextData"
+                        style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.2"
-                        android:padding="0dp"
                         android:text="00:00" />
                 </LinearLayout>
 
@@ -104,33 +103,31 @@
                     android:id="@+id/block_ending"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/shape_background_data_block"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/block_turnout"
                     app:layout_constraintTop_toBottomOf="@id/ending_label">
 
                     <TextView
                         android:id="@+id/data_ending"
-                        style="@style/StyleTextData"
+                        style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.2"
-                        android:padding="0dp"
                         android:text="01.01.22" />
 
                     <TextView
                         android:id="@+id/time_ending"
-                        style="@style/StyleTextData"
+                        style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.2"
-                        android:padding="0dp"
                         android:text="00:00" />
                 </LinearLayout>
 
@@ -140,6 +137,9 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/shape_background_tab_layout"
+                    app:layout_constraintEnd_toEndOf="@id/block_ending"
+                    app:layout_constraintStart_toStartOf="@id/block_turnout"
+                    app:layout_constraintTop_toBottomOf="@id/block_ending"
                     app:tabGravity="fill"
                     app:tabIndicator="@drawable/tab_indicator"
                     app:tabIndicatorAnimationMode="elastic"
@@ -148,10 +148,7 @@
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/text_color"
                     app:tabTextAppearance="@style/StyleSecondaryText"
-                    app:tabTextColor="@color/text_color"
-                    app:layout_constraintStart_toStartOf="@id/block_turnout"
-                    app:layout_constraintEnd_toEndOf="@id/block_ending"
-                    app:layout_constraintTop_toBottomOf="@id/block_ending"/>
+                    app:tabTextColor="@color/text_color" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -24,6 +24,8 @@
         <entry key="app/src/main/res/drawable/shape_background.xml" value="0.3375" />
         <entry key="app/src/main/res/drawable/shape_background_data_block.xml" value="0.3375" />
         <entry key="app/src/main/res/drawable/shape_background_data_block_error.xml" value="0.159" />
+        <entry key="app/src/main/res/drawable/shape_background_data_block_error_red.xml" value="0.18" />
+        <entry key="app/src/main/res/drawable/shape_background_data_block_error_yellow.xml" value="0.18" />
         <entry key="app/src/main/res/drawable/shape_background_main_block.xml" value="0.3" />
         <entry key="app/src/main/res/drawable/shape_background_save_fab.xml" value="0.2958904109589041" />
         <entry key="app/src/main/res/drawable/shape_background_tab_layout.xml" value="0.175" />
@@ -31,8 +33,8 @@
         <entry key="app/src/main/res/drawable/test.xml" value="0.2958904109589041" />
         <entry key="app/src/main/res/font/roboto_light.xml" value="0.2611111111111111" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/fragment_add.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_add_itinerary.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_add.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_add_itinerary.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_add_loco.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_add_other_work.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_add_passanger.xml" value="0.2726851851851852" />

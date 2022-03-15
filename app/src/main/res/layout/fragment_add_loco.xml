@@ -152,13 +152,14 @@
                 <LinearLayout
                     android:id="@+id/start_of_acceptance"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/shape_background_data_block"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingVertical="4dp"
                     app:layout_constraintEnd_toStartOf="@id/start_of_delivery"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_acceptance">
@@ -168,27 +169,30 @@
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10.10.21" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_date_default" />
 
                     <TextView
                         android:id="@+id/time_loco_start_acceptance"
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="08:10" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_time_default" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/end_of_acceptance"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/shape_background_data_block"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingVertical="4dp"
                     app:layout_constraintEnd_toStartOf="@id/end_of_delivery"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/start_of_acceptance">
@@ -198,26 +202,29 @@
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10.10.21" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_date_default" />
 
                     <TextView
                         android:id="@+id/time_loco_end_acceptance"
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="08:10" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_time_default" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/start_of_delivery"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/shape_background_data_block"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingVertical="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/start_of_acceptance"
                     app:layout_constraintTop_toBottomOf="@id/text_delivery">
@@ -227,26 +234,29 @@
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10.10.21" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_date_default" />
 
                     <TextView
                         android:id="@+id/time_loco_start_delivery"
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="08:10" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_time_default" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/end_of_delivery"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/shape_background_data_block"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingVertical="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/end_of_acceptance"
                     app:layout_constraintTop_toBottomOf="@id/start_of_delivery">
@@ -256,14 +266,16 @@
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10.10.21" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_date_default" />
 
                     <TextView
                         android:id="@+id/time_loco_end_delivery"
                         style="@style/StyleTextDataMini"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="08:10" />
+                        android:alpha="0.2"
+                        android:text="@string/text_for_time_default" />
 
                 </LinearLayout>
 
@@ -734,6 +746,168 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recovery_delivery_3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="расход: 11" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="рекуперация: 3" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/block_energy_section_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_background_main_block"
+                android:padding="10dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.68"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/block_time_data_loco">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_sec4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.15" />
+
+                <TextView
+                    android:id="@+id/text_first_section_sec4"
+                    style="@style/StyleSecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="4 секция"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_energy_1_sec4"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/ic_launcher"
+                    app:layout_constraintBottom_toBottomOf="@id/energy_acceptance_4"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_sec4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/energy_acceptance_4" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/energy_acceptance_4"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toStartOf="@id/energy_delivery_4"
+                    app:layout_constraintStart_toStartOf="@id/guideline_sec4"
+                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec4">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_energy_acceptance_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/energy_delivery_4"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/energy_acceptance_4"
+                    app:layout_constraintTop_toBottomOf="@id/text_first_section_sec4">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_energy_delivery_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/image_recovery_4"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@mipmap/ic_launcher"
+                    app:layout_constraintBottom_toBottomOf="@id/recovery_acceptance_4"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_sec4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/recovery_acceptance_4" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/recovery_acceptance_4"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toStartOf="@id/recovery_delivery_4"
+                    app:layout_constraintStart_toStartOf="@id/guideline_sec4"
+                    app:layout_constraintTop_toBottomOf="@id/energy_acceptance_4">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_recovery_acceptance_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/recovery_delivery_4"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="8dp"
+                    app:boxBackgroundColor="@color/background_data"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/recovery_acceptance_4"
+                    app:layout_constraintTop_toBottomOf="@id/energy_delivery_4">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/data_recovery_delivery_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:paddingBottom="8dp"
+                        android:textAppearance="@style/StyleTextData" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recovery_delivery_4">
 
                     <TextView
                         android:layout_width="wrap_content"

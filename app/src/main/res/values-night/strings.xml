@@ -10,4 +10,14 @@
     <string name="text_for_time_picker_ending">Время сдачи</string>
     <string name="text_for_selector_home_rest">Домашний отдых</string>
     <string name="text_for_selector_point_rest">Отдых в ПО</string>
+    <string name="text_for_date_picker_start_acceptance">Дата начала приемки</string>
+    <string name="text_for_time_picker_start_acceptance">Время начала приемки</string>
+    <string name="text_for_date_picker_end_acceptance">Дата окончания приемки</string>
+    <string name="text_for_time_end_acceptance">Время окончания приемки</string>
+    <string name="text_for_snackbar_error_empty_date_start_acceptance">Укажите время начала приемки</string>
+    <string name="text_for_snackbar_error_time_end_acceptance">Время окончания меньше времени начала</string>
+    <string name="text_for_date_picker_start_delivery">Дата начала сдачи</string>
+    <string name="text_for_time_picker_start_delivery">Время начала сдачи</string>
+    <string name="text_for_date_picker_end_delivery">Дата окончания сдачи</string>
+    <string name="text_for_time_end_delivery">Время окончания сдачи</string>
 </resources>
