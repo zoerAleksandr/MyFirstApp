@@ -60,7 +60,7 @@
 
     <style name="StyleSecondaryText" parent="Theme.MyFirstApp">
         <item name="fontFamily">@font/roboto_light</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
 

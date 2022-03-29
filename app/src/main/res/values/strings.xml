@@ -27,4 +27,9 @@
     <string name="text_for_time_picker_start_delivery">Время начала сдачи</string>
     <string name="text_for_date_picker_end_delivery">Дата окончания сдачи</string>
     <string name="text_for_time_end_delivery">Время окончания сдачи</string>
+    <string name="text_for_empty_data"> - </string>
+    <string name="text_for_snackbar_input_less_zero">Нельзя указать отрицательное число</string>
+    <string name="text_unit_kilogram">кг</string>
+    <string name="text_unit_liter">л</string>
+    <string name="text_expense">расход:</string>
 </resources>

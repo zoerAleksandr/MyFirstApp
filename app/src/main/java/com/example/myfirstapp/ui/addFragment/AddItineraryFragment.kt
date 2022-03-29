@@ -73,7 +73,13 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
         binding.btnAddLoco.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.container, AddLocoFragment())
+                ?.replace(
+                    R.id.container, AddLocoFragment(
+                        TypeOfTraction.DieselLocomotive,
+                        CountSections.TwoSection,
+                        0.83
+                    )
+                )
                 ?.addToBackStack("")
                 ?.commit()
         }

@@ -6,6 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".ui.addFragment.AddItineraryFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="@color/transparent"
+        app:elevation="28dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_mini"
+            app:layout_scrollFlags="exitUntilCollapsed">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/ic_back_24" />
+
+                <TextView
+                    style="@style/StyleTextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Маршрут"
+                    android:textColor="@color/white" />
+
+            </FrameLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,8 +59,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="120dp"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_gravity="end"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:hint="Номер"
                 app:endIconMode="clear_text"
@@ -30,7 +70,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_number_itinerary"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>

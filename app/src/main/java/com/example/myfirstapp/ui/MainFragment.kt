@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myfirstapp.data.Itinerary
 import com.example.myfirstapp.databinding.FragmentMainBinding
-import com.example.myfirstapp.ui.addFragment.AddFragment
+import com.example.myfirstapp.ui.addFragment.AddItineraryFragment
 import com.example.myfirstapp.vm.AppState
 import com.example.myfirstapp.vm.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
+/*По LongClick на FAВ сделать появляющееся меню для добавления прочих работ*/
 class MainFragment : Fragment() {
 
     companion object {
@@ -65,7 +66,7 @@ class MainFragment : Fragment() {
         binding.fab.setOnClickListener {
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
-                    .replace(binding.container.id, AddFragment.newInstance())
+                    .replace(binding.container.id, AddItineraryFragment())
                     .addToBackStack("1")
                     .commit()
             }

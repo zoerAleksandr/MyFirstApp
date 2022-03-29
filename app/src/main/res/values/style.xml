@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+// стили для поля ввода
+    <style name="TextInputLayoutRedStroke" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/red</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
+    <style name="TextInputLayoutYellowStroke" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/yellow_background_error</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
+    <style name="TextInputLayoutGreenStroke" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/green</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
 
 </resources>

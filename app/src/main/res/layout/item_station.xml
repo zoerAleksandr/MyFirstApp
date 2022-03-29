@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="horizontal">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/station"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:hint="Станция"
+        app:boxBackgroundColor="@color/background_data"
+        app:endIconMode="clear_text"
+        app:hintAnimationEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/data_station"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:paddingBottom="8dp"
+            android:textAppearance="@style/StyleTextDataMini" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <FrameLayout
+        android:id="@+id/time_arrival"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_background_data_block"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingVertical="4dp">
+
+        <TextView
+            android:id="@+id/data_time_arrival"
+            style="@style/StyleTextDataMini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0.2"
+            android:text="00:00" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/time_departure"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_background_data_block"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingVertical="4dp">
+
+        <TextView
+            android:id="@+id/data_time_departure"
+            style="@style/StyleTextDataMini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:alpha="0.2"
+            android:text="00:00" />
+    </FrameLayout>
+
+</LinearLayout>

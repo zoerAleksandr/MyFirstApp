@@ -62,3 +62,11 @@ fun setDefaultBackground(context: Context, view: View) {
         context.theme
     )
 }
+
+@SuppressLint("UseCompatLoadingForDrawables")
+fun setTrueBackground(context: Context, view: View) {
+    view.background = context.resources.getDrawable(
+        R.drawable.shape_background_data_block_green,
+        context.theme
+    )
+}
