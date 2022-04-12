@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
+import com.example.myfirstapp.data.Itinerary
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.ui.snack
 import com.example.myfirstapp.vm.*
@@ -35,6 +37,24 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         else binding.etNumberItinerary.text.toString()
     }
 
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.addItinerary(Itinerary(
+            0,
+            numberItinerary,
+            null,
+            null,
+            true,
+            null,
+            mutableListOf(),
+            mutableListOf(),
+            mutableListOf()
+        ))
+    }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -26,7 +26,7 @@ import com.google.android.material.timepicker.TimeFormat
 import java.util.*
 import java.util.Calendar.getInstance
 
-private const val PREFERENCES = "preferences"
+const val PREFERENCES = "preferences"
 private const val LIST_SERIES = "LIST_SERIES"
 
 class AddLocoFragment(
@@ -164,10 +164,10 @@ class AddLocoFragment(
                 null
             )
         )
-
-/*Кнопка сохранить*/
-        binding.btnSave.setOnClickListener {
-            if (setCopy.add(binding.etSeriesLoco.text.toString())) {
+        binding.etSeriesLoco.setOnFocusChangeListener { _, _ ->
+            if (binding.etSeriesLoco.text.toString()
+                    .isNotBlank() && setCopy.add(binding.etSeriesLoco.text.toString())
+            ) {
                 editor?.putStringSet(LIST_SERIES, setCopy)?.apply()
             }
         }

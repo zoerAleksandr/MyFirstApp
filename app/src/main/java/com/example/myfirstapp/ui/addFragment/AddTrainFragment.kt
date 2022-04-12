@@ -1,60 +1,82 @@
 package com.example.myfirstapp.ui.addFragment
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
+import com.example.myfirstapp.data.Station
+import com.example.myfirstapp.databinding.FragmentAddTrainBinding
+import com.example.myfirstapp.ui.AddTrainFragmentAdapter
+import com.example.myfirstapp.ui.CustomAdapterDropDown
+import com.example.myfirstapp.ui.LIST_STATION
+import com.example.myfirstapp.vm.AppStateAddTrain
+import com.example.myfirstapp.vm.ViewModelAddTrainFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
+    private val binding: FragmentAddTrainBinding by viewBinding()
+    private lateinit var adapter: AddTrainFragmentAdapter
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddTrainFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AddTrainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val viewModel: ViewModelAddTrainFragment by lazy {
+        ViewModelProvider(this)[ViewModelAddTrainFragment::class.java]
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    @SuppressLint("CommitPrefEdits")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreferences = requireActivity().getSharedPreferences(
+            PREFERENCES,
+            Context.MODE_PRIVATE
+        )
+        val editor = sharedPreferences?.edit()
+
+// экземпляр настроек полученых из сохраненного состояния
+        val set: MutableSet<String>? =
+            sharedPreferences?.getStringSet(LIST_STATION, mutableSetOf())
+// копия настроек для редактирования
+        val setCopy: MutableSet<String> = mutableSetOf<String>().apply {
+            addAll(set!!)
+        }
+// список для адаптера AutoCompileTextView
+        val string: MutableList<String> = mutableListOf<String>().apply {
+            addAll(setCopy)
+        }
+
+        val customAdapterDropDown =
+            CustomAdapterDropDown(requireContext(), R.layout.item_drop_down_btn_remove, string)
+
+        viewModel.getData(123L).observe(viewLifecycleOwner) { state -> renderData(state) }
+
+        adapter = AddTrainFragmentAdapter(requireActivity(), customAdapterDropDown)
+        binding.recyclerTrain.adapter = adapter
+
+        binding.btnAddStation.setOnClickListener {
+//            viewModel.insert(Station(null,null, null, null))
+//            adapter.addStation(Station(null, null, null))
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_train, container, false)
-    }
+    private fun renderData(state: AppStateAddTrain) {
+        when (state) {
+            is AppStateAddTrain.Loading -> {
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddTrainFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddTrainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+            }
+            is AppStateAddTrain.Success -> {
+                // передал в адаптер новый массив станций
+                if (state.station.isNotEmpty()) {
+                    binding.textEmptyStationList.visibility = View.GONE
+                    adapter.setData(state.station)
+                } else {
+                    binding.textEmptyStationList.visibility = View.VISIBLE
                 }
             }
+            is AppStateAddTrain.Error -> {
+
+            }
+        }
     }
 }

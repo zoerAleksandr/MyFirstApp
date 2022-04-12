@@ -1,14 +1,18 @@
 package com.example.myfirstapp.data
 
 data class TrainData(
+    // ID
+    val trainDataID: Long,
+    // itineraryID
+    val itineraryID: Long,
     // номер поезда
-    var numberOfTrain: Int,
+    var numberOfTrain: Int?,
     // вес
-    var weight: Int,
+    var weight: Int?,
     // оси
-    var wheelAxle: Int,
+    var wheelAxle: Int?,
     // условная длина
-    var conditionalLength: Int,
+    var conditionalLength: Int?,
     // станции
-    var stations: List<Station>
+    var stations: MutableList<Station?>
 )

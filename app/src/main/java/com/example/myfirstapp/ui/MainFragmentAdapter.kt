@@ -13,9 +13,9 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
         fun newInstance() = MainFragmentAdapter()
     }
 
-    private var itineraryData: List<Itinerary> = listOf()
+    private var itineraryData: MutableList<Itinerary?> = mutableListOf()
 
-    fun setData(data: List<Itinerary>) {
+    fun setData(data: MutableList<Itinerary?>) {
         itineraryData = data
         notifyDataSetChanged()
     }
@@ -30,7 +30,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(itineraryData[position])
+        itineraryData[position]?.let { holder.bind(it) }
     }
 
     override fun getItemCount() = itineraryData.size

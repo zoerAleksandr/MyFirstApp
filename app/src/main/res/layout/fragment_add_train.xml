@@ -1,14 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.addFragment.AddTrainFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:backgroundTint="@color/transparent"
+        app:elevation="28dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_mini"
+            app:layout_scrollFlags="exitUntilCollapsed">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/ic_back_24" />
+
+                <TextView
+                    style="@style/StyleTextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Поезд"
+                    android:textColor="@color/white" />
+
+            </FrameLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        tools:context=".ui.addFragment.AddTrainFragment">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_background_main_block"
+            android:padding="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/number_train"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Номер"
+                app:boxBackgroundColor="@color/background_data"
+                app:endIconMode="clear_text"
+                app:hintAnimationEnabled="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/weight_train"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/data_number_train"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:paddingBottom="8dp"
+                    android:textAppearance="@style/StyleTextInputTextHint" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/weight_train"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:hint="Вес"
+                app:boxBackgroundColor="@color/background_data"
+                app:endIconMode="clear_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/axle_train"
+                app:layout_constraintStart_toEndOf="@id/number_train"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/data_weight_train"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:paddingBottom="8dp"
+                    android:textAppearance="@style/StyleTextInputTextHint" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/axle_train"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:hint="Оси"
+                app:boxBackgroundColor="@color/background_data"
+                app:endIconMode="clear_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/conditional_length_train"
+                app:layout_constraintStart_toEndOf="@id/weight_train"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/data_axle_train"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:paddingBottom="8dp"
+                    android:textAppearance="@style/StyleTextInputTextHint" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/conditional_length_train"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:hint="УД"
+                app:boxBackgroundColor="@color/background_data"
+                app:endIconMode="clear_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/axle_train"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/data_conditional_length_train"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:paddingBottom="8dp"
+                    android:textAppearance="@style/StyleTextInputTextHint" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_empty_station_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Добавьте станцию отправления"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:alpha="0.3"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_train"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="70dp"
+                android:background="@drawable/shape_background_main_block"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_station" />
+
+            <ImageButton
+                android:id="@+id/btn_add_station"
+                style="@style/StyleMiniFAB"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="12dp" />
+
+        </FrameLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,33 +1,31 @@
 package com.example.myfirstapp.data
 
-import java.util.*
-
 data class Itinerary(
     // ID
-    private val itineraryID: String = UUID.randomUUID().toString(),
+    val itineraryID: Long,
     // номер маршрута
     var number: String?,
     // явка на работу
-    var appearanceAtWork: Byte, // Изменить тип на Calendar
+    var appearanceAtWork: Byte?, // Изменить тип на Calendar
     // окончание работы
-    var endOfWork: Byte, // Изменить тип на Calendar
+    var endOfWork: Byte?, // Изменить тип на Calendar
     // отдых в ПО
     var restAtThePointOfTurnover: Boolean = true,
     // примечания
-    var notes: String,
+    var notes: String?,
 
     // следование пассажиром
-    var followingByPassengerList: MutableList<FollowingByPassenger>,
+    var followingByPassengerList: MutableList<FollowingByPassenger?>,
     // данные о локомотиве
-    var locomotiveDataList: MutableList<LocomotiveData>,
+    var locomotiveDataList: MutableList<LocomotiveData?>,
     // данные о поезде
-    var trainDataList: MutableList<TrainData>
+    var trainDataList: MutableList<TrainData?>
 
 ) {
     // Чтобы сделать поля не обязательные для заполнения, со значениями по умолчанию
     // их необходимо вынести в тело класса
     // Пример:
-    fun getItineraryID() = this.itineraryID
+//    fun getItineraryID() = this.itineraryID
 
     fun getAppearanceAtWork(): String {
         return appearanceAtWork.toString()

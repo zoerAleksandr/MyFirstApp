@@ -3,10 +3,10 @@ package com.example.myfirstapp.ui
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myfirstapp.databinding.ActivityMainBinding
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(binding.container.id, MainFragment.newInstance())
-                .commitNow()
+                .commit()
         }
     }
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.action == MotionEvent.ACTION_DOWN) {
             val v = currentFocus
-            if (v is TextInputEditText) {
+            if (v is TextInputEditText || v is MaterialAutoCompleteTextView) {
                 val outRect = Rect()
                 v.getGlobalVisibleRect(outRect)
                 if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
