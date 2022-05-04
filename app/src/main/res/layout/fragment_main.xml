@@ -57,10 +57,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
                         android:layout_weight="1"
+                        android:fontFamily="@font/sora"
                         android:gravity="bottom|center"
-                        android:text="96ч"
+                        android:text="296"
                         android:textColor="@android:color/white"
-                        android:textSize="30sp"
+                        android:textSize="42sp"
                         app:layout_collapseMode="pin" />
 
                     <TextView
@@ -83,11 +84,11 @@
                     android:layout_gravity="center"
                     android:progress="40"
                     app:indicatorColor="@color/white"
-                    app:indicatorSize="120dp"
+                    app:indicatorSize="130dp"
                     app:trackColor="@color/white_transparent"
                     app:trackCornerRadius="6dp"
-                    app:trackThickness="6dp"
-                    tools:progress="40" />
+                    app:trackThickness="8dp"
+                    tools:progress="85" />
 
                 <TextView
                     android:id="@+id/data_rest"
@@ -126,14 +127,15 @@
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item" />
 
@@ -147,13 +149,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:backgroundTint="@color/red"
-        app:tint="@color/white"
         app:borderWidth="0dp"
         app:layout_anchor="@id/container"
         app:layout_anchorGravity="bottom|right"
         app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
-        app:srcCompat="@drawable/ic_add_white_48">
+        app:srcCompat="@drawable/ic_add_white_48"
+        app:tint="@color/white">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 

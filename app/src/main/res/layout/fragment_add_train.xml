@@ -51,7 +51,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:context=".ui.addFragment.AddTrainFragment">
+        tools:context=".ui.add_train_screen.AddTrainFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

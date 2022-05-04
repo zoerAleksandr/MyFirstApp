@@ -5,33 +5,21 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.ActivityMainBinding
+import com.example.myfirstapp.ui.main_screen.MainFragment
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-//    lateinit var field: TextInputEditText
-
-
-//    override fun onResume() {
-//        super.onResume()
-//        field.setOnEditorActionListener { _, action, _ ->
-//            var handled = false
-//            if (action == EditorInfo.IME_ACTION_DONE) {
-//                field.clearFocus()
-//                handled = true
-//            }
-//            handled
-//        }
-//    }
+    private val binding: ActivityMainBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(binding.container.id, MainFragment.newInstance())
@@ -49,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
                     v.clearFocus()
                     val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                    imm.hideSoftInputFromWindow(v.windowToken, 0)
                 }
             }
         }

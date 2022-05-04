@@ -16,5 +16,16 @@
         <item name="strokeWidth">2dp</item>
     </style>
 
+// стили для item
+    <style name="TextAppearanceItem" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">@font/sora</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="TextAppearanceItemDate" parent="TextAppearanceItem">
+        <item name="android:textSize">19sp</item>
+    </style>
+
 
 </resources>
