@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+// стили для поля ввода
+    <style name="TextInputLayoutRedStroke" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/red</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
+    <style name="TextInputLayoutYellowStroke" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/yellow_background_error</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
+    <style name="TextInputLayoutGreenStroke" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/green</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
+// стили для item
+    <style name="TextAppearanceItem" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">@font/sora</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
+
+    <style name="TextAppearanceItemDate" parent="TextAppearanceItem">
+        <item name="android:textSize">19sp</item>
+    </style>
+
+
+</resources>

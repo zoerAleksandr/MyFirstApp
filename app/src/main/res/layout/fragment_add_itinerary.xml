@@ -4,7 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.addFragment.AddItineraryFragment">
+    tools:context=".ui.add_itinerary_screen.AddItineraryFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:background="@color/transparent"
+        app:elevation="28dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_mini"
+            app:layout_scrollFlags="exitUntilCollapsed">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/ic_back_24" />
+
+                <TextView
+                    style="@style/StyleTextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Маршрут"
+                    android:textColor="@color/white" />
+
+            </FrameLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,16 +59,18 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="120dp"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_gravity="end"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:hint="Номер"
-                app:endIconMode="clear_text">
+                app:endIconMode="clear_text"
+                app:hintAnimationEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_number_itinerary"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -40,68 +81,114 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_background_main_block">
 
-                <LinearLayout
-                    android:id="@+id/block_start"
+                <TextView
+                    android:id="@+id/turnout_label"
+                    style="@style/StyleTextTitleBlock"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    app:layout_constraintEnd_toStartOf="@id/block_end"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:gravity="end"
+                    android:paddingEnd="20dp"
+                    android:text="явка"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="@id/block_turnout"
+                    app:layout_constraintStart_toStartOf="@id/block_turnout"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        style="@style/StyleTextData"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:text="10.10.21" />
-
-                    <TextView
-                        style="@style/StyleTextData"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:text="08:00" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/block_end"
+                <TextView
+                    android:id="@+id/ending_label"
+                    style="@style/StyleTextTitleBlock"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_background_data_block"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/block_start"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:gravity="end"
+                    android:text="рабочее время"
+                    app:layout_constraintEnd_toEndOf="@id/block_ending"
+                    app:layout_constraintStart_toStartOf="@id/block_ending"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        style="@style/StyleTextData"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:text="10.10.21" />
-
-                    <TextView
-                        style="@style/StyleTextData"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:text="08:00" />
-                </LinearLayout>
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/block_turnout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Отдых в ПО "
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/shape_background_data_block"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp"
+
+                    app:layout_constraintEnd_toStartOf="@id/block_ending"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/turnout_label">
+
+                    <TextView
+                        android:id="@+id/date_turnout"
+                        style="@style/StyleTextDataMini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.2"
+                        android:text="01.01.22" />
+
+                    <TextView
+                        android:id="@+id/time_turnout"
+                        style="@style/StyleTextDataMini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.2"
+                        android:text="00:00" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/block_ending"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_background_data_block"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingVertical="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/block_end" />
+                    app:layout_constraintStart_toEndOf="@id/block_turnout"
+                    app:layout_constraintTop_toBottomOf="@id/ending_label">
+
+                    <TextView
+                        android:id="@+id/data_ending"
+                        style="@style/StyleTextDataMini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.2"
+                        android:text="01.01.22" />
+
+                    <TextView
+                        android:id="@+id/time_ending"
+                        style="@style/StyleTextDataMini"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.2"
+                        android:text="00:00" />
+                </LinearLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/selector_rest_point_of_turnover"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_background_tab_layout"
+                    app:layout_constraintEnd_toEndOf="@id/block_ending"
+                    app:layout_constraintStart_toStartOf="@id/block_turnout"
+                    app:layout_constraintTop_toBottomOf="@id/block_ending"
+                    app:tabGravity="fill"
+                    app:tabIndicator="@drawable/tab_indicator"
+                    app:tabIndicatorAnimationMode="elastic"
+                    app:tabIndicatorColor="@color/white"
+                    app:tabIndicatorGravity="stretch"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/text_color"
+                    app:tabTextAppearance="@style/StyleSecondaryText"
+                    app:tabTextColor="@color/text_color" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

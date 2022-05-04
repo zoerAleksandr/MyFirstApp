@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--For Item Root-->
+    <dimen name="item_margin_top_root">1dp</dimen>
+    <dimen name="item_margin_bottom_root">6dp</dimen>
+    <dimen name="item_margin_horizontal_root">1dp</dimen>
+    <dimen name="item_corner_radius">25dp</dimen>
+    <dimen name="item_stroke_width">1dp</dimen>
+    <dimen name="item_card_elevation">2dp</dimen>
+
+    <!--For Item Elements-->
+    <dimen name="item_element_width_lines">1dp</dimen>
+    <dimen name="item_element_margin_start_date">16dp</dimen>
+    <dimen name="item_vertical_line_margin_vertical">6dp</dimen>
+    <dimen name="item_vertical_line_margin_parent">48dp</dimen>
+    <dimen name="item_vertical_padding">4dp</dimen>
+    <dimen name="item_element_margin_horizontal_between_view">8dp</dimen>
+    <dimen name="item_element_size_button_popup_menu">24dp</dimen>
+
+
+</resources>

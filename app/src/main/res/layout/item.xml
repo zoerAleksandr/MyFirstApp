@@ -3,110 +3,125 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item"
-    android:layout_width="360dp"
-    android:layout_height="65dp"
-    android:layout_marginStart="6dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginEnd="6dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/item_margin_horizontal_root"
+    android:layout_marginTop="@dimen/item_margin_top_root"
+    android:layout_marginBottom="@dimen/item_margin_bottom_root"
+    app:cardBackgroundColor="@color/gray_for_item_background"
+    app:cardCornerRadius="@dimen/item_corner_radius"
+    app:cardElevation="@dimen/item_card_elevation"
+    app:strokeColor="@color/gray_for_stroke"
+    app:strokeWidth="@dimen/item_stroke_width">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@xml/item_background"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingVertical="@dimen/item_vertical_padding">
 
-        <LinearLayout
-            android:id="@+id/date_linear_layout"
-            android:layout_width="57dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/item_date_background"
-            android:orientation="vertical"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/item_element_margin_start_date"
+            android:text="07"
+            android:textAppearance="@style/TextAppearanceItemDate"
+            app:layout_constraintBottom_toTopOf="@id/divider_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="18" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_horizontal"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/item_element_width_lines"
+            app:layout_constraintBottom_toTopOf="@id/item_month"
+            app:layout_constraintEnd_toEndOf="@id/item_day"
+            app:layout_constraintStart_toStartOf="@id/item_day"
+            app:layout_constraintTop_toBottomOf="@id/item_day"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider_vertical"
+            android:layout_width="@dimen/item_element_width_lines"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/item_vertical_line_margin_vertical"
+            android:layout_marginStart="@dimen/item_vertical_line_margin_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/item_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="7dp"
-                android:textSize="18sp"
-                tools:text="18" />
-
-            <View
-                android:layout_width="15dp"
-                android:layout_height="1dp"
-                android:layout_gravity="center"
-                android:background="@xml/vector_item_date" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/item_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="18sp"
-                tools:text="10" />
-
-
-        </LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textAppearance="@style/TextAppearanceItemDate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/divider_horizontal"
+            app:layout_constraintStart_toStartOf="@id/divider_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/divider_horizontal"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="10" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_text_time_work"
-            android:layout_width="wrap_content"
-            android:layout_height="21dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/item_element_margin_horizontal_between_view"
             android:text="08:00 - 16:00"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/date_linear_layout"
+            android:textAppearance="@style/TextAppearanceItem"
+            app:layout_constraintBottom_toTopOf="@id/item_text_work"
+            app:layout_constraintEnd_toStartOf="@id/item_text_overtime_work"
+            app:layout_constraintStart_toEndOf="@id/divider_vertical"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_text_work"
-            android:layout_width="wrap_content"
-            android:layout_height="21dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="8dp"
-            android:text="Снегоборьба"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/date_linear_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/item_element_margin_horizontal_between_view"
+            android:text="Луга - Лужская"
+            android:textAppearance="@style/TextAppearanceItem"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/item_text_locomotive"
+            app:layout_constraintStart_toEndOf="@id/divider_vertical"
             app:layout_constraintTop_toBottomOf="@id/item_text_time_work" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_text_overtime_work"
             android:layout_width="wrap_content"
-            android:layout_height="21dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/item_element_margin_horizontal_between_view"
             android:text="12ч"
-            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearanceItem"
+            app:layout_constraintBottom_toTopOf="@id/item_text_locomotive"
             app:layout_constraintEnd_toStartOf="@id/item_popup"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_text_locomotive"
             android:layout_width="wrap_content"
-            android:layout_height="21dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/item_element_margin_horizontal_between_view"
             android:text="2эс4к №100"
-            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearanceItem"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/item_popup"
             app:layout_constraintTop_toBottomOf="@id/item_text_overtime_work" />
 
-        <View
+        <ImageButton
             android:id="@+id/item_popup"
-            android:layout_width="4dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="26dp"
-            android:background="@drawable/item_popup"
+            android:layout_width="@dimen/item_element_size_button_popup_menu"
+            android:layout_height="@dimen/item_element_size_button_popup_menu"
+            android:layout_marginEnd="@dimen/item_element_margin_horizontal_between_view"
+            android:background="@drawable/ic_item_menu_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        </View>
-
+        </ImageButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>
