@@ -1,8 +1,5 @@
-package com.example.myfirstapp.domain
+package com.example.myfirstapp.domain.entity
 
-import androidx.room.Entity
-
-@Entity
 sealed class CountSections {
     object OneSection : CountSections()
     object TwoSection : CountSections()

@@ -1,12 +1,12 @@
-package com.example.myfirstapp.data.room
+package com.example.myfirstapp.data.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import com.example.myfirstapp.domain.CountSections
-import com.example.myfirstapp.domain.LocomotiveData
-import com.example.myfirstapp.domain.TypeOfTraction
+import com.example.myfirstapp.domain.entity.CountSections
+import com.example.myfirstapp.domain.entity.LocomotiveData
+import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.google.gson.Gson
 
 @Entity(
@@ -25,8 +25,8 @@ data class EntityLocomotiveData(
     var endAcceptance: String?, // Изменить тип на Calendar
     var startDelivery: String?, // Изменить тип на Calendar
     var endDelivery: String?, // Изменить тип на Calendar
-    var counterElectricList: MutableList<CounterElectricSection>?,
-    var dieselFuelList: MutableList<DieselFuelSection>?,
+    var counterElectricListRoomEntity: MutableList<CounterElectricSectionRoomEntity>?,
+    var dieselFuelListRoomEntity: MutableList<DieselFuelSectionRoomEntity>?,
     var countBrakeShoes: Int?,
     var countExtinguishers: Int?
 ) {
@@ -43,8 +43,8 @@ data class EntityLocomotiveData(
                 endAcceptance = locomotiveData.endAcceptance,
                 startDelivery = locomotiveData.startDelivery,
                 endDelivery = locomotiveData.endDelivery,
-                counterElectricList = locomotiveData.counterElectricList,
-                dieselFuelList = locomotiveData.dieselFuelList,
+                counterElectricListRoomEntity = locomotiveData.counterElectricListRoomEntity,
+                dieselFuelListRoomEntity = locomotiveData.dieselFuelListRoomEntity,
                 countBrakeShoes = locomotiveData.countBrakeShoes,
                 countExtinguishers = locomotiveData.countExtinguishers
             )
@@ -79,8 +79,8 @@ data class EntityLocomotiveData(
         endAcceptance = endAcceptance,
         startDelivery = startDelivery,
         endDelivery = endDelivery,
-        counterElectricList = counterElectricList,
-        dieselFuelList = dieselFuelList,
+        counterElectricListRoomEntity = counterElectricListRoomEntity,
+        dieselFuelListRoomEntity = dieselFuelListRoomEntity,
         countBrakeShoes = countBrakeShoes,
         countExtinguishers = countExtinguishers
     )
@@ -97,20 +97,20 @@ class ConvertersLocomotiveData {
 
 class ConverterDieselFuelSection {
     @TypeConverter
-    fun listToJson(value: List<DieselFuelSection>?) = Gson().toJson(value)
+    fun listToJson(value: List<DieselFuelSectionRoomEntity>?) = Gson().toJson(value)
 
     @TypeConverter
     fun jsonToList(value: String) =
-        Gson().fromJson(value, Array<DieselFuelSection>::class.java).toList()
+        Gson().fromJson(value, Array<DieselFuelSectionRoomEntity>::class.java).toList()
 }
 
 class ConverterCounterElectricSection {
     @TypeConverter
-    fun listToJson(value: List<CounterElectricSection>?) = Gson().toJson(value)
+    fun listToJson(value: List<CounterElectricSectionRoomEntity>?) = Gson().toJson(value)
 
     @TypeConverter
     fun jsonToList(value: String) =
-        Gson().fromJson(value, Array<CounterElectricSection>::class.java).toList()
+        Gson().fromJson(value, Array<CounterElectricSectionRoomEntity>::class.java).toList()
 }
 
 class ConverterCountSection {

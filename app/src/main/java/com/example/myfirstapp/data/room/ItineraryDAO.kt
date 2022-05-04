@@ -1,24 +1,25 @@
 package com.example.myfirstapp.data.room
 
 import androidx.room.*
+import com.example.myfirstapp.data.room.entity.*
 
 @Dao
 interface ItineraryDAO {
     // Itinerary
     @Query("SELECT * FROM itinerary")
-    fun getListItinerary(): MutableList<EntityItinerary>
+    fun getListItinerary(): MutableList<ItineraryRoomEntity>
 
     @Query("SELECT * FROM itinerary WHERE itineraryID = :itineraryID")
-    fun getItinerary(itineraryID: Long): EntityItinerary
+    fun getItinerary(itineraryID: Long): ItineraryRoomEntity
 
     @Insert
-    fun addItinerary(itinerary: EntityItinerary)
+    fun addItinerary(itineraryRoomEntity: ItineraryRoomEntity)
 
     @Delete
-    fun removeItinerary(itinerary: EntityItinerary)
+    fun removeItinerary(itineraryRoomEntity: ItineraryRoomEntity)
 
     @Update
-    fun changeItinerary(itinerary: EntityItinerary)
+    fun changeItinerary(itineraryRoomEntity: ItineraryRoomEntity)
 
     // LocomotiveData
     @Query("SELECT * FROM locomotive WHERE locomotive_data_id = :locomotiveDataID")

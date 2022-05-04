@@ -1,7 +1,8 @@
 package com.example.myfirstapp.data.room
 
-import com.example.myfirstapp.domain.IRepository
-import com.example.myfirstapp.domain.Itinerary
+import com.example.myfirstapp.data.room.entity.*
+import com.example.myfirstapp.domain.repository.IRepository
+import com.example.myfirstapp.domain.entity.Itinerary
 
 class RoomIRepository(
     private val localStorage: ItineraryDAO,
@@ -11,9 +12,9 @@ class RoomIRepository(
     }
 
     override fun getListItinerary(): MutableList<Itinerary?> =
-        EntityItinerary.toItineraryList(localStorage.getListItinerary())
+        ItineraryRoomEntity.toItineraryList(localStorage.getListItinerary())
 
-    override fun getItinerary(itineraryID: Long): EntityItinerary =
+    override fun getItinerary(itineraryID: Long): ItineraryRoomEntity =
         localStorage.getItinerary(itineraryID)
 
     override fun getLocomotiveData(locomotiveDataID: Long): EntityLocomotiveData =
@@ -37,7 +38,7 @@ class RoomIRepository(
     override fun getListFollowingByPassenger(itineraryID: Long): List<EntityFollowingByPassenger> =
         localStorage.getListFollowingByPassenger(itineraryID)
 
-    override fun addItinerary(itinerary: EntityItinerary) = localStorage.addItinerary(itinerary)
+    override fun addItinerary(itineraryRoomEntity: ItineraryRoomEntity) = localStorage.addItinerary(itineraryRoomEntity)
 
     override fun addLocomotiveData(locomotiveData: EntityLocomotiveData) =
         localStorage.addLocomotiveData(locomotiveData)
@@ -48,8 +49,8 @@ class RoomIRepository(
     override fun addFallowingByPassenger(followingByPassenger: EntityFollowingByPassenger) =
         localStorage.addFallowingByPassenger(followingByPassenger)
 
-    override fun removeItinerary(itinerary: EntityItinerary) =
-        localStorage.removeItinerary(itinerary)
+    override fun removeItinerary(itineraryRoomEntity: ItineraryRoomEntity) =
+        localStorage.removeItinerary(itineraryRoomEntity)
 
     override fun removeLocomotiveData(locomotiveData: EntityLocomotiveData) =
         localStorage.removeLocomotiveData(locomotiveData)
@@ -60,8 +61,8 @@ class RoomIRepository(
     override fun removeFallowingByPassenger(followingByPassenger: EntityFollowingByPassenger) =
         localStorage.removeFallowingByPassenger(followingByPassenger)
 
-    override fun changeItinerary(itinerary: EntityItinerary) =
-        localStorage.changeItinerary(itinerary)
+    override fun changeItinerary(itineraryRoomEntity: ItineraryRoomEntity) =
+        localStorage.changeItinerary(itineraryRoomEntity)
 
     override fun changeLocomotiveData(locomotiveData: EntityLocomotiveData) =
         localStorage.changeLocomotiveData(locomotiveData)

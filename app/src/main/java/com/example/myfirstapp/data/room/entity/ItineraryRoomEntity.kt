@@ -1,14 +1,14 @@
-package com.example.myfirstapp.data.room
+package com.example.myfirstapp.data.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.myfirstapp.domain.Itinerary
+import com.example.myfirstapp.domain.entity.Itinerary
 
 @Entity(
     tableName = "itinerary"
 )
-data class EntityItinerary(
+data class ItineraryRoomEntity(
     @PrimaryKey(autoGenerate = true)
     val itineraryID: Long,
     var number: String?,
@@ -29,7 +29,7 @@ data class EntityItinerary(
 
     companion object {
         fun createNewEntityItinerary(itinerary: Itinerary) =
-            EntityItinerary(
+            ItineraryRoomEntity(
                 itineraryID = itinerary.itineraryID,
                 number = itinerary.number,
                 appearanceAtWork = itinerary.appearanceAtWork,
@@ -43,9 +43,9 @@ data class EntityItinerary(
                 trainDataList = EntityTrainData.toEntityTrainDataList(itinerary.trainDataList)
             )
 
-        fun toItineraryList(entityItineraryList: MutableList<EntityItinerary>): MutableList<Itinerary?> {
+        fun toItineraryList(itineraryRoomEntityList: MutableList<ItineraryRoomEntity>): MutableList<Itinerary?> {
             val list = mutableListOf<Itinerary?>()
-            for (item in entityItineraryList) {
+            for (item in itineraryRoomEntityList) {
                 list.add(item.toItinerary())
             }
             return list

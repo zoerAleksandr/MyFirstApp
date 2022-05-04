@@ -1,6 +1,6 @@
 package com.example.myfirstapp.utils
 
-import com.example.myfirstapp.data.room.EntityStation
+import com.example.myfirstapp.data.room.entity.EntityStation
 
 sealed class AppStateAddTrain {
     data class Success(val station: List<EntityStation>) : AppStateAddTrain()

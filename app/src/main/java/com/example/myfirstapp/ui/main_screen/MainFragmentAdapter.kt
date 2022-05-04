@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.databinding.ItemBinding
-import com.example.myfirstapp.domain.Itinerary
+import com.example.myfirstapp.domain.entity.Itinerary
 
 class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
 

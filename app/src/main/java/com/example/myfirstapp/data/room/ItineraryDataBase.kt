@@ -3,10 +3,11 @@ package com.example.myfirstapp.data.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.myfirstapp.data.room.entity.*
 
 @Database(
     entities = [
-        EntityItinerary::class,
+        ItineraryRoomEntity::class,
         EntityFollowingByPassenger::class,
         EntityLocomotiveData::class,
         EntityTrainData::class,

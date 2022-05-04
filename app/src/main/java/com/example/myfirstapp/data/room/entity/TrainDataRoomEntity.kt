@@ -1,9 +1,9 @@
-package com.example.myfirstapp.data.room
+package com.example.myfirstapp.data.room.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import com.example.myfirstapp.domain.TrainData
+import com.example.myfirstapp.domain.entity.TrainData
 import com.google.gson.Gson
 
 @Entity(
@@ -20,7 +20,7 @@ data class EntityTrainData(
     var stations: MutableList<EntityStation?>
 ) {
     companion object {
-        fun createNewEntityTrainData(trainData: TrainData) =
+        private fun createNewEntityTrainData(trainData: TrainData) =
             EntityTrainData(
                 trainDataID = trainData.trainDataID,
                 itineraryID = trainData.itineraryID,
@@ -63,7 +63,7 @@ data class EntityTrainData(
 
 class ConvertersTrainData {
     @TypeConverter
-    fun listToJson(value: List<EntityTrainData>?) = Gson().toJson(value)
+    fun listToJson(value: List<EntityTrainData>?) = Gson().toJson(value).toString()
 
     @TypeConverter
     fun jsonToList(value: String) =

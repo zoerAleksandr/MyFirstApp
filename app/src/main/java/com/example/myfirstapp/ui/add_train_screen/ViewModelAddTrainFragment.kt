@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.App.Companion.getItineraryDAO
 import com.example.myfirstapp.data.room.RoomIRepository
-import com.example.myfirstapp.domain.Station
+import com.example.myfirstapp.domain.entity.Station
 import com.example.myfirstapp.utils.AppStateAddTrain
 
 class ViewModelAddTrainFragment : ViewModel() {

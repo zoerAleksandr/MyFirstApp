@@ -1,4 +1,4 @@
-package com.example.myfirstapp.domain
+package com.example.myfirstapp.domain.entity
 
 data class Station(
     val StationID: Long,

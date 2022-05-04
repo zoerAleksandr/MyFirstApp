@@ -1,8 +1,5 @@
-package com.example.myfirstapp.data.room
+package com.example.myfirstapp.domain.entity
 
-import androidx.room.Entity
-
-@Entity
 data class DieselFuelSection(
     var takeFuel: Int,
     var handOverFuel: Int

@@ -1,4 +1,4 @@
-package com.example.myfirstapp.domain
+package com.example.myfirstapp.domain.entity
 
 data class Itinerary(
     val itineraryID: Long,
@@ -11,9 +11,4 @@ data class Itinerary(
     var followingByPassengerList: MutableList<FollowingByPassenger?>,
     var locomotiveDataList: MutableList<LocomotiveData?>,
     var trainDataList: MutableList<TrainData?>
-
-) {
-    fun getAppearanceAtWork(): String {
-        return appearanceAtWork.toString()
-    }
-}
+)

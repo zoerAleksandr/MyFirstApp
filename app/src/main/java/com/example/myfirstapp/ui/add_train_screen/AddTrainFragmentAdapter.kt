@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myfirstapp.data.room.EntityStation
+import com.example.myfirstapp.data.room.entity.EntityStation
 import com.example.myfirstapp.databinding.ItemStationBinding
 import com.example.myfirstapp.ui.add_loco_screen.PREFERENCES
 import com.example.myfirstapp.utils.setTextTime

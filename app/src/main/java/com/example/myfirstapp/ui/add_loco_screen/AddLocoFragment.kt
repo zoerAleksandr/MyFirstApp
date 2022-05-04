@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
-import com.example.myfirstapp.domain.CountSections
-import com.example.myfirstapp.domain.TypeOfTraction
+import com.example.myfirstapp.domain.entity.CountSections
+import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward

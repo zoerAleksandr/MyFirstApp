@@ -1,7 +1,7 @@
-package com.example.myfirstapp.domain
+package com.example.myfirstapp.domain.entity
 
-import com.example.myfirstapp.data.room.CounterElectricSection
-import com.example.myfirstapp.data.room.DieselFuelSection
+import com.example.myfirstapp.data.room.entity.CounterElectricSectionRoomEntity
+import com.example.myfirstapp.data.room.entity.DieselFuelSectionRoomEntity
 
 data class LocomotiveData(
     val locomotiveDataID: Long,
@@ -16,8 +16,8 @@ data class LocomotiveData(
     var startDelivery: String?, // Изменить тип на Calendar
     var endDelivery: String?, // Изменить тип на Calendar
 
-    var counterElectricList: MutableList<CounterElectricSection>?,
-    var dieselFuelList: MutableList<DieselFuelSection>?,
+    var counterElectricListRoomEntity: MutableList<CounterElectricSectionRoomEntity>?,
+    var dieselFuelListRoomEntity: MutableList<DieselFuelSectionRoomEntity>?,
 
     var countBrakeShoes: Int?,
     var countExtinguishers: Int?

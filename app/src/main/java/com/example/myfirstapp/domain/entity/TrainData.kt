@@ -1,4 +1,6 @@
-package com.example.myfirstapp.domain
+package com.example.myfirstapp.domain.entity
+
+import com.example.myfirstapp.domain.entity.Station
 
 data class TrainData(
     val trainDataID: Long,

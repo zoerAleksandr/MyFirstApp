@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
-import com.example.myfirstapp.domain.CountSections
-import com.example.myfirstapp.domain.Itinerary
-import com.example.myfirstapp.domain.TypeOfTraction
+import com.example.myfirstapp.domain.entity.CountSections
+import com.example.myfirstapp.domain.entity.Itinerary
+import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.example.myfirstapp.ui.add_loco_screen.AddLocoFragment
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment

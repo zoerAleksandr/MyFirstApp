@@ -1,9 +1,9 @@
-package com.example.myfirstapp.data.room
+package com.example.myfirstapp.data.room.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import com.example.myfirstapp.domain.Station
+import com.example.myfirstapp.domain.entity.Station
 import com.google.gson.Gson
 
 @Entity(

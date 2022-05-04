@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.App.Companion.getItineraryDAO
-import com.example.myfirstapp.data.room.EntityItinerary
+import com.example.myfirstapp.data.room.entity.ItineraryRoomEntity
 import com.example.myfirstapp.data.room.RoomIRepository
-import com.example.myfirstapp.domain.IRepository
-import com.example.myfirstapp.domain.Itinerary
+import com.example.myfirstapp.domain.repository.IRepository
+import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.utils.AppState
 
 class MainViewModel(
@@ -26,7 +26,7 @@ class MainViewModel(
 
     fun addItinerary(itinerary: Itinerary) {
         IRepository.addItinerary(
-            EntityItinerary.createNewEntityItinerary(
+            ItineraryRoomEntity.createNewEntityItinerary(
                 Itinerary(
                     0,
                     itinerary.number,
