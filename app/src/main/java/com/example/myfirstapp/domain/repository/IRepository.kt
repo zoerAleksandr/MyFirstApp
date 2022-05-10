@@ -1,6 +1,5 @@
 package com.example.myfirstapp.domain.repository
 
-import com.example.myfirstapp.data.room.entity.*
 import com.example.myfirstapp.domain.entity.*
 
 interface IRepository {
@@ -8,27 +7,27 @@ interface IRepository {
     fun getItinerary(itineraryID: Long): Itinerary
 
     fun getLocomotiveData(locomotiveDataID: Long): LocomotiveData
-    fun getListLocomotiveData(itineraryID: Long): List<LocomotiveData>
+    fun getListLocomotiveData(itineraryID: Long): MutableList<LocomotiveData>
 
     fun getTrainData(trainDataID: Long): TrainData
-    fun getListTrainData(itineraryID: Long): List<TrainData>
+    fun getListTrainData(itineraryID: Long): MutableList<TrainData>
 
-    fun getListStation(trainDataID: Long): List<Station>
+    fun getListStation(trainDataID: Long): MutableList<Station>
 
-    fun getFallowingByPassenger(followingByPassengerID: Long): FollowingByPassenger
+    fun getFollowingByPassenger(followingByPassengerID: Long): FollowingByPassenger
     fun getListFollowingByPassenger(itineraryID: Long): List<FollowingByPassenger>
 
-    fun addItinerary(itineraryRoomEntity: Itinerary)
+    fun addItinerary(itinerary: Itinerary)
     fun addLocomotiveData(locomotiveData: LocomotiveData)
     fun addTrainData(trainData: TrainData)
     fun addFallowingByPassenger(followingByPassenger: FollowingByPassenger)
 
-    fun removeItinerary(itineraryRoomEntity: Itinerary)
+    fun removeItinerary(itinerary: Itinerary)
     fun removeLocomotiveData(locomotiveData: LocomotiveData)
-    fun removeTrainData(trainData: EntityTrainData)
+    fun removeTrainData(trainData: TrainData)
     fun removeFallowingByPassenger(followingByPassenger: FollowingByPassenger)
 
-    fun changeItinerary(itineraryRoomEntity: Itinerary)
+    fun changeItinerary(itinerary: Itinerary)
     fun changeLocomotiveData(locomotiveData: LocomotiveData)
     fun changeTrainData(trainData: TrainData)
     fun changeFallowingByPassenger(followingByPassenger: FollowingByPassenger)

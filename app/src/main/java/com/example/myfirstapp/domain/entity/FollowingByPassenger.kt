@@ -1,8 +1,8 @@
 package com.example.myfirstapp.domain.entity
 
 data class FollowingByPassenger(
-    var followingByPassengerID: Long,
-    var itineraryID: Long,
+    var followingByPassengerID: String,
+    var itineraryID: String,
     var departureTime: String?, // Calendar
     var arrivalTime: String?, // Calendar
     var departureStation: String?,

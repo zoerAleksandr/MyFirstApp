@@ -63,9 +63,9 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             }
             is AppStateAddTrain.Success -> {
                 // передал в адаптер новый массив станций
-                if (state.station.isNotEmpty()) {
+                if (state.stationRoomEntity.isNotEmpty()) {
                     binding.textEmptyStationList.visibility = View.GONE
-                    adapter.setData(state.station)
+                    adapter.setData(state.stationRoomEntity)
                 } else {
                     binding.textEmptyStationList.visibility = View.VISIBLE
                 }

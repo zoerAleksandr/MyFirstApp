@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myfirstapp.data.room.entity.EntityStation
 import com.example.myfirstapp.databinding.ItemStationBinding
+import com.example.myfirstapp.domain.entity.Station
 import com.example.myfirstapp.ui.add_loco_screen.PREFERENCES
 import com.example.myfirstapp.utils.setTextTime
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -30,7 +30,7 @@ class AddTrainFragmentAdapter(
         private val titleDepartureTimePicker = "Время отправления"
 
         @SuppressLint("CommitPrefEdits")
-        fun bind(station: EntityStation) {
+        fun bind(station: Station) {
             binding.apply {
                 timeArrival.setOnClickListener {
                     val timePicker = MaterialTimePicker.Builder()
@@ -108,10 +108,10 @@ class AddTrainFragmentAdapter(
         }
     }
 
-    private var listStation: MutableList<EntityStation> = mutableListOf()
+    private var listStationRoomEntity: MutableList<Station> = mutableListOf()
 
-    fun setData(list: List<EntityStation>) {
-        listStation.addAll(list)
+    fun setData(list: MutableList<Station>) {
+        listStationRoomEntity.addAll(list)
     }
 
 //    fun addStation(station: Station) {
@@ -129,8 +129,8 @@ class AddTrainFragmentAdapter(
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(listStation[position])
+        holder.bind(listStationRoomEntity[position])
     }
 
-    override fun getItemCount() = listStation.size
+    override fun getItemCount() = listStationRoomEntity.size
 }
