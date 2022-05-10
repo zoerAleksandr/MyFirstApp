@@ -13,9 +13,9 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
         fun newInstance() = MainFragmentAdapter()
     }
 
-    private var itineraryData: MutableList<Itinerary?> = mutableListOf()
+    private var itineraryData: MutableList<Itinerary> = mutableListOf()
 
-    fun setData(data: MutableList<Itinerary?>) {
+    fun setData(data: MutableList<Itinerary>) {
         itineraryData = data
         notifyDataSetChanged()
     }

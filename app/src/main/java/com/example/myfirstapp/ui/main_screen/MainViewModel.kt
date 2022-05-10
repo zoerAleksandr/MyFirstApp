@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.App.Companion.getItineraryDAO
-import com.example.myfirstapp.data.room.entity.ItineraryRoomEntity
 import com.example.myfirstapp.data.room.RoomIRepository
-import com.example.myfirstapp.domain.repository.IRepository
 import com.example.myfirstapp.domain.entity.Itinerary
+import com.example.myfirstapp.domain.repository.IRepository
 import com.example.myfirstapp.utils.AppState
+import com.example.myfirstapp.utils.generateStringID
 
 class MainViewModel(
     private var IRepository: IRepository = RoomIRepository.newInstance(getItineraryDAO()),
@@ -26,18 +26,16 @@ class MainViewModel(
 
     fun addItinerary(itinerary: Itinerary) {
         IRepository.addItinerary(
-            ItineraryRoomEntity.createNewEntityItinerary(
-                Itinerary(
-                    0,
-                    itinerary.number,
-                    itinerary.appearanceAtWork,
-                    null,
-                    true,
-                    null,
-                    mutableListOf(),
-                    mutableListOf(),
-                    mutableListOf(),
-                )
+            Itinerary(
+                generateStringID(),
+                itinerary.number,
+                itinerary.appearanceAtWork,
+                null,
+                true,
+                null,
+                mutableListOf(),
+                mutableListOf(),
+                mutableListOf(),
             )
         )
     }

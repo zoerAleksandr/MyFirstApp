@@ -1,8 +1,8 @@
 package com.example.myfirstapp.data.room
 
-import com.example.myfirstapp.data.room.entity.*
+import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.domain.repository.IRepository
-import com.example.myfirstapp.domain.entity.Itinerary
+import com.example.myfirstapp.utils.convert_entity.*
 
 class RoomIRepository(
     private val localStorage: ItineraryDAO,
@@ -11,65 +11,102 @@ class RoomIRepository(
         fun newInstance(localStorage: ItineraryDAO) = RoomIRepository(localStorage)
     }
 
-    override fun getListItinerary(): MutableList<Itinerary?> =
-        ItineraryRoomEntity.toItineraryList(localStorage.getListItinerary())
+    override fun getListItinerary(): MutableList<Itinerary> =
+        toItineraryList(localStorage.getListItinerary())
 
-    override fun getItinerary(itineraryID: Long): ItineraryRoomEntity =
-        localStorage.getItinerary(itineraryID)
+    override fun getItinerary(itineraryID: Long): Itinerary =
+        toItinerary(localStorage.getItinerary(itineraryID))
 
-    override fun getLocomotiveData(locomotiveDataID: Long): EntityLocomotiveData =
-        localStorage.getLocomotiveData(locomotiveDataID)
+    override fun getLocomotiveData(locomotiveDataID: Long): LocomotiveData =
+        toLocomotiveData(localStorage.getLocomotiveData(locomotiveDataID))
 
-    override fun getListLocomotiveData(itineraryID: Long): List<EntityLocomotiveData> =
-        localStorage.getListLocomotiveData(itineraryID)
+    override fun getListLocomotiveData(itineraryID: Long): MutableList<LocomotiveData> =
+        toLocomotiveDataList(localStorage.getListLocomotiveData(itineraryID))
 
-    override fun getTrainData(trainDataID: Long): EntityTrainData =
-        localStorage.getTrainData(trainDataID)
+    override fun getTrainData(trainDataID: Long): TrainData =
+        toTrainData(localStorage.getTrainData(trainDataID))
 
-    override fun getListTrainData(itineraryID: Long): List<EntityTrainData> =
-        localStorage.getListTrainData(itineraryID)
+    override fun getListTrainData(itineraryID: Long): MutableList<TrainData> =
+        toTrainDataList(localStorage.getListTrainData(itineraryID))
 
-    override fun getListStation(trainDataID: Long): List<EntityStation> =
-        localStorage.getListStation(trainDataID)
+    override fun getListStation(trainDataID: Long): MutableList<Station> =
+        toStationList(localStorage.getListStation(trainDataID))
 
-    override fun getFallowingByPassenger(followingByPassengerID: Long): EntityFollowingByPassenger =
-        localStorage.getFollowingByPassenger(followingByPassengerID)
+    override fun getFollowingByPassenger(followingByPassengerID: Long): FollowingByPassenger =
+        toFollowingByPassenger(localStorage.getFollowingByPassenger(followingByPassengerID))
 
-    override fun getListFollowingByPassenger(itineraryID: Long): List<EntityFollowingByPassenger> =
-        localStorage.getListFollowingByPassenger(itineraryID)
+    override fun getListFollowingByPassenger(itineraryID: Long): List<FollowingByPassenger> =
+        toFollowingByPassengerList(localStorage.getListFollowingByPassenger(itineraryID))
 
-    override fun addItinerary(itineraryRoomEntity: ItineraryRoomEntity) = localStorage.addItinerary(itineraryRoomEntity)
+    override fun addItinerary(itinerary: Itinerary) {
+        localStorage.addItinerary(
+            toItineraryRoomEntity(itinerary)
+        )
+    }
 
-    override fun addLocomotiveData(locomotiveData: EntityLocomotiveData) =
-        localStorage.addLocomotiveData(locomotiveData)
+    override fun addLocomotiveData(locomotiveData: LocomotiveData) {
+        localStorage.addLocomotiveData(
+            toLocomotiveDataRoomEntity(locomotiveData)
+        )
+    }
 
-    override fun addTrainData(trainData: EntityTrainData) =
-        localStorage.addTrainData(trainData)
+    override fun addTrainData(trainData: TrainData) {
+        localStorage.addTrainData(
+            toTrainDataRoomEntity(trainData)
+        )
+    }
 
-    override fun addFallowingByPassenger(followingByPassenger: EntityFollowingByPassenger) =
-        localStorage.addFallowingByPassenger(followingByPassenger)
+    override fun addFallowingByPassenger(followingByPassenger: FollowingByPassenger) {
+        localStorage.addFollowingByPassenger(
+            toFollowingByPassengerRoomEntity(followingByPassenger)
+        )
+    }
 
-    override fun removeItinerary(itineraryRoomEntity: ItineraryRoomEntity) =
-        localStorage.removeItinerary(itineraryRoomEntity)
+    override fun removeItinerary(itinerary: Itinerary) {
+        localStorage.removeItinerary(
+            toItineraryRoomEntity(itinerary)
+        )
+    }
 
-    override fun removeLocomotiveData(locomotiveData: EntityLocomotiveData) =
-        localStorage.removeLocomotiveData(locomotiveData)
+    override fun removeLocomotiveData(locomotiveData: LocomotiveData) {
+        localStorage.removeLocomotiveData(
+            toLocomotiveDataRoomEntity(locomotiveData)
+        )
+    }
 
-    override fun removeTrainData(trainData: EntityTrainData) =
-        localStorage.removeTrainData(trainData)
+    override fun removeTrainData(trainData: TrainData) {
+        localStorage.removeTrainData(
+            toTrainDataRoomEntity(trainData)
+        )
+    }
 
-    override fun removeFallowingByPassenger(followingByPassenger: EntityFollowingByPassenger) =
-        localStorage.removeFallowingByPassenger(followingByPassenger)
+    override fun removeFallowingByPassenger(followingByPassenger: FollowingByPassenger) {
+        localStorage.removeFollowingByPassenger(
+            toFollowingByPassengerRoomEntity(followingByPassenger)
+        )
+    }
 
-    override fun changeItinerary(itineraryRoomEntity: ItineraryRoomEntity) =
-        localStorage.changeItinerary(itineraryRoomEntity)
+    override fun changeItinerary(itinerary: Itinerary) {
+        localStorage.changeItinerary(
+            toItineraryRoomEntity(itinerary)
+        )
+    }
 
-    override fun changeLocomotiveData(locomotiveData: EntityLocomotiveData) =
-        localStorage.changeLocomotiveData(locomotiveData)
+    override fun changeLocomotiveData(locomotiveData: LocomotiveData) {
+        localStorage.changeLocomotiveData(
+            toLocomotiveDataRoomEntity(locomotiveData)
+        )
+    }
 
-    override fun changeTrainData(trainData: EntityTrainData) =
-        localStorage.changeTrainData(trainData)
+    override fun changeTrainData(trainData: TrainData) {
+        localStorage.changeTrainData(
+            toTrainDataRoomEntity(trainData)
+        )
+    }
 
-    override fun changeFallowingByPassenger(followingByPassenger: EntityFollowingByPassenger) =
-        localStorage.changeFallowingByPassenger(followingByPassenger)
+    override fun changeFallowingByPassenger(followingByPassenger: FollowingByPassenger) {
+        localStorage.changeFollowingByPassenger(
+            toFollowingByPassengerRoomEntity(followingByPassenger)
+        )
+    }
 }

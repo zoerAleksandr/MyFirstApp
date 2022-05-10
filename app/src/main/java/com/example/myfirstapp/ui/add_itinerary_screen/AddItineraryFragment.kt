@@ -50,7 +50,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         super.onDestroyView()
         viewModel.addItinerary(
             Itinerary(
-                0,
+                generateStringID(),
                 numberItinerary,
                 null,
                 null,
