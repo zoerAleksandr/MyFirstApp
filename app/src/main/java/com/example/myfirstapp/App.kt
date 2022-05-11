@@ -4,6 +4,10 @@ import android.app.Application
 import androidx.room.Room
 import com.example.myfirstapp.data.room.ItineraryDAO
 import com.example.myfirstapp.data.room.ItineraryDataBase
+import com.example.myfirstapp.di.roomModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class App : Application() {
     companion object {
@@ -31,5 +35,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appInstance = this
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(roomModule)
+        }
     }
 }
