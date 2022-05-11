@@ -16,12 +16,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding: FragmentMainBinding by viewBinding()
     private val viewModel: MainViewModel by viewModel()
-    private val adapterItinerary = MainFragmentAdapter.newInstance()
+    private val adapterItinerary = MainFragmentAdapter()
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCurrentData(1)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapterItinerary
-        viewModel.getData(1).observe(viewLifecycleOwner) { renderData(it) }
+        viewModel.getCurrentData(1).observe(viewLifecycleOwner) { renderData(it) }
 
         binding.fab.setOnClickListener {
             activity?.supportFragmentManager?.apply {
@@ -45,7 +50,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
-                Snackbar.make(binding.fab, "Ошибка", Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(binding.fab, "${appState.error}", Snackbar.LENGTH_INDEFINITE)
 //                    .setAction("Обновить") { viewModel.getDataFromLocal() }
                     .show()
             }

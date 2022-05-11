@@ -1,19 +1,21 @@
 package com.example.myfirstapp.data.room.entity
 
-import androidx.room.*
-import com.google.gson.Gson
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(
     tableName = "itinerary"
 )
 data class ItineraryRoomEntity(
-    @PrimaryKey()
+    @PrimaryKey
     val itineraryID: String,
     var number: String?,
     @ColumnInfo(name = "appearance_at_work")
-    var appearanceAtWork: Byte?,
+    var appearanceAtWork: Calendar,
     @ColumnInfo(name = "end_at_work")
-    var endOfWork: Byte?,
+    var endOfWork: Calendar?,
     @ColumnInfo(name = "rest_at_the_point_of_turnover")
     var restAtThePointOfTurnover: Boolean,
     var notes: String?,
@@ -23,21 +25,4 @@ data class ItineraryRoomEntity(
     var locomotiveDataList: MutableList<String>,
     @ColumnInfo(name = "train_data_list")
     var trainDataList: MutableList<String>,
-) {
-//
-//    fun createNewEntityItinerary(itinerary: Itinerary) =
-//        ItineraryRoomEntity(
-//            itineraryID = itinerary.itineraryID,
-//            number = itinerary.number,
-//            appearanceAtWork = itinerary.appearanceAtWork,
-//            endOfWork = itinerary.endOfWork,
-//            restAtThePointOfTurnover = itinerary.restAtThePointOfTurnover,
-//            notes = itinerary.notes,
-//            followingByPassengerList = EntityFollowingByPassenger.toEntityFollowingByPassengerList(
-//                itinerary.followingByPassengerList
-//            ),
-//            locomotiveDataList = EntityLocomotiveData.toEntityLocomotiveDataList(itinerary.locomotiveDataList),
-//            trainDataList = EntityTrainData.toEntityTrainDataList(itinerary.trainDataList)
-//        )
-//
-}
+)

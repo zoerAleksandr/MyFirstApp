@@ -1,10 +1,12 @@
 package com.example.myfirstapp.domain.entity
 
+import java.util.*
+
 data class Itinerary(
     val itineraryID: String,
     var number: String?,
-    var appearanceAtWork: Byte?, // Изменить тип на Calendar
-    var endOfWork: Byte?, // Изменить тип на Calendar
+    var appearanceAtWork: Calendar,
+    var endOfWork: Calendar?,
     var restAtThePointOfTurnover: Boolean = true,
     var notes: String?,
 

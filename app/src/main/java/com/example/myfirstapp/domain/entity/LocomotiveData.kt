@@ -1,5 +1,7 @@
 package com.example.myfirstapp.domain.entity
 
+import java.util.*
+
 data class LocomotiveData(
     val locomotiveDataID: String,
     val itineraryID: String,
@@ -8,10 +10,10 @@ data class LocomotiveData(
     var typeOfTraction: TypeOfTraction,
     var countSections: CountSections,
 
-    var startAcceptance: String?, // Изменить тип на Calendar
-    var endAcceptance: String?, // Изменить тип на Calendar
-    var startDelivery: String?, // Изменить тип на Calendar
-    var endDelivery: String?, // Изменить тип на Calendar
+    var startAcceptance: Calendar?,
+    var endAcceptance: Calendar?,
+    var startDelivery: Calendar?,
+    var endDelivery: Calendar?,
 
     var counterElectricListRoomEntity: MutableList<String>,
     var dieselFuelListRoomEntity: MutableList<String>,

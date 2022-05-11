@@ -18,6 +18,7 @@ import com.example.myfirstapp.utils.convert_room.*
     exportSchema = false
 )
 @TypeConverters(
+    ConverterCalendar::class,
     ConverterListStrings::class,
     ConvertersItinerary::class,
     ConvertersFollowingByPassenger::class,
@@ -30,9 +31,5 @@ import com.example.myfirstapp.utils.convert_room.*
     ConverterStation::class
 )
 abstract class ItineraryDataBase : RoomDatabase() {
-    companion object {
-        fun newInstance() = ItineraryDataBase
-    }
-
     abstract fun itineraryDAO(): ItineraryDAO
 }
