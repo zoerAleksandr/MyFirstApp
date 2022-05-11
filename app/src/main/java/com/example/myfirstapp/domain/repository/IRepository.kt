@@ -1,9 +1,10 @@
 package com.example.myfirstapp.domain.repository
 
 import com.example.myfirstapp.domain.entity.*
+import io.reactivex.rxjava3.core.Single
 
 interface IRepository {
-    fun getListItinerary(): MutableList<Itinerary>
+    fun getListItinerary(): Single<MutableList<Itinerary>>
     fun getItinerary(itineraryID: Long): Itinerary
 
     fun getLocomotiveData(locomotiveDataID: Long): LocomotiveData

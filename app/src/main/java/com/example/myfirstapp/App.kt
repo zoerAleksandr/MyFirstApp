@@ -4,41 +4,28 @@ import android.app.Application
 import androidx.room.Room
 import com.example.myfirstapp.data.room.ItineraryDAO
 import com.example.myfirstapp.data.room.ItineraryDataBase
+import com.example.myfirstapp.di.repositoryModule
 import com.example.myfirstapp.di.roomModule
+import com.example.myfirstapp.di.useCaseModule
+import com.example.myfirstapp.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class App : Application() {
-    companion object {
-        private var appInstance: App? = null
-        private var itineraryDataBase: ItineraryDataBase? = null
-        private const val DB_ITINERARY_NAME = "Itinerary.db"
-
-        fun getItineraryDAO(): ItineraryDAO {
-            if (itineraryDataBase == null) {
-                synchronized(ItineraryDataBase::class.java) {
-                    if (itineraryDataBase == null) {
-                        if (appInstance == null) throw IllegalStateException("Application is null while creating DataBase")
-                        itineraryDataBase = Room.databaseBuilder(
-                            appInstance!!.applicationContext,
-                            ItineraryDataBase::class.java,
-                            DB_ITINERARY_NAME
-                        ).allowMainThreadQueries().build()
-                    }
-                }
-            }
-            return itineraryDataBase!!.itineraryDAO()
-        }
-    }
-
     override fun onCreate() {
         super.onCreate()
-        appInstance = this
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(roomModule)
+            modules(
+                listOf(
+                    roomModule,
+                    repositoryModule,
+                    useCaseModule,
+                    viewModelModule
+                )
+            )
         }
     }
 }

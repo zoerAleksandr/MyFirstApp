@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(binding.container.id, MainFragment.newInstance())
+                .add(binding.container.id, MainFragment())
                 .commit()
         }
     }
