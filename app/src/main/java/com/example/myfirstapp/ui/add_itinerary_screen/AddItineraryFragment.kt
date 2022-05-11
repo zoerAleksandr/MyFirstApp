@@ -2,9 +2,9 @@ package com.example.myfirstapp.ui.add_itinerary_screen
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
@@ -14,7 +14,6 @@ import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.example.myfirstapp.ui.add_loco_screen.AddLocoFragment
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
-import com.example.myfirstapp.ui.main_screen.MainViewModel
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -22,11 +21,15 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar.*
+
 
 class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     private val binding: FragmentAddItineraryBinding by viewBinding()
+    private val viewModel: AddItineraryViewModel by viewModel()
+
     private var dateTurnout: Long = 0
     private val dateAndTimeNow by lazy { getInstance() }
     private val dateAndTimeTurnout by lazy { getInstance() }
@@ -42,31 +45,28 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         else binding.etNumberItinerary.text.toString()
     }
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
-    }
-
     override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.addItinerary(
+        viewModel.saveItinerary(
             Itinerary(
                 generateStringID(),
-                numberItinerary,
-                null,
-                null,
-                true,
-                null,
+                "01",
+                getInstance(),
+                getInstance(),
+                false,
+                "",
                 mutableListOf(),
                 mutableListOf(),
                 mutableListOf()
             )
         )
+        super.onDestroyView()
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val calendar = getInstance()
+        Log.d("Debug", "${calendar.get(MONTH)}")
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(this.newTab().setText(getString(R.string.text_for_selector_home_rest)), 0, true)

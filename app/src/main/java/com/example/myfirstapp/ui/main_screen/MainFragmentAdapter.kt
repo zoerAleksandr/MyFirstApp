@@ -9,10 +9,6 @@ import com.example.myfirstapp.domain.entity.Itinerary
 
 class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
 
-    companion object {
-        fun newInstance() = MainFragmentAdapter()
-    }
-
     private var itineraryData: MutableList<Itinerary> = mutableListOf()
 
     fun setData(data: MutableList<Itinerary>) {
@@ -30,7 +26,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainViewHol
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        itineraryData[position]?.let { holder.bind(it) }
+        itineraryData[position].let { holder.bind(it) }
     }
 
     override fun getItemCount() = itineraryData.size

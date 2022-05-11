@@ -3,80 +3,50 @@ package com.example.myfirstapp.ui.main_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myfirstapp.App.Companion.getItineraryDAO
-import com.example.myfirstapp.data.room.RoomIRepository
-import com.example.myfirstapp.domain.entity.Itinerary
-import com.example.myfirstapp.domain.repository.IRepository
+import com.example.myfirstapp.domain.usecase.itinerary.GetItineraryListByMonth
 import com.example.myfirstapp.utils.AppState
-import com.example.myfirstapp.utils.generateStringID
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
+import org.koin.core.component.KoinComponent
 
 class MainViewModel(
-    private var IRepository: IRepository = RoomIRepository.newInstance(getItineraryDAO()),
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
-) :
-    ViewModel() {
+    private val getItineraryListUseCase: GetItineraryListByMonth
+) : ViewModel(), KoinComponent {
 
-    fun getData(): LiveData<AppState> {
-        liveDataToObserve.value = AppState.Loading
-        liveDataToObserve.postValue(
-            AppState.Success(IRepository.getListItinerary())
-        )
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
+    private val compositeDisposable = CompositeDisposable()
+    fun getCurrentData(month: Int): LiveData<AppState> {
+        requestItineraryListByMonth(month)
         return liveDataToObserve
     }
 
-    fun addItinerary(itinerary: Itinerary) {
-        IRepository.addItinerary(
-            Itinerary(
-                generateStringID(),
-                itinerary.number,
-                itinerary.appearanceAtWork,
-                null,
-                true,
-                null,
-                mutableListOf(),
-                mutableListOf(),
-                mutableListOf(),
-            )
+    private fun requestItineraryListByMonth(month: Int) {
+        liveDataToObserve.value = AppState.Loading
+        compositeDisposable.add(
+            Single.just(month)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    getItineraryListUseCase.execute(month)
+                }
+                .subscribeBy(
+                    onSuccess = { answerList ->
+                        liveDataToObserve.postValue(
+                            AppState.Success(answerList)
+                        )
+                    },
+                    onError = { throwable ->
+                        liveDataToObserve.postValue(
+                            AppState.Error(throwable)
+                        )
+                    }
+                )
         )
     }
 
-
-/*
-    Принцып работы viewModel совместно с Observer
-    Во фрагменте создается экземпляр ViewModel и вызывается один из методов, которые возвращают LiveData,
-    далее указывается слушатель (Observer) и в лямбде описывается событие,
-    которое должно произойти при изменении LiveData
-    viewModel.getData().observe(viewLifecycleOwner, { renderDataSize(it) })
-*/
-
-    // Для предоставления списка из репозитория
-//    fun getDataFromLocal() {
-//        liveDataToObserve.value = AppState.Loading
-//        Thread {
-//            sleep(1000)
-//            liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
-//        }.start()
-//    }
-
-    // Для добавления и предоставления списка из репозитория
-//    fun getDataAdd() {
-//        liveDataToObserve.value = AppState.Loading
-//        Thread {
-//            sleep(500)
-////            repository.addData()
-//            liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
-//        }.start()
-//    }
-
-
-    // Для удаления и предоставления списка из репозитория
-//    fun getDataRemove(position: Int) {
-//        liveDataToObserve.value = AppState.Loading
-//        Thread {
-//            sleep(2000)
-//            Log.e("Remove", "$position")
-//            repository.remove(position)
-//            liveDataToObserve.postValue(AppState.Success(repository.getDataFromLocal()))
-//        }.start()
-//    }
+    override fun onCleared() {
+        compositeDisposable.clear()
+        super.onCleared()
+    }
 }

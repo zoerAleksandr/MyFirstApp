@@ -41,7 +41,8 @@ class AddTrainFragmentAdapter(
                         .build()
                     timePicker.show(fragmentActivity.supportFragmentManager, "TIME_PICKER_ARRIVAL")
                     timePicker.addOnPositiveButtonClickListener {
-                        station.arrivalTime = setTextTime(timePicker)
+                        // TODO
+//                        station.arrivalTime = setTextTime(timePicker)
                         binding.dataTimeArrival.text = setTextTime(timePicker)
                         binding.dataTimeArrival.alpha = 1f
                     }
@@ -59,7 +60,8 @@ class AddTrainFragmentAdapter(
                         "TIME_PICKER_DEPARTURE"
                     )
                     timePicker.addOnPositiveButtonClickListener {
-                        station.departureTime = setTextTime(timePicker)
+                        // TODO
+//                        station.departureTime = setTextTime(timePicker)
                         binding.dataTimeDeparture.text = setTextTime(timePicker)
                         binding.dataTimeDeparture.alpha = 1f
                     }

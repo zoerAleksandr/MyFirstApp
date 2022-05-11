@@ -10,66 +10,66 @@ interface ItineraryDAO {
     fun getListItinerary(): MutableList<ItineraryRoomEntity>
 
     @Query("SELECT * FROM itinerary WHERE itineraryID = :itineraryID")
-    fun getItinerary(itineraryID: Long): ItineraryRoomEntity
+    fun getItinerary(itineraryID: String): ItineraryRoomEntity
 
     @Insert
-    fun addItinerary(itineraryRoomEntity: ItineraryRoomEntity)
+    fun addItinerary(roomEntity: ItineraryRoomEntity): Long
 
     @Delete
-    fun removeItinerary(itineraryRoomEntity: ItineraryRoomEntity)
+    fun removeItinerary(roomEntity: ItineraryRoomEntity): Int
 
     @Update
-    fun changeItinerary(itineraryRoomEntity: ItineraryRoomEntity)
+    fun changeItinerary(roomEntity: ItineraryRoomEntity): Int
 
     // LocomotiveData
     @Query("SELECT * FROM locomotive WHERE locomotive_data_id = :locomotiveDataID")
-    fun getLocomotiveData(locomotiveDataID: Long): LocomotiveDataRoomEntity
+    fun getLocomotiveData(locomotiveDataID: String): LocomotiveDataRoomEntity
 
     @Query("SELECT * FROM locomotive WHERE itineraryID = :itineraryID")
-    fun getListLocomotiveData(itineraryID: Long): MutableList<LocomotiveDataRoomEntity>
+    fun getListLocomotiveData(itineraryID: String): MutableList<LocomotiveDataRoomEntity>
 
     @Insert
-    fun addLocomotiveData(locomotiveDataRoomEntity: LocomotiveDataRoomEntity)
+    fun addLocomotiveData(roomEntity: LocomotiveDataRoomEntity): Long
 
     @Delete
-    fun removeLocomotiveData(locomotiveDataRoomEntity: LocomotiveDataRoomEntity)
+    fun removeLocomotiveData(roomEntity: LocomotiveDataRoomEntity): Int
 
     @Update
-    fun changeLocomotiveData(locomotiveDataRoomEntity: LocomotiveDataRoomEntity)
+    fun changeLocomotiveData(roomEntity: LocomotiveDataRoomEntity): Int
 
     // TrainData
     @Query("SELECT * FROM train WHERE trainDataID = :trainDataID")
-    fun getTrainData(trainDataID: Long): TrainDataRoomEntity
+    fun getTrainData(trainDataID: String): TrainDataRoomEntity
 
     @Query("SELECT * FROM train WHERE itineraryID = :itineraryID")
-    fun getListTrainData(itineraryID: Long): MutableList<TrainDataRoomEntity>
+    fun getListTrainData(itineraryID: String): MutableList<TrainDataRoomEntity>
 
     @Insert
-    fun addTrainData(trainDataRoomEntity: TrainDataRoomEntity)
+    fun addTrainData(roomEntity: TrainDataRoomEntity): Long
 
     @Delete
-    fun removeTrainData(trainDataRoomEntity: TrainDataRoomEntity)
+    fun removeTrainData(roomEntity: TrainDataRoomEntity): Int
 
     @Update
-    fun changeTrainData(trainDataRoomEntity: TrainDataRoomEntity)
+    fun changeTrainData(roomEntity: TrainDataRoomEntity): Int
 
     // FollowingByPassenger
     @Query("SELECT * FROM passenger WHERE followingByPassengerID = :followingByPassengerID")
-    fun getFollowingByPassenger(followingByPassengerID: Long): FollowingByPassengerRoomEntity
+    fun getFollowingByPassenger(followingByPassengerID: String): FollowingByPassengerRoomEntity
 
     @Query("SELECT * FROM passenger WHERE itineraryID = :itineraryID")
-    fun getListFollowingByPassenger(itineraryID: Long): MutableList<FollowingByPassengerRoomEntity>
+    fun getListFollowingByPassenger(itineraryID: String): MutableList<FollowingByPassengerRoomEntity>
 
     @Insert
-    fun addFollowingByPassenger(followingByPassengerRoomEntity: FollowingByPassengerRoomEntity)
+    fun addFollowingByPassenger(roomEntity: FollowingByPassengerRoomEntity): Long
 
     @Delete
-    fun removeFollowingByPassenger(followingByPassengerRoomEntity: FollowingByPassengerRoomEntity)
+    fun removeFollowingByPassenger(roomEntity: FollowingByPassengerRoomEntity): Int
 
     @Update
-    fun changeFollowingByPassenger(followingByPassengerRoomEntity: FollowingByPassengerRoomEntity)
+    fun changeFollowingByPassenger(roomEntity: FollowingByPassengerRoomEntity): Int
 
     // Station
     @Query("SELECT * FROM station WHERE trainDataID = :trainDataID")
-    fun getListStation(trainDataID: Long): MutableList<StationRoomEntity>
+    fun getListStation(trainDataID: String): MutableList<StationRoomEntity>
 }
