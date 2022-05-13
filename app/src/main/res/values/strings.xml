@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyFirstApp</string>
+    <string name="app_name">Бригада</string>
     <string name="content_description_one">content_one</string>
     <string name="content_description_two">content_two</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -14,7 +14,7 @@
     <string name="text_for_selector_home_rest">Домашний отдых</string>
     <string name="text_for_selector_point_rest">Отдых в ПО</string>
     <string name="text_for_date_default">"01:01:22"</string>
-    <string name="text_for_time_default">"00:00"</string>
+    <string name="text_through_defise">%1$s:%2$s</string>
     <string name="text_for_date_picker_start_acceptance">Дата начала приемки</string>
     <string name="text_for_time_picker_start_acceptance">Время начала приемки</string>
     <string name="text_for_date_picker_end_acceptance">Дата окончания приемки</string>
@@ -32,4 +32,9 @@
     <string name="text_unit_kilogram">кг</string>
     <string name="text_unit_liter">л</string>
     <string name="text_expense">расход:</string>
+
+    // item
+    <string name="text_empty"> </string>
+    <string name="text_over_time">%1$sч %2$sм</string>
+    <string name="text_locomotive_data">%1$s №%2$sм</string>
 </resources>

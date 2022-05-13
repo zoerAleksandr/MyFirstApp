@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentMainBinding
+import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.ui.add_itinerary_screen.AddItineraryFragment
 import com.example.myfirstapp.utils.AppState
 import com.google.android.material.snackbar.Snackbar
@@ -16,7 +17,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding: FragmentMainBinding by viewBinding()
     private val viewModel: MainViewModel by viewModel()
-    private val adapterItinerary = MainFragmentAdapter()
+    private val adapterItinerary: MainFragmentAdapter by lazy {
+        MainFragmentAdapter { itinerary ->
+            itemClickListener(itinerary)
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -32,14 +37,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
                     .replace(binding.container.id, AddItineraryFragment())
-                    .addToBackStack("1")
+                    .addToBackStack(null)
                     .commit()
             }
         }
     }
 
     private fun renderData(appState: AppState) {
-        // здесь можно обновить данные UI
         when (appState) {
             is AppState.Success -> {
                 adapterItinerary.setData(appState.list)
@@ -55,5 +59,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     .show()
             }
         }
+    }
+
+
+    private fun itemClickListener(itinerary: Itinerary) {
+        // TODO open viewingFragment
     }
 }
