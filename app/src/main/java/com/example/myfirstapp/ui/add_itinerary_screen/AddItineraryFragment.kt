@@ -59,11 +59,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(this.newTab().setText(getString(R.string.text_for_selector_home_rest)), 0, true)
-            addTab(
-                this.newTab().setText(getString(R.string.text_for_selector_point_rest)),
-                1,
-                false
-            )
+            addTab(this.newTab().setText(getString(R.string.text_for_selector_point_rest)), 1, false)
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     when (tab?.position) {
@@ -97,17 +93,11 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddPassenger.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.container, AddPassangerFragment())
-                ?.addToBackStack("")
-                ?.commit()
+            controller.openScreen(AddPassangerFragment())
         }
 
         binding.btnAddTrain.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.container, AddTrainFragment())
-                ?.addToBackStack("")
-                ?.commit()
+            controller.openScreen(AddTrainFragment())
         }
 
 /* Блок ввода даты и времени явки на работу */
