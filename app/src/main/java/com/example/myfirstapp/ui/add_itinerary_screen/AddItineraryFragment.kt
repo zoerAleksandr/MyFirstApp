@@ -1,15 +1,20 @@
 package com.example.myfirstapp.ui.add_itinerary_screen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
+import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.example.myfirstapp.ui.add_loco_screen.AddLocoFragment
+import com.example.myfirstapp.ui.add_loco_screen.KEY_COEFFICIENT
+import com.example.myfirstapp.ui.add_loco_screen.KEY_COUNT_SECTIONS
+import com.example.myfirstapp.ui.add_loco_screen.KEY_TYPE_OF_TRACTION
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
 import com.example.myfirstapp.utils.*
@@ -39,15 +44,13 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     private var restPointOfTurnover = false
 
-    override fun onDestroyView() {
-        viewModel.saveItinerary(
-            binding.etNumberItinerary.text.toString(),
-            dateAndTimeTurnout,
-            dateAndTimeEnding,
-            restPointOfTurnover,
-            binding.notesText.text.toString()
-        )
-        super.onDestroyView()
+    private val controller by lazy { activity as Controller }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity !is Controller) {
+            throw IllegalStateException("Activity должна наследоваться от Controller")
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -85,16 +88,12 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddLoco.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(
-                    R.id.container, AddLocoFragment(
-                        TypeOfTraction.DieselLocomotive,
-                        CountSections.TwoSection,
-                        0.83
-                    )
-                )
-                ?.addToBackStack("")
-                ?.commit()
+            val bundle = Bundle().apply {
+                putParcelable(KEY_TYPE_OF_TRACTION, TypeOfTraction.DieselLocomotive)
+                putParcelable(KEY_COUNT_SECTIONS, CountSections.TwoSection)
+                putDouble(KEY_COEFFICIENT, 0.83)
+            }
+            controller.openScreen(AddLocoFragment.newInstance(bundle))
         }
 
         binding.btnAddPassenger.setOnClickListener {
@@ -183,6 +182,16 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
     }
 
+    override fun onDestroyView() {
+        viewModel.saveItinerary(
+            binding.etNumberItinerary.text.toString(),
+            dateAndTimeTurnout,
+            dateAndTimeEnding,
+            restPointOfTurnover,
+            binding.notesText.text.toString()
+        )
+        super.onDestroyView()
+    }
 
     /* Метод для определения корректности введенных данных*/
     private fun verificationWorkTime() {

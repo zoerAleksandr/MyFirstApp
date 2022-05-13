@@ -7,16 +7,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myfirstapp.R
 
-class ViewingFragment : Fragment() {
+const val KEY_ITINERARY = "keyItinerary"
+class ViewingFragment : Fragment(R.layout.fragment_viewing) {
 
     companion object {
-        fun newInstance() = ViewingFragment()
+        fun newInstance(bundle: Bundle): ViewingFragment {
+            val fragment = ViewingFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_viewing, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.let { itinerary ->
+            // TODO create request to Room for itinerary
+        }
     }
 }

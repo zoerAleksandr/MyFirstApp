@@ -1,13 +1,17 @@
 package com.example.myfirstapp.ui.main_screen
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentMainBinding
+import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.ui.add_itinerary_screen.AddItineraryFragment
+import com.example.myfirstapp.ui.viewving_screen.KEY_ITINERARY
+import com.example.myfirstapp.ui.viewving_screen.ViewingFragment
 import com.example.myfirstapp.utils.AppState
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +26,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             itemClickListener(itinerary)
         }
     }
+    private val controller by lazy { activity as Controller }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (activity !is Controller) {
+            throw IllegalStateException("Activity должна наследоваться от Controller")
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -34,12 +46,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewModel.getCurrentData(1).observe(viewLifecycleOwner) { renderData(it) }
 
         binding.fab.setOnClickListener {
-            activity?.supportFragmentManager?.apply {
-                beginTransaction()
-                    .replace(binding.container.id, AddItineraryFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
+            controller.openScreen(AddItineraryFragment())
         }
     }
 
@@ -63,6 +70,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
 
     private fun itemClickListener(itinerary: Itinerary) {
-        // TODO open viewingFragment
+        val bundle = Bundle().apply {
+            putString(KEY_ITINERARY, itinerary.itineraryID)
+        }
+       controller.openScreen(ViewingFragment.newInstance(bundle))
     }
 }

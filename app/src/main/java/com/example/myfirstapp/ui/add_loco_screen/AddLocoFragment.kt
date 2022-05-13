@@ -26,15 +26,24 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import java.util.*
 import java.util.Calendar.getInstance
+import kotlin.properties.Delegates
 
 const val PREFERENCES = "preferences"
 private const val LIST_SERIES = "LIST_SERIES"
 
-class AddLocoFragment(
-    typeOfTraction: TypeOfTraction,
-    countSections: CountSections,
-    coeff: Double
-) : Fragment(R.layout.fragment_add_loco) {
+// для Bundle
+const val KEY_TYPE_OF_TRACTION = "keyTypeOfTraction"
+const val KEY_COUNT_SECTIONS = "keyCountSection"
+const val KEY_COEFFICIENT = "keyCoefficient"
+
+class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
+    companion object {
+        fun newInstance(bundle: Bundle): AddLocoFragment {
+            val fragment = AddLocoFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 
     private val binding: FragmentAddLocoBinding by viewBinding()
 
@@ -45,10 +54,10 @@ class AddLocoFragment(
     private val dateAndTimeEndDelivery by lazy { getInstance() }
 
     // тип тяги
-    private var typeLoco = typeOfTraction
+    private lateinit var typeLoco: TypeOfTraction
 
     // количество секций
-    private var countSection = countSections
+    private lateinit var countSection: CountSections
 
     // для настройки dataPicker
     private var dateStartAcceptance: Long = 0
@@ -59,7 +68,7 @@ class AddLocoFragment(
     private var dateDeliveryFixed = false
 
     // Тепловоз
-    private var coefficient = coeff
+    private var coefficient by Delegates.notNull<Double>()
 
     //  переменные расхода энергоресурсов секции 1
     private var secOneDieselFuelAcceptance: Int? = null
@@ -132,6 +141,14 @@ class AddLocoFragment(
     @SuppressLint("MutatingSharedPrefs", "ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let { bundle ->
+            typeLoco =
+                bundle.getParcelable(KEY_TYPE_OF_TRACTION) ?: TypeOfTraction.ElectricLocomotive
+            countSection =
+                bundle.getParcelable(KEY_COUNT_SECTIONS) ?: CountSections.TwoSection
+            coefficient = bundle.getDouble(KEY_COEFFICIENT)
+        }
+
         setCountSection()
 
         // SharedPreferences

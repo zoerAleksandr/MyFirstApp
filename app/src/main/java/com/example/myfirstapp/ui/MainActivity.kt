@@ -5,15 +5,17 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.ActivityMainBinding
+import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.ui.main_screen.MainFragment
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Controller {
 
     private val binding: ActivityMainBinding by viewBinding()
 
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
     }
+
 
     // метод для потери фокуса при клике вне поля ввода
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
@@ -42,5 +45,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun openScreen(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(binding.container.id, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
