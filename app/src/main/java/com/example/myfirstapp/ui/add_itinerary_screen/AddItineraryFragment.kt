@@ -2,14 +2,12 @@ package com.example.myfirstapp.ui.add_itinerary_screen
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.entity.CountSections
-import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.example.myfirstapp.ui.add_loco_screen.AddLocoFragment
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
@@ -40,24 +38,14 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private var dateTurnoutFixed = false
 
     private var restPointOfTurnover = false
-    private val numberItinerary: String? by lazy {
-        if (binding.etNumberItinerary.text.isNullOrEmpty()) null
-        else binding.etNumberItinerary.text.toString()
-    }
 
     override fun onDestroyView() {
         viewModel.saveItinerary(
-            Itinerary(
-                generateStringID(),
-                "01",
-                getInstance(),
-                getInstance(),
-                false,
-                "",
-                mutableListOf(),
-                mutableListOf(),
-                mutableListOf()
-            )
+            binding.etNumberItinerary.text.toString(),
+            dateAndTimeTurnout,
+            dateAndTimeEnding,
+            restPointOfTurnover,
+            binding.notesText.text.toString()
         )
         super.onDestroyView()
     }
@@ -65,8 +53,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val calendar = getInstance()
-        Log.d("Debug", "${calendar.get(MONTH)}")
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(this.newTab().setText(getString(R.string.text_for_selector_home_rest)), 0, true)

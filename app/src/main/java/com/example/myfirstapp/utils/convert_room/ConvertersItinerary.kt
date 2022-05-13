@@ -6,7 +6,9 @@ import com.google.gson.Gson
 
 class ConvertersItinerary {
     @TypeConverter
-    fun listToJson(value: List<ItineraryRoomEntity>?) = Gson().toJson(value)
+    fun listToJson(value: List<ItineraryRoomEntity>?): String {
+        return Gson().toJson(value)
+    }
 
     @TypeConverter
     fun jsonToList(value: String) =

@@ -66,17 +66,37 @@
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="10" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/item_text_time_work"
+        <LinearLayout
+            android:id="@+id/time_work_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/item_element_margin_horizontal_between_view"
-            android:text="08:00 - 16:00"
-            android:textAppearance="@style/TextAppearanceItem"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/item_text_work"
             app:layout_constraintEnd_toStartOf="@id/item_text_overtime_work"
             app:layout_constraintStart_toEndOf="@id/divider_vertical"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_text_time_appearance_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:00"
+                android:textAppearance="@style/TextAppearanceItem" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textAppearance="@style/TextAppearanceItem" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_text_time_ending_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20:00"
+                android:textAppearance="@style/TextAppearanceItem" />
+        </LinearLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_text_work"
@@ -88,7 +108,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/item_text_locomotive"
             app:layout_constraintStart_toEndOf="@id/divider_vertical"
-            app:layout_constraintTop_toBottomOf="@id/item_text_time_work" />
+            app:layout_constraintTop_toBottomOf="@id/time_work_layout" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_text_overtime_work"

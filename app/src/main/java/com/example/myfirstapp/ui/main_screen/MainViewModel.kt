@@ -23,7 +23,7 @@ class MainViewModel(
     }
 
     private fun requestItineraryListByMonth(month: Int) {
-        liveDataToObserve.value = AppState.Loading
+        liveDataToObserve.postValue(AppState.Loading)
         compositeDisposable.add(
             Single.just(month)
                 .observeOn(Schedulers.io())
