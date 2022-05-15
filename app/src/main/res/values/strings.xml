@@ -37,4 +37,8 @@
     <string name="text_empty"> </string>
     <string name="text_over_time">%1$sч %2$sм</string>
     <string name="text_locomotive_data">%1$s №%2$sм</string>
+    <string name="item_placeholder_time_text">00:00</string>
+    <string name="item_placeholder_date_text">00</string>
+    <string name="item_placeholder_station_text">Участок</string>
+    <string name="item_placeholder_loco_text">Локомотив</string>
 </resources>

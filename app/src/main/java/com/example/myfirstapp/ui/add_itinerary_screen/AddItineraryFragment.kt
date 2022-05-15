@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
+import com.example.myfirstapp.app
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.CountSections
@@ -25,6 +26,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 import java.util.Calendar.*
 
 
@@ -35,8 +37,8 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     private var dateTurnout: Long = 0
     private val dateAndTimeNow by lazy { getInstance() }
-    private val dateAndTimeTurnout by lazy { getInstance() }
-    private val dateAndTimeEnding by lazy { getInstance() }
+    private var dateAndTimeTurnout: Calendar? = null
+    private var dateAndTimeEnding: Calendar? = null
 
     // определят можно ли сохранять маршрут или есть критическая ошибка ввода данных
     private var errorInputCalendar = false
@@ -59,7 +61,11 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(this.newTab().setText(getString(R.string.text_for_selector_home_rest)), 0, true)
-            addTab(this.newTab().setText(getString(R.string.text_for_selector_point_rest)), 1, false)
+            addTab(
+                this.newTab().setText(getString(R.string.text_for_selector_point_rest)),
+                1,
+                false
+            )
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     when (tab?.position) {
@@ -100,7 +106,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             controller.openScreen(AddTrainFragment())
         }
 
-/* Блок ввода даты и времени явки на работу */
+        /** Блок ввода даты и времени явки на работу */
         binding.blockTurnout.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker()
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
@@ -117,26 +123,34 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_TURNOUT")
 
             datePicker.addOnPositiveButtonClickListener { date ->
-                dateAndTimeTurnout.timeInMillis = date
+                dateAndTimeTurnout = getInstance().apply {
+                    timeInMillis = date
+                }
                 dateTurnout = date
-                binding.dateTurnout.text = setTextDate(date)
-                binding.dateTurnout.alpha = 1f
+                binding.apply {
+                    dateTurnout.text = setTextDate(date)
+                    dateTurnout.alpha = 1f
+                }
                 timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_TURNOUT")
             }
 
             timePicker.addOnPositiveButtonClickListener {
                 dateTurnoutFixed = true
-                dateAndTimeTurnout.set(HOUR_OF_DAY, timePicker.hour)
-                dateAndTimeTurnout.set(MINUTE, timePicker.minute)
-                binding.timeTurnout.text = setTextTime(timePicker)
-                binding.timeTurnout.alpha = 1f
+                dateAndTimeTurnout?.let { calendar ->
+                    calendar.set(HOUR_OF_DAY, timePicker.hour)
+                    calendar.set(MINUTE, timePicker.minute)
+                }
+                binding.apply {
+                    timeTurnout.text = setTextTime(timePicker)
+                    timeTurnout.alpha = 1f
+                }
                 verificationWorkTime()
             }
         }
 
-/* Блок ввода даты и времени окончания работы.
-* constraintBuilder обеспечивает невозможность ввода даты
-* ранее указанной в Блоке явки */
+        /** Блок ввода даты и времени окончания работы.
+         * constraintBuilder обеспечивает невозможность ввода даты
+         * ранее указанной в Блоке явки */
         binding.blockEnding.setOnClickListener {
             val constraintBuilder = CalendarConstraints.Builder()
             constraintBuilder.setValidator(DateValidatorPointForward.from(dateTurnout))
@@ -156,17 +170,25 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_ENDING")
 
             datePicker.addOnPositiveButtonClickListener { date ->
-                dateAndTimeEnding.timeInMillis = date
-                binding.dataEnding.text = setTextDate(date)
-                binding.dataEnding.alpha = 1f
+                dateAndTimeEnding = getInstance().apply {
+                    timeInMillis = date
+                }
+                binding.apply {
+                    dataEnding.text = setTextDate(date)
+                    dataEnding.alpha = 1f
+                }
                 timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_ENDING")
             }
 
             timePicker.addOnPositiveButtonClickListener {
-                dateAndTimeEnding.set(HOUR_OF_DAY, timePicker.hour)
-                dateAndTimeEnding.set(MINUTE, timePicker.minute)
-                binding.timeEnding.text = setTextTime(timePicker)
-                binding.timeEnding.alpha = 1f
+                dateAndTimeEnding = getInstance().apply {
+                    set(HOUR_OF_DAY, timePicker.hour)
+                    set(MINUTE, timePicker.minute)
+                }
+                binding.apply {
+                    timeEnding.text = setTextTime(timePicker)
+                    timeEnding.alpha = 1f
+                }
                 verificationWorkTime()
             }
         }
@@ -185,12 +207,20 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     /* Метод для определения корректности введенных данных*/
     private fun verificationWorkTime() {
-        if (!dateTurnoutFixed) {
+        if (dateAndTimeTurnout == null) {
             setErrorBackground(requireContext(), binding.blockTurnout, ColorForBackgroundError.RED)
             binding.root.snack(getString(R.string.text_for_snackbar_error_empty_date_turnout))
         } else setDefaultBackground(requireContext(), binding.blockTurnout)
 
-        if (dateTurnoutFixed && dateAndTimeTurnout.timeInMillis > dateAndTimeEnding.timeInMillis) {
+        if (dateAndTimeEnding == null) {
+            setErrorBackground(app, binding.blockEnding, ColorForBackgroundError.RED)
+        } else {
+            setDefaultBackground(app, binding.blockEnding)
+        }
+        if (dateAndTimeTurnout != null &&
+            dateAndTimeEnding != null &&
+            dateAndTimeTurnout!!.timeInMillis > dateAndTimeEnding!!.timeInMillis
+        ) {
             setErrorBackground(requireContext(), binding.blockEnding, ColorForBackgroundError.RED)
             binding.root.snack(getString(R.string.text_for_snackbar_error_ending_time))
         } else setDefaultBackground(requireContext(), binding.blockEnding)

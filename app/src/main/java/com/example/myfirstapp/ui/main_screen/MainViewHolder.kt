@@ -18,27 +18,30 @@ class MainViewHolder(
         itinerary: Itinerary,
         clickListener: (Itinerary) -> Unit
     ) {
-        val startMonth = itinerary.appearanceAtWork.get(Calendar.MONTH).plus(1).toString()
-        val startDay = itinerary.appearanceAtWork.get(Calendar.DAY_OF_MONTH).toString()
-        val startHour = itinerary.appearanceAtWork.get(Calendar.HOUR_OF_DAY).toString()
-        val startMinute = itinerary.appearanceAtWork.get(Calendar.MINUTE).toString()
+        val startMonth = itinerary.appearanceAtWork?.get(Calendar.MONTH)?.plus(1).toString()
+        val startDay = itinerary.appearanceAtWork?.get(Calendar.DAY_OF_MONTH).toString()
+        val startHour = itinerary.appearanceAtWork?.get(Calendar.HOUR_OF_DAY).toString()
+        val startMinute = itinerary.appearanceAtWork?.get(Calendar.MINUTE).toString()
 
         val endHour = itinerary.endOfWork?.get(Calendar.HOUR_OF_DAY).toString()
         val endMinute = itinerary.endOfWork?.get(Calendar.MINUTE).toString()
 
 
         binding.apply {
-            itemDay.text = if (startDay.length == 1) "0$startDay" else startDay
-
-            itemMonth.text = if (startMonth.length == 1) "0$startMonth" else startMonth
-
-            itemTextTimeAppearanceWork.text =
-                resources.getString(R.string.text_through_defise, startHour, startMinute)
+            if(itinerary.appearanceAtWork != null) {
+                itemDay.alpha = 1f
+                itemMonth.alpha = 1f
+                itemDay.text = if (startDay.length == 1) "0$startDay" else startDay
+                itemMonth.text = if (startMonth.length == 1) "0$startMonth" else startMonth
+                itemTextTimeAppearanceWork.alpha = 1f
+                itemTextTimeAppearanceWork.text =
+                    resources.getString(R.string.text_through_defise, startHour, startMinute)
+            }
 
             if (itinerary.endOfWork != null) {
                 itemTextTimeEndingWork.text =
                     resources.getString(R.string.text_through_defise, endHour, endMinute)
-
+                itemTextOvertimeWork.alpha = 1f
                 itemTextOvertimeWork.text = getOverTimeWork(itinerary.getOverTimeMillis())
             }
 
