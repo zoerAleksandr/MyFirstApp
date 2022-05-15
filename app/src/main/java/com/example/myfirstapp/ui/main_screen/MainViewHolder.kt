@@ -28,7 +28,7 @@ class MainViewHolder(
 
 
         binding.apply {
-            if(itinerary.appearanceAtWork != null) {
+            if (itinerary.appearanceAtWork != null) {
                 itemDay.alpha = 1f
                 itemMonth.alpha = 1f
                 itemDay.text = if (startDay.length == 1) "0$startDay" else startDay
@@ -41,7 +41,10 @@ class MainViewHolder(
             if (itinerary.endOfWork != null) {
                 itemTextTimeEndingWork.text =
                     resources.getString(R.string.text_through_defise, endHour, endMinute)
-                itemTextOvertimeWork.alpha = 1f
+
+                itemTextTimeEndingWork.alpha = 1f
+            }
+            if (itinerary.appearanceAtWork != null && itinerary.endOfWork != null) {
                 itemTextOvertimeWork.text = getOverTimeWork(itinerary.getOverTimeMillis())
             }
 

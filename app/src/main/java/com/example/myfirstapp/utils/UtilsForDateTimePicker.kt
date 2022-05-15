@@ -1,8 +1,30 @@
 package com.example.myfirstapp.utils
 
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import java.util.*
 
+fun getDatePicker(
+    title: String,
+    constraintBuilder: CalendarConstraints.Builder?
+): MaterialDatePicker<Long> {
+    return MaterialDatePicker.Builder.datePicker()
+        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+        .setCalendarConstraints(constraintBuilder?.build())
+        .setTitleText(title)
+        .build()
+}
+
+fun getTimePicker(title: String, startTime: Calendar): MaterialTimePicker {
+    return MaterialTimePicker.Builder()
+        .setTimeFormat(TimeFormat.CLOCK_24H)
+        .setTitleText(title)
+        .setHour(startTime.get(Calendar.HOUR_OF_DAY))
+        .setMinute(startTime.get(Calendar.MINUTE))
+        .build()
+}
 
 fun setTextTime(picker: MaterialTimePicker): String {
     val hour = if (picker.hour.toString().length == 1) {
