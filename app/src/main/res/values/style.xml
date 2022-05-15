@@ -27,5 +27,19 @@
         <item name="android:textSize">19sp</item>
     </style>
 
+    // for TabLayout
+    <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/shape_background_tab_layout</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicatorGravity">stretch</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabSelectedTextColor">@color/text_color</item>
+        <item name="tabTextAppearance">@style/StyleSecondaryText</item>
+        <item name="tabTextColor">@color/text_color</item>
+    </style>
 
 </resources>

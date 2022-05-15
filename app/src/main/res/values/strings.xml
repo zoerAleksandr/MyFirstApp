@@ -41,4 +41,6 @@
     <string name="item_placeholder_date_text">00</string>
     <string name="item_placeholder_station_text">Участок</string>
     <string name="item_placeholder_loco_text">Локомотив</string>
+    <string name="add_loco_subtitle_acceptance">приемка</string>
+    <string name="add_loco_subtitle_delivery">сдача</string>
 </resources>

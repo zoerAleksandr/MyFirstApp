@@ -313,7 +313,7 @@
                     app:layout_constraintTop_toBottomOf="@id/title_data_loco" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/block_time_data_loco"
+                    android:id="@+id/time_data_loco_block_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -466,7 +466,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.68"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/block_time_data_loco">
+                    app:layout_constraintTop_toBottomOf="@id/time_data_loco_block_layout">
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline"

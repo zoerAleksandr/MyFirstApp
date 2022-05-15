@@ -148,8 +148,8 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                 bundle.getParcelable(KEY_COUNT_SECTIONS) ?: CountSections.TwoSection
             coefficient = bundle.getDouble(KEY_COEFFICIENT)
         }
-
-        setCountSection()
+        binding.containerSec1.
+//        setCountSectionByTypeLoco()
 
         // SharedPreferences
         val sharedPreferences = requireActivity().getSharedPreferences(PREFERENCES, MODE_PRIVATE)
@@ -191,7 +191,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
         }
 
 /*Селектор выбора типа тяги*/
-        binding.tabLayoutLoco.apply {
+        binding.typeLocoTabLayout.apply {
             addTab(this.newTab().setText("Тепловоз"), 0, false)
             addTab(this.newTab().setText("Электровоз"), 1, false)
             selectTab(
@@ -214,15 +214,15 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                             binding.blockEnergySection2.visibility = View.GONE
                             binding.blockEnergySection3.visibility = View.GONE
                             binding.blockEnergySection4.visibility = View.GONE
-                            setCountSection()
+                            setCountSectionByTypeLoco()
                         }
                         1 -> {
                             typeLoco = TypeOfTraction.ElectricLocomotive
-                            binding.blockDieselFuelSection1.visibility = View.GONE
-                            binding.blockDieselFuelSection2.visibility = View.GONE
-                            binding.blockDieselFuelSection3.visibility = View.GONE
-                            binding.blockDieselFuelSection4.visibility = View.GONE
-                            setCountSection()
+                            binding.blockDieselFuelSection1Layout.visibility = View.GONE
+                            binding.blockDieselFuelSection2Layout.visibility = View.GONE
+                            binding.blockDieselFuelSection3Layout.visibility = View.GONE
+                            binding.blockDieselFuelSection4Layout.visibility = View.GONE
+                            setCountSectionByTypeLoco()
                         }
                     }
                 }
@@ -238,7 +238,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
         }
 
 /*Селектор выбора количества секций*/
-        binding.tabLayoutLocoSection.apply {
+        binding.countSectionTabLayout.apply {
             addTab(this.newTab().setText("1"), 0, false)
             addTab(this.newTab().setText("2"), 1, false)
             addTab(this.newTab().setText("3"), 2, false)
@@ -268,7 +268,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                             countSection = CountSections.FourSection
                         }
                     }
-                    setCountSection()
+                    setCountSectionByTypeLoco()
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -865,15 +865,15 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
     }
 
     /* Метод для установки видимости блоков расхода энергоресуров в зависимости от выбранного типа тяги и количества секций*/
-    private fun setCountSection() {
+    private fun setCountSectionByTypeLoco() {
         when (typeLoco) {
             TypeOfTraction.DieselLocomotive -> {
                 when (countSection) {
                     CountSections.OneSection -> {
-                        binding.blockDieselFuelSection1.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2.visibility = View.GONE
-                        binding.blockDieselFuelSection3.visibility = View.GONE
-                        binding.blockDieselFuelSection4.visibility = View.GONE
+                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection2Layout.visibility = View.GONE
+                        binding.blockDieselFuelSection3Layout.visibility = View.GONE
+                        binding.blockDieselFuelSection4Layout.visibility = View.GONE
                         binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_DONE
                         binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_DONE
 //                        binding.dataDieselFuelDelivery1.setOnEditorActionListener { v, actionId, event ->
@@ -885,10 +885,10 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
 //                        }
                     }
                     CountSections.TwoSection -> {
-                        binding.blockDieselFuelSection1.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection3.visibility = View.GONE
-                        binding.blockDieselFuelSection4.visibility = View.GONE
+                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection2Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection3Layout.visibility = View.GONE
+                        binding.blockDieselFuelSection4Layout.visibility = View.GONE
                         binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_NONE
                         binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_NONE
                         binding.dataDieselFuelAcceptance2.imeOptions = EditorInfo.IME_ACTION_DONE
@@ -903,10 +903,10 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
 //                        }
                     }
                     CountSections.ThreeSection -> {
-                        binding.blockDieselFuelSection1.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection3.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection4.visibility = View.GONE
+                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection2Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection3Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection4Layout.visibility = View.GONE
                         binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_NONE
                         binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_NONE
                         binding.dataDieselFuelAcceptance2.imeOptions = EditorInfo.IME_ACTION_NONE
@@ -915,10 +915,10 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                         binding.dataDieselFuelDelivery3.imeOptions = EditorInfo.IME_ACTION_DONE
                     }
                     CountSections.FourSection -> {
-                        binding.blockDieselFuelSection1.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection3.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection4.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection2Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection3Layout.visibility = View.VISIBLE
+                        binding.blockDieselFuelSection4Layout.visibility = View.VISIBLE
                         binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_NONE
                         binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_NONE
                         binding.dataDieselFuelAcceptance2.imeOptions = EditorInfo.IME_ACTION_NONE
@@ -927,7 +927,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                         binding.dataDieselFuelDelivery3.imeOptions = EditorInfo.IME_ACTION_NONE
                     }
                 }
-                binding.blockResultDieselFuel.visibility = View.VISIBLE
+                binding.blockResultDieselFuelLayout.visibility = View.VISIBLE
                 binding.blockResultsEnergy.visibility = View.GONE
             }
             TypeOfTraction.ElectricLocomotive -> {
@@ -957,8 +957,70 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                         binding.blockEnergySection4.visibility = View.VISIBLE
                     }
                 }
-                binding.blockResultDieselFuel.visibility = View.GONE
+                binding.blockResultDieselFuelLayout.visibility = View.GONE
                 binding.blockResultsEnergy.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun setCountSection() {
+        when (countSection) {
+            CountSections.OneSection -> {
+                binding.containerSec1.visibility = View.VISIBLE
+                binding.containerSec2.visibility = View.GONE
+                binding.containerSec3.visibility = View.GONE
+                binding.containerSec4.visibility = View.GONE
+            }
+            CountSections.TwoSection -> {
+                binding.containerSec1.visibility = View.VISIBLE
+                binding.containerSec2.visibility = View.VISIBLE
+                binding.containerSec3.visibility = View.GONE
+                binding.containerSec4.visibility = View.GONE
+            }
+            CountSections.ThreeSection -> {
+                binding.containerSec1.visibility = View.VISIBLE
+                binding.containerSec2.visibility = View.VISIBLE
+                binding.containerSec3.visibility = View.VISIBLE
+                binding.containerSec4.visibility = View.GONE
+            }
+            CountSections.FourSection -> {
+                binding.containerSec1.visibility = View.VISIBLE
+                binding.containerSec2.visibility = View.VISIBLE
+                binding.containerSec3.visibility = View.VISIBLE
+                binding.containerSec4.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun setTypeOfTraction() {
+        when (typeLoco) {
+            TypeOfTraction.DieselLocomotive -> {
+                binding.apply {
+                    includeEnergySec1.blockEnergy.visibility = View.GONE
+                    includeEnergySec2.blockEnergy.visibility = View.GONE
+                    includeEnergySec3.blockEnergy.visibility = View.GONE
+                    includeEnergySec4.blockEnergy.visibility = View.GONE
+                }
+                binding.apply {
+                    includeDieselFuelSec1.blockDieselFuel.visibility = View.VISIBLE
+                    includeDieselFuelSec2.blockDieselFuel.visibility = View.VISIBLE
+                    includeDieselFuelSec3.blockDieselFuel.visibility = View.VISIBLE
+                    includeDieselFuelSec4.blockDieselFuel.visibility = View.VISIBLE
+                }
+            }
+            TypeOfTraction.ElectricLocomotive -> {
+                binding.apply {
+                    includeDieselFuelSec1.blockDieselFuel.visibility = View.GONE
+                    includeDieselFuelSec2.blockDieselFuel.visibility = View.GONE
+                    includeDieselFuelSec3.blockDieselFuel.visibility = View.GONE
+                    includeDieselFuelSec4.blockDieselFuel.visibility = View.GONE
+                }
+                binding.apply {
+                    includeEnergySec1.blockEnergy.visibility = View.VISIBLE
+                    includeEnergySec2.blockEnergy.visibility = View.VISIBLE
+                    includeEnergySec3.blockEnergy.visibility = View.VISIBLE
+                    includeEnergySec4.blockEnergy.visibility = View.VISIBLE
+                }
             }
         }
     }
