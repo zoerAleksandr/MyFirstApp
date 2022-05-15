@@ -18,7 +18,7 @@ class AddItineraryViewModel(
 
     fun saveItinerary(
         number: String?,
-        appearanceAtWork: Calendar,
+        appearanceAtWork: Calendar?,
         endOfWork: Calendar?,
         restAtThePointOfTurnover: Boolean,
         notes: String?
