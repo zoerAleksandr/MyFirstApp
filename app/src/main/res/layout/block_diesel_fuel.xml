@@ -12,11 +12,10 @@
     app:layout_constraintTop_toBottomOf="@id/time_data_loco_block_layout">
 
     <TextView
-        android:id="@+id/text_first_section_diesel"
+        android:id="@+id/subtitle_block_diesel_fuel_text_view"
         style="@style/StyleSecondaryText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="1 секция"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +31,7 @@
         app:errorIconDrawable="@null"
         app:layout_constraintEnd_toStartOf="@id/diesel_fuel_delivery_1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_first_section_diesel"
+        app:layout_constraintTop_toBottomOf="@id/subtitle_block_diesel_fuel_text_view"
         app:suffixText="л.">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -58,7 +57,7 @@
         app:errorIconDrawable="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/diesel_fuel_acceptance_1"
-        app:layout_constraintTop_toBottomOf="@id/text_first_section_diesel">
+        app:layout_constraintTop_toBottomOf="@id/subtitle_block_diesel_fuel_text_view">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/data_diesel_fuel_delivery_1"

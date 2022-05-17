@@ -5,7 +5,6 @@ import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -13,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
+import com.example.myfirstapp.databinding.BlockDieselFuelBinding
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
 import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.TypeOfTraction
@@ -24,6 +24,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import java.util.Calendar.getInstance
 import kotlin.properties.Delegates
@@ -46,6 +47,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
     }
 
     private val binding: FragmentAddLocoBinding by viewBinding()
+    private val viewModel: AddLocoViewModel by viewModel()
 
     private val dateAndTimeNow = getInstance()
     private val dateAndTimeStartAcceptance by lazy { getInstance() }
@@ -71,8 +73,8 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
     private var coefficient by Delegates.notNull<Double>()
 
     //  переменные расхода энергоресурсов секции 1
-    private var secOneDieselFuelAcceptance: Int? = null
-    private var secOneDieselFuelDelivery: Int? = null
+    private var secOneDieselFuelAcceptance: Int = 0
+    private var secOneDieselFuelDelivery: Int = 0
     private var secOneResultDieselFuelInLitres: Int = 0
     private var secOneResultDieselFuelInKilo: Int = 0
 
@@ -148,8 +150,26 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                 bundle.getParcelable(KEY_COUNT_SECTIONS) ?: CountSections.TwoSection
             coefficient = bundle.getDouble(KEY_COEFFICIENT)
         }
-        binding.containerSec1.
-//        setCountSectionByTypeLoco()
+        setCountSection()
+        setTypeOfTraction()
+
+        binding.includeEnergySec1.subtitleBlockEnergyTextView.text =
+            resources.getString(R.string.subtitle_block_energy_sec_1)
+        binding.includeEnergySec2.subtitleBlockEnergyTextView.text =
+            resources.getString(R.string.subtitle_block_energy_sec_2)
+        binding.includeEnergySec3.subtitleBlockEnergyTextView.text =
+            resources.getString(R.string.subtitle_block_energy_sec_3)
+        binding.includeEnergySec4.subtitleBlockEnergyTextView.text =
+            resources.getString(R.string.subtitle_block_energy_sec_4)
+
+        binding.includeDieselFuelSec1.subtitleBlockDieselFuelTextView.text =
+            resources.getString(R.string.subtitle_block_diesel_fuel_sec_1)
+        binding.includeDieselFuelSec2.subtitleBlockDieselFuelTextView.text =
+            resources.getString(R.string.subtitle_block_diesel_fuel_sec_2)
+        binding.includeDieselFuelSec3.subtitleBlockDieselFuelTextView.text =
+            resources.getString(R.string.subtitle_block_diesel_fuel_sec_3)
+        binding.includeDieselFuelSec4.subtitleBlockDieselFuelTextView.text =
+            resources.getString(R.string.subtitle_block_diesel_fuel_sec_4)
 
         // SharedPreferences
         val sharedPreferences = requireActivity().getSharedPreferences(PREFERENCES, MODE_PRIVATE)
@@ -210,30 +230,16 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                     when (tab.position) {
                         0 -> {
                             typeLoco = TypeOfTraction.DieselLocomotive
-                            binding.blockEnergySection1.visibility = View.GONE
-                            binding.blockEnergySection2.visibility = View.GONE
-                            binding.blockEnergySection3.visibility = View.GONE
-                            binding.blockEnergySection4.visibility = View.GONE
-                            setCountSectionByTypeLoco()
                         }
                         1 -> {
                             typeLoco = TypeOfTraction.ElectricLocomotive
-                            binding.blockDieselFuelSection1Layout.visibility = View.GONE
-                            binding.blockDieselFuelSection2Layout.visibility = View.GONE
-                            binding.blockDieselFuelSection3Layout.visibility = View.GONE
-                            binding.blockDieselFuelSection4Layout.visibility = View.GONE
-                            setCountSectionByTypeLoco()
                         }
                     }
+                    setTypeOfTraction()
                 }
 
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-                    // nothing to do
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-                    // nothing to do
-                }
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
             })
         }
 
@@ -268,16 +274,11 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                             countSection = CountSections.FourSection
                         }
                     }
-                    setCountSectionByTypeLoco()
+                    setCountSection()
                 }
 
-                override fun onTabUnselected(tab: TabLayout.Tab) {
-                    // нечего делать
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab) {
-                    // нечего делать
-                }
+                override fun onTabUnselected(tab: TabLayout.Tab) {}
+                override fun onTabReselected(tab: TabLayout.Tab) {}
             })
         }
 
@@ -419,426 +420,26 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
             }
         }
 
-// ТЕПЛОВОЗ
-// Секция 1
-        // приемка
-        binding.dataDieselFuelAcceptance1.addTextChangedListener {
-            secOneResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec1,
-                binding.resultDieselFuelKiloSec1,
-                it.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery1.text.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloAcceptance1.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelAcceptance1.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundAcceptance(
-                binding.dataDieselFuelAcceptance1.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery1.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance1,
-                binding.dieselFuelDelivery1
-            )
-        }
-        // сдача
-        binding.dataDieselFuelDelivery1.addTextChangedListener {
-            secOneResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec1,
-                binding.resultDieselFuelKiloSec1,
-                binding.dataDieselFuelAcceptance1.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloDelivery1.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelDelivery1.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundDelivery(
-                binding.dataDieselFuelAcceptance1.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery1.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance1,
-                binding.dieselFuelDelivery1,
-            )
-        }
+        liveResultInput(binding.includeDieselFuelSec1, CountSections.OneSection)
+        liveResultInput(binding.includeDieselFuelSec2, CountSections.TwoSection)
+        liveResultInput(binding.includeDieselFuelSec3, CountSections.ThreeSection)
+        liveResultInput(binding.includeDieselFuelSec4, CountSections.FourSection)
 
-// Секция 2
-        // приемка
-        binding.dataDieselFuelAcceptance2.addTextChangedListener {
-            secTwoResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec2,
-                binding.resultDieselFuelKiloSec2,
-                it.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery2.text.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloAcceptance2.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelAcceptance2.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundAcceptance(
-                binding.dataDieselFuelAcceptance2.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery2.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance2,
-                binding.dieselFuelDelivery2
-            )
+        viewModel.getResultSecOne().observe(viewLifecycleOwner){ result ->
+            secOneResultDieselFuelInLitres = result
         }
-        // сдача
-        binding.dataDieselFuelDelivery2.addTextChangedListener {
-            secTwoResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec2,
-                binding.resultDieselFuelKiloSec2,
-                binding.dataDieselFuelAcceptance2.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloDelivery2.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelDelivery2.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundDelivery(
-                binding.dataDieselFuelAcceptance2.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery2.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance2,
-                binding.dieselFuelDelivery2,
-            )
+        viewModel.getResultSecTwo().observe(viewLifecycleOwner){ result ->
+            secTwoResultDieselFuelInLitres = result
         }
-
-// Секция 3
-        // приемка
-        binding.dataDieselFuelAcceptance3.addTextChangedListener {
-            secThreeResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec3,
-                binding.resultDieselFuelKiloSec3,
-                it.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery3.text.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloAcceptance3.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelAcceptance3.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundAcceptance(
-                binding.dataDieselFuelAcceptance3.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery3.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance3,
-                binding.dieselFuelDelivery3
-            )
+        viewModel.getResultSecThree().observe(viewLifecycleOwner){ result ->
+            secThreeResultDieselFuelInLitres = result
         }
-        // сдача
-        binding.dataDieselFuelDelivery3.addTextChangedListener {
-            secThreeResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec3,
-                binding.resultDieselFuelKiloSec3,
-                binding.dataDieselFuelAcceptance3.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloDelivery3.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelDelivery3.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundDelivery(
-                binding.dataDieselFuelAcceptance3.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery3.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance3,
-                binding.dieselFuelDelivery3,
-            )
+        viewModel.getResultSecFour().observe(viewLifecycleOwner){ result ->
+            secFourResultDieselFuelInLitres = result
         }
-
-// Секция 4
-        // приемка
-        binding.dataDieselFuelAcceptance4.addTextChangedListener {
-            secFourResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec4,
-                binding.resultDieselFuelKiloSec4,
-                it.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery4.text.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloAcceptance4.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelAcceptance4.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundAcceptance(
-                binding.dataDieselFuelAcceptance4.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery4.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance4,
-                binding.dieselFuelDelivery4
-            )
-        }
-        // сдача
-        binding.dataDieselFuelDelivery4.addTextChangedListener {
-            secFourResultDieselFuelInLitres = calculationOfExpenseDiesel(
-                binding.resultDieselFuelLiterSec4,
-                binding.resultDieselFuelKiloSec4,
-                binding.dataDieselFuelAcceptance4.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            binding.dataDieselFuelKiloDelivery4.text = setDataDieselFuelInKilograms(
-                coefficient,
-                binding.dataDieselFuelDelivery4.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundDelivery(
-                binding.dataDieselFuelAcceptance4.text.toString().toIntOrNull(),
-                binding.dataDieselFuelDelivery4.text.toString().toIntOrNull(),
-                binding.dieselFuelAcceptance4,
-                binding.dieselFuelDelivery4,
-            )
-        }
-
-// ЭЛЕКТРОВОЗ
-// Секция 1
-        // Energy при приемке
-        binding.dataEnergyAcceptance1.addTextChangedListener {
-            secOneResultEnergy = calculationOfExpense(
-                binding.resultEnergySec1,
-                it.toString().toIntOrNull(),
-                binding.dataEnergyDelivery1.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundAcceptance(
-                binding.dataEnergyAcceptance1.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery1.text.toString().toIntOrNull(),
-                binding.energyAcceptance1,
-                binding.energyDelivery1
-            )
-        }
-        // Energy при сдаче
-        binding.dataEnergyDelivery1.addTextChangedListener {
-            secOneResultEnergy = calculationOfExpense(
-                binding.resultEnergySec1,
-                binding.dataEnergyAcceptance1.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundDelivery(
-                binding.dataEnergyAcceptance1.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery1.text.toString().toIntOrNull(),
-                binding.energyAcceptance1,
-                binding.energyDelivery1
-            )
-        }
-
-        // Recovery при приемке
-        binding.dataRecoveryAcceptance1.addTextChangedListener {
-            secOneResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec1,
-                it.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery1.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundAcceptance(
-                binding.dataRecoveryAcceptance1.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery1.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance1,
-                binding.recoveryDelivery1
-            )
-        }
-        // Recovery при сдаче
-        binding.dataRecoveryDelivery1.addTextChangedListener {
-            secOneResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec1,
-                binding.dataRecoveryAcceptance1.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundDelivery(
-                binding.dataRecoveryAcceptance1.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery1.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance1,
-                binding.recoveryDelivery1
-            )
-        }
-
-// Секция 2
-        // Energy при приемке
-        binding.dataEnergyAcceptance2.addTextChangedListener {
-            secTwoResultEnergy = calculationOfExpense(
-                binding.resultEnergySec2,
-                it.toString().toIntOrNull(),
-                binding.dataEnergyDelivery2.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundAcceptance(
-                binding.dataEnergyAcceptance2.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery2.text.toString().toIntOrNull(),
-                binding.energyAcceptance2,
-                binding.energyDelivery2
-            )
-        }
-        // Energy при сдаче
-        binding.dataEnergyDelivery2.addTextChangedListener {
-            secTwoResultEnergy = calculationOfExpense(
-                binding.resultEnergySec2,
-                binding.dataEnergyAcceptance2.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundDelivery(
-                binding.dataEnergyAcceptance2.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery2.text.toString().toIntOrNull(),
-                binding.energyAcceptance2,
-                binding.energyDelivery2
-            )
-        }
-
-        // Recovery при приемке
-        binding.dataRecoveryAcceptance2.addTextChangedListener {
-            secTwoResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec2,
-                it.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery2.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundAcceptance(
-                binding.dataRecoveryAcceptance2.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery2.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance2,
-                binding.recoveryDelivery2
-            )
-        }
-        // Recovery при сдаче
-        binding.dataRecoveryDelivery2.addTextChangedListener {
-            secTwoResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec2,
-                binding.dataRecoveryAcceptance2.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundDelivery(
-                binding.dataRecoveryAcceptance2.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery2.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance2,
-                binding.recoveryDelivery2
-            )
-        }
-
-// Секция 3
-        // Energy при приемке
-        binding.dataEnergyAcceptance3.addTextChangedListener {
-            secThreeResultEnergy = calculationOfExpense(
-                binding.resultEnergySec3,
-                it.toString().toIntOrNull(),
-                binding.dataEnergyDelivery3.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundAcceptance(
-                binding.dataEnergyAcceptance3.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery3.text.toString().toIntOrNull(),
-                binding.energyAcceptance3,
-                binding.energyDelivery3
-            )
-        }
-        // Energy при сдаче
-        binding.dataEnergyDelivery3.addTextChangedListener {
-            secThreeResultEnergy = calculationOfExpense(
-                binding.resultEnergySec3,
-                binding.dataEnergyAcceptance3.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundDelivery(
-                binding.dataEnergyAcceptance3.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery3.text.toString().toIntOrNull(),
-                binding.energyAcceptance3,
-                binding.energyDelivery3
-            )
-        }
-
-        // Recovery при приемке
-        binding.dataRecoveryAcceptance3.addTextChangedListener {
-            secThreeResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec3,
-                it.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery3.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundAcceptance(
-                binding.dataRecoveryAcceptance3.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery3.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance3,
-                binding.recoveryDelivery3
-            )
-        }
-        // Recovery при сдаче
-        binding.dataRecoveryDelivery3.addTextChangedListener {
-            secThreeResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec3,
-                binding.dataRecoveryAcceptance3.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundDelivery(
-                binding.dataRecoveryAcceptance3.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery3.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance3,
-                binding.recoveryDelivery3
-            )
-        }
-
-// Секция 4
-        // Energy при приемке
-        binding.dataEnergyAcceptance4.addTextChangedListener {
-            secFourResultEnergy = calculationOfExpense(
-                binding.resultEnergySec4,
-                it.toString().toIntOrNull(),
-                binding.dataEnergyDelivery4.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundAcceptance(
-                binding.dataEnergyAcceptance4.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery4.text.toString().toIntOrNull(),
-                binding.energyAcceptance4,
-                binding.energyDelivery4
-            )
-        }
-        // Energy при сдаче
-        binding.dataEnergyDelivery4.addTextChangedListener {
-            secFourResultEnergy = calculationOfExpense(
-                binding.resultEnergySec4,
-                binding.dataEnergyAcceptance4.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionEnergy()
-            setBackgroundDelivery(
-                binding.dataEnergyAcceptance4.text.toString().toIntOrNull(),
-                binding.dataEnergyDelivery4.text.toString().toIntOrNull(),
-                binding.energyAcceptance4,
-                binding.energyDelivery4
-            )
-        }
-
-        // Recovery при приемке
-        binding.dataRecoveryAcceptance4.addTextChangedListener {
-            secFourResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec4,
-                it.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery4.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundAcceptance(
-                binding.dataRecoveryAcceptance4.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery4.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance4,
-                binding.recoveryDelivery4
-            )
-        }
-        // Recovery при сдаче
-        binding.dataRecoveryDelivery4.addTextChangedListener {
-            secFourResultRecovery = calculationOfExpense(
-                binding.resultRecoverySec4,
-                binding.dataRecoveryAcceptance4.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
-            )
-            setTotalConsumptionRecovery()
-            setBackgroundDelivery(
-                binding.dataRecoveryAcceptance4.text.toString().toIntOrNull(),
-                binding.dataRecoveryDelivery4.text.toString().toIntOrNull(),
-                binding.recoveryAcceptance4,
-                binding.recoveryDelivery4
-            )
+        viewModel.getTotalResult().observe(viewLifecycleOwner){ result ->
+            totalConsumptionDieselLiter = result
+            binding.dataTotalConsumptionDieselLiter.text = result.toString()
         }
 
 // ИНВЕНТАРЬ
@@ -864,102 +465,51 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
         }
     }
 
-    /* Метод для установки видимости блоков расхода энергоресуров в зависимости от выбранного типа тяги и количества секций*/
-    private fun setCountSectionByTypeLoco() {
-        when (typeLoco) {
-            TypeOfTraction.DieselLocomotive -> {
-                when (countSection) {
-                    CountSections.OneSection -> {
-                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2Layout.visibility = View.GONE
-                        binding.blockDieselFuelSection3Layout.visibility = View.GONE
-                        binding.blockDieselFuelSection4Layout.visibility = View.GONE
-                        binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_DONE
-                        binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_DONE
-//                        binding.dataDieselFuelDelivery1.setOnEditorActionListener { v, actionId, event ->
-//                            if (actionId == EditorInfo.IME_ACTION_DONE){
-//                                binding.dataDieselFuelDelivery1.clearFocus()
-//                                return@setOnEditorActionListener true
-//                            }
-//                            false
-//                        }
-                    }
-                    CountSections.TwoSection -> {
-                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection3Layout.visibility = View.GONE
-                        binding.blockDieselFuelSection4Layout.visibility = View.GONE
-                        binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelAcceptance2.imeOptions = EditorInfo.IME_ACTION_DONE
-                        binding.dataDieselFuelDelivery2.imeOptions = EditorInfo.IME_ACTION_DONE
-//                        binding.dataDieselFuelDelivery1.setOnEditorActionListener { v, actionId, event ->
-//                            var handled = false
-//                            if (actionId == EditorInfo.IME_ACTION_DONE){
-//                                handled = true
-//                                binding.dataDieselFuelDelivery2.clearFocus()
-//                            }
-//                            handled
-//                        }
-                    }
-                    CountSections.ThreeSection -> {
-                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection3Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection4Layout.visibility = View.GONE
-                        binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelAcceptance2.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelDelivery2.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelAcceptance3.imeOptions = EditorInfo.IME_ACTION_DONE
-                        binding.dataDieselFuelDelivery3.imeOptions = EditorInfo.IME_ACTION_DONE
-                    }
-                    CountSections.FourSection -> {
-                        binding.blockDieselFuelSection1Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection2Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection3Layout.visibility = View.VISIBLE
-                        binding.blockDieselFuelSection4Layout.visibility = View.VISIBLE
-                        binding.dataDieselFuelAcceptance1.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelDelivery1.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelAcceptance2.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelDelivery2.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelAcceptance3.imeOptions = EditorInfo.IME_ACTION_NONE
-                        binding.dataDieselFuelDelivery3.imeOptions = EditorInfo.IME_ACTION_NONE
-                    }
-                }
-                binding.blockResultDieselFuelLayout.visibility = View.VISIBLE
-                binding.blockResultsEnergy.visibility = View.GONE
-            }
-            TypeOfTraction.ElectricLocomotive -> {
-                when (countSection) {
-                    CountSections.OneSection -> {
-                        binding.blockEnergySection1.visibility = View.VISIBLE
-                        binding.blockEnergySection2.visibility = View.GONE
-                        binding.blockEnergySection3.visibility = View.GONE
-                        binding.blockEnergySection4.visibility = View.GONE
-                    }
-                    CountSections.TwoSection -> {
-                        binding.blockEnergySection1.visibility = View.VISIBLE
-                        binding.blockEnergySection2.visibility = View.VISIBLE
-                        binding.blockEnergySection3.visibility = View.GONE
-                        binding.blockEnergySection4.visibility = View.GONE
-                    }
-                    CountSections.ThreeSection -> {
-                        binding.blockEnergySection1.visibility = View.VISIBLE
-                        binding.blockEnergySection2.visibility = View.VISIBLE
-                        binding.blockEnergySection3.visibility = View.VISIBLE
-                        binding.blockEnergySection4.visibility = View.GONE
-                    }
-                    CountSections.FourSection -> {
-                        binding.blockEnergySection1.visibility = View.VISIBLE
-                        binding.blockEnergySection2.visibility = View.VISIBLE
-                        binding.blockEnergySection3.visibility = View.VISIBLE
-                        binding.blockEnergySection4.visibility = View.VISIBLE
-                    }
-                }
-                binding.blockResultDieselFuelLayout.visibility = View.GONE
-                binding.blockResultsEnergy.visibility = View.VISIBLE
-            }
+    private fun liveResultInput(layout: BlockDieselFuelBinding, sec: CountSections){
+        layout.dataDieselFuelAcceptance1.addTextChangedListener {
+            // расход на секцию
+            viewModel.calculationConsumptionBySection(sec, it.toString().toInt())
+            calculationOfExpenseDiesel(
+                layout.resultDieselFuelLiterSec1,
+                layout.resultDieselFuelKiloSec1,
+                it.toString().toIntOrNull(),
+                layout.dataDieselFuelDelivery1.text.toString().toIntOrNull()
+            )
+// отображение принято в кило
+            layout.dataDieselFuelKiloAcceptance1.text = setDataDieselFuelInKilograms(
+                coefficient,
+                layout.dataDieselFuelAcceptance1.text.toString().toIntOrNull()
+            )
+// суммарный расход
+            setTotalConsumptionDiesel()
+
+// установка фона
+            setBackgroundAcceptance(
+                layout.dataDieselFuelAcceptance1.text.toString().toIntOrNull(),
+                layout.dataDieselFuelDelivery1.text.toString().toIntOrNull(),
+                layout.dieselFuelAcceptance1,
+                layout.dieselFuelDelivery1
+            )
+        }
+
+        layout.dataDieselFuelDelivery1.addTextChangedListener {
+            calculationOfExpenseDiesel(
+                layout.resultDieselFuelLiterSec1,
+                layout.resultDieselFuelKiloSec1,
+                layout.dataDieselFuelAcceptance1.text.toString().toIntOrNull(),
+                it.toString().toIntOrNull()
+            )
+            layout.dataDieselFuelKiloDelivery1.text = setDataDieselFuelInKilograms(
+                coefficient,
+                layout.dataDieselFuelDelivery1.text.toString().toIntOrNull()
+            )
+            setTotalConsumptionDiesel()
+            setBackgroundDelivery(
+                layout.dataDieselFuelAcceptance1.text.toString().toIntOrNull(),
+                layout.dataDieselFuelDelivery1.text.toString().toIntOrNull(),
+                layout.dieselFuelAcceptance1,
+                layout.dieselFuelDelivery1,
+            )
         }
     }
 
@@ -1000,6 +550,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
                     includeEnergySec2.blockEnergy.visibility = View.GONE
                     includeEnergySec3.blockEnergy.visibility = View.GONE
                     includeEnergySec4.blockEnergy.visibility = View.GONE
+
                 }
                 binding.apply {
                     includeDieselFuelSec1.blockDieselFuel.visibility = View.VISIBLE
@@ -1122,22 +673,30 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco) {
 
     /* Метод для подсчета общего расхода топлива всех секций в литрах и килограммах*/
     private fun setTotalConsumptionDiesel() {
-        // считаем общий расход в литрах
-        totalConsumptionDieselLiter =
-            secOneResultDieselFuelInLitres + secTwoResultDieselFuelInLitres
-        +secThreeResultDieselFuelInLitres + secFourResultDieselFuelInLitres
-        // считаем общий расход в килограммах
-        totalConsumptionDieselKilo = totalConsumptionDieselLiter * coefficient
-        // выводим общий расход на экран
-        if (totalConsumptionDieselLiter > 0) {
-            binding.dataTotalConsumptionDieselLiter.text =
-                totalConsumptionDieselLiter.toString()
-            binding.dataTotalConsumptionDieselKilo.text =
-                String.format("%.2f", totalConsumptionDieselKilo)
-        } else {
-            binding.dataTotalConsumptionDieselLiter.text = getString(R.string.text_for_empty_data)
-            binding.dataTotalConsumptionDieselKilo.text = getString(R.string.text_for_empty_data)
-        }
+        viewModel.calculationTotalConsumption(
+           listOf(
+               secOneResultDieselFuelInLitres,
+               secTwoResultDieselFuelInLitres,
+               secThreeResultDieselFuelInLitres,
+               secFourResultDieselFuelInLitres,
+           )
+        )
+//        // считаем общий расход в литрах
+//        totalConsumptionDieselLiter =
+//            secOneResultDieselFuelInLitres + secTwoResultDieselFuelInLitres
+//        +secThreeResultDieselFuelInLitres + secFourResultDieselFuelInLitres
+//        // считаем общий расход в килограммах
+//        totalConsumptionDieselKilo = totalConsumptionDieselLiter * coefficient
+//        // выводим общий расход на экран
+//        if (totalConsumptionDieselLiter > 0) {
+//            binding.dataTotalConsumptionDieselLiter.text =
+//                totalConsumptionDieselLiter.toString()
+//            binding.dataTotalConsumptionDieselKilo.text =
+//                String.format("%.2f", totalConsumptionDieselKilo)
+//        } else {
+//            binding.dataTotalConsumptionDieselLiter.text = getString(R.string.text_for_empty_data)
+//            binding.dataTotalConsumptionDieselKilo.text = getString(R.string.text_for_empty_data)
+//        }
     }
 
     /* Метод для перевода литров в киллограммы
