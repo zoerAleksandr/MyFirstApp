@@ -12,7 +12,9 @@ import com.example.myfirstapp.utils.convert_room.*
         FollowingByPassengerRoomEntity::class,
         LocomotiveDataRoomEntity::class,
         TrainDataRoomEntity::class,
-        StationRoomEntity::class
+        StationRoomEntity::class,
+        DieselFuelSectionRoomEntity::class,
+        ElectricSectionRoomEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -26,9 +28,10 @@ import com.example.myfirstapp.utils.convert_room.*
     ConvertersTrainData::class,
     ConverterTypeOfTraction::class,
     ConverterCountSection::class,
-    ConverterDieselFuelSection::class,
+    ConverterDieselFuelSectionList::class,
     ConverterCounterElectricSection::class,
-    ConverterStation::class
+    ConverterStation::class,
+    ConvertElectricSectionList::class
 )
 abstract class ItineraryDataBase : RoomDatabase() {
     abstract fun itineraryDAO(): ItineraryDAO

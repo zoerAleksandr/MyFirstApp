@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.myfirstapp.domain.entity.CountSections
+import com.example.myfirstapp.domain.entity.DieselFuelSection
+import com.example.myfirstapp.domain.entity.ElectricSection
 import com.example.myfirstapp.domain.entity.TypeOfTraction
 import java.util.*
 
@@ -16,34 +18,15 @@ data class LocomotiveDataRoomEntity(
     val locomotiveDataID: String,
     val itineraryID: String,
     var series: String?,
-    var number: Byte?,
+    var number: String?,
     var typeOfTraction: TypeOfTraction,
     var countSections: CountSections,
-    var startAcceptance: Calendar?, // Изменить тип на Calendar
-    var endAcceptance: Calendar?, // Изменить тип на Calendar
-    var startDelivery: Calendar?, // Изменить тип на Calendar
-    var endDelivery: Calendar?, // Изменить тип на Calendar
-    var counterElectricListRoomEntity: MutableList<String>,
-    var dieselFuelListRoomEntity: MutableList<String>,
+    var startAcceptance: Calendar?,
+    var endAcceptance: Calendar?,
+    var startDelivery: Calendar?,
+    var endDelivery: Calendar?,
+    var electricSectionList: MutableList<ElectricSection>,
+    var dieselFuelSectionList: MutableList<DieselFuelSection>,
     var countBrakeShoes: Int?,
     var countExtinguishers: Int?
-) {
-//    fun createNewEntityLocomotiveData(locomotiveData: LocomotiveData) =
-//        EntityLocomotiveData(
-//            locomotiveDataID = locomotiveData.locomotiveDataID,
-//            itineraryID = locomotiveData.itineraryID,
-//            series = locomotiveData.series,
-//            number = locomotiveData.number,
-//            typeOfTraction = locomotiveData.typeOfTraction,
-//            countSections = locomotiveData.countSections,
-//            startAcceptance = locomotiveData.startAcceptance,
-//            endAcceptance = locomotiveData.endAcceptance,
-//            startDelivery = locomotiveData.startDelivery,
-//            endDelivery = locomotiveData.endDelivery,
-//            counterElectricListRoomEntity = locomotiveData.counterElectricListRoomEntity,
-//            dieselFuelListRoomEntity = locomotiveData.dieselFuelListRoomEntity,
-//            countBrakeShoes = locomotiveData.countBrakeShoes,
-//            countExtinguishers = locomotiveData.countExtinguishers
-//        )
-
-}
+)

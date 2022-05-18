@@ -7,15 +7,26 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel{
+    viewModel {
         MainViewModel(getItineraryListUseCase = get())
     }
 
     viewModel {
-        AddItineraryViewModel(addItineraryUseCase = get())
+        AddItineraryViewModel(
+            addItineraryUseCase = get(),
+            addLocomotiveDataUseCase = get(),
+            addDieselFuelSectionUseCase = get()
+        )
     }
 
     viewModel {
-        AddLocoViewModel()
+        AddLocoViewModel(
+            locomotiveDataID = "kjnk",
+            getListDieselFuelSectionUseCase = get(),
+            updateAcceptedDieselFuelSectionUseCase = get(),
+            updateDeliveryDieselFuelSectionUseCase = get(),
+            addDieselFuelSectionUseCase = get(),
+            addLocomotiveDataUseCase = get()
+        )
     }
 }

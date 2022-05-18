@@ -1,9 +1,16 @@
 package com.example.myfirstapp.data.room.entity
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity
+@Entity(
+    tableName = "dieselSection"
+)
 data class DieselFuelSectionRoomEntity(
-    var takeFuel: Int,
-    var handOverFuel: Int
+    @PrimaryKey
+    val sectionId: String,
+    val locomotiveDataID: String,
+    var accepted: Int?,
+    var delivery: Int?,
+    var supply: Int?
 )

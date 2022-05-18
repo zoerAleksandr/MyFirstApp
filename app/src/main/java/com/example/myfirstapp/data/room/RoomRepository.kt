@@ -56,6 +56,12 @@ class RoomRepository : IRepository, KoinComponent {
             toFollowingByPassengerList(localStorage.getListFollowingByPassenger(itineraryID))
         )
 
+    override fun getDieselFuelSectionList(locomotiveDataID: String): Single<List<DieselFuelSection>> {
+        return Single.just(
+            toDieselFuelSectionList(localStorage.getListDieselFuelSection(locomotiveDataID))
+        )
+    }
+
     override fun addItinerary(itinerary: Itinerary): Single<Long> {
         return Single.just(
             localStorage.addItinerary(
@@ -84,6 +90,14 @@ class RoomRepository : IRepository, KoinComponent {
         return Single.just(
             localStorage.addFollowingByPassenger(
                 toFollowingByPassengerRoomEntity(followingByPassenger)
+            )
+        )
+    }
+
+    override fun addDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Long> {
+        return Single.just(
+            localStorage.addDieselFuelSection(
+                toDieselFuelSectionRoomEntity(dieselFuelSection)
             )
         )
     }
@@ -120,6 +134,14 @@ class RoomRepository : IRepository, KoinComponent {
         )
     }
 
+    override fun removeDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Int> {
+        return Single.just(
+            localStorage.removeDieselFuelSection(
+                toDieselFuelSectionRoomEntity(dieselFuelSection)
+            )
+        )
+    }
+
     override fun changeItinerary(itinerary: Itinerary): Single<Int> {
         return Single.just(
             localStorage.changeItinerary(
@@ -148,6 +170,36 @@ class RoomRepository : IRepository, KoinComponent {
         return Single.just(
             localStorage.changeFollowingByPassenger(
                 toFollowingByPassengerRoomEntity(followingByPassenger)
+            )
+        )
+    }
+
+    override fun changeDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Int> {
+        return Single.just(
+            localStorage.changeDieselFuelSection(
+                toDieselFuelSectionRoomEntity(dieselFuelSection)
+            )
+        )
+    }
+
+    override fun updateAcceptedDieselFuelSection(
+        sectionID: String,
+        accepted: Int
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateAcceptedDieselFuelSection(
+                sectionID, accepted
+            )
+        )
+    }
+
+    override fun updateDeliveryDieselFuelSection(
+        sectionID: String,
+        delivery: Int
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateDeliveryDieselFuelSection(
+                sectionID, delivery
             )
         )
     }

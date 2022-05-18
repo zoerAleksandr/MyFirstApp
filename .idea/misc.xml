@@ -42,7 +42,7 @@
         <entry key="app/src/main/res/font/sora_semibold.xml" value="0.2759259259259259" />
         <entry key="app/src/main/res/font/sora_thin.xml" value="0.28493035035880115" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/block_diesel_fuel.xml" value="0.26378794356562635" />
+        <entry key="app/src/main/res/layout/block_diesel_fuel.xml" value="0.375" />
         <entry key="app/src/main/res/layout/block_energy.xml" value="0.26378794356562635" />
         <entry key="app/src/main/res/layout/fragment_add.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_add_itinerary.xml" value="0.1" />

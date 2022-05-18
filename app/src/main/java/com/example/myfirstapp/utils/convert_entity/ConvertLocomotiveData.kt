@@ -15,37 +15,37 @@ fun toLocomotiveDataList(
 
 fun toLocomotiveData(roomEntity: LocomotiveDataRoomEntity): LocomotiveData {
     return LocomotiveData(
-        roomEntity.locomotiveDataID,
-        roomEntity.itineraryID,
-        roomEntity.series,
-        roomEntity.number,
-        roomEntity.typeOfTraction,
-        roomEntity.countSections,
-        roomEntity.startAcceptance,
-        roomEntity.endAcceptance,
-        roomEntity.startDelivery,
-        roomEntity.endDelivery,
-        roomEntity.counterElectricListRoomEntity,
-        roomEntity.dieselFuelListRoomEntity,
-        roomEntity.countBrakeShoes,
-        roomEntity.countExtinguishers
+        locomotiveDataID = roomEntity.locomotiveDataID,
+        itineraryID = roomEntity.itineraryID,
+        series = roomEntity.series,
+        number = roomEntity.number,
+        typeOfTraction = roomEntity.typeOfTraction,
+        countSections = roomEntity.countSections,
+        startAcceptance = roomEntity.startAcceptance,
+        endAcceptance = roomEntity.endAcceptance,
+        startDelivery = roomEntity.startDelivery,
+        endDelivery = roomEntity.endDelivery,
+        electricSectionList = roomEntity.electricSectionList,
+        dieselFuelSectionList = roomEntity.dieselFuelSectionList,
+        countBrakeShoes = roomEntity.countBrakeShoes,
+        countExtinguishers = roomEntity.countExtinguishers
     )
 }
 fun toLocomotiveDataRoomEntity(locomotiveData: LocomotiveData): LocomotiveDataRoomEntity {
     return LocomotiveDataRoomEntity(
-        locomotiveData.locomotiveDataID,
-        locomotiveData.itineraryID,
-        locomotiveData.series,
-        locomotiveData.number,
-        locomotiveData.typeOfTraction,
-        locomotiveData.countSections,
-        locomotiveData.startAcceptance,
-        locomotiveData.endAcceptance,
-        locomotiveData.startDelivery,
-        locomotiveData.endDelivery,
-        locomotiveData.counterElectricListRoomEntity,
-        locomotiveData.dieselFuelListRoomEntity,
-        locomotiveData.countBrakeShoes,
-        locomotiveData.countExtinguishers
+        locomotiveDataID = locomotiveData.locomotiveDataID,
+        itineraryID = locomotiveData.itineraryID,
+        series = locomotiveData.series,
+        number = locomotiveData.number,
+        typeOfTraction = locomotiveData.typeOfTraction,
+        countSections = locomotiveData.countSections,
+        startAcceptance = locomotiveData.startAcceptance,
+        endAcceptance = locomotiveData.endAcceptance,
+        startDelivery = locomotiveData.startDelivery,
+        endDelivery = locomotiveData.endDelivery,
+        electricSectionList = locomotiveData.electricSectionList,
+        dieselFuelSectionList = locomotiveData.dieselFuelSectionList,
+        countBrakeShoes = locomotiveData.countBrakeShoes,
+        countExtinguishers = locomotiveData.countExtinguishers
     )
 }

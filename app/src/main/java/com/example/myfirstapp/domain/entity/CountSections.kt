@@ -1,15 +1,15 @@
 package com.example.myfirstapp.domain.entity
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
-sealed class CountSections : Parcelable {
+sealed class CountSections(val index: Int) : Parcelable {
     @Parcelize
-    object OneSection : CountSections()
+    object OneSection : CountSections(0)
     @Parcelize
-    object TwoSection : CountSections()
+    object TwoSection : CountSections(1)
     @Parcelize
-    object ThreeSection : CountSections()
+    object ThreeSection : CountSections(2)
     @Parcelize
-    object FourSection : CountSections()
+    object FourSection : CountSections(3)
 }

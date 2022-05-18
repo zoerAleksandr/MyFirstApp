@@ -11,11 +11,10 @@ import com.example.myfirstapp.app
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.CountSections
+import com.example.myfirstapp.domain.entity.DieselFuelSection
+import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.example.myfirstapp.domain.entity.TypeOfTraction
-import com.example.myfirstapp.ui.add_loco_screen.AddLocoFragment
-import com.example.myfirstapp.ui.add_loco_screen.KEY_COEFFICIENT
-import com.example.myfirstapp.ui.add_loco_screen.KEY_COUNT_SECTIONS
-import com.example.myfirstapp.ui.add_loco_screen.KEY_TYPE_OF_TRACTION
+import com.example.myfirstapp.ui.add_loco_screen.*
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
 import com.example.myfirstapp.utils.*
@@ -38,7 +37,10 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private var dateAndTimeTurnout: Calendar? = null
     private var dateAndTimeEnding: Calendar? = null
     private var restPointOfTurnover = false
-
+    private val itineraryID = generateStringID()
+    private val locomotiveDataID = generateStringID()
+    private val trainDataID = generateStringID()
+    private val followingByPassengerID = generateStringID()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -80,10 +82,13 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddLoco.setOnClickListener {
+            createLocomotiveDataEntity(itineraryID, locomotiveDataID)
             val bundle = Bundle().apply {
                 putParcelable(KEY_TYPE_OF_TRACTION, TypeOfTraction.DieselLocomotive)
                 putParcelable(KEY_COUNT_SECTIONS, CountSections.TwoSection)
                 putDouble(KEY_COEFFICIENT, 0.83)
+                putString(KEY_PARENT_ID, itineraryID)
+                putString(KEY_LOCOMOTIVE_DATA_ID, locomotiveDataID)
             }
             controller.openScreen(AddLocoFragment.newInstance(bundle))
         }
@@ -216,11 +221,73 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     private fun saveItinerary() {
         viewModel.saveItinerary(
+            itineraryID,
             binding.etNumberItinerary.text.toString(),
             dateAndTimeTurnout,
             dateAndTimeEnding,
             restPointOfTurnover,
             binding.notesText.text.toString()
+        )
+    }
+
+    private fun createLocomotiveDataEntity(itineraryID: String, locomotiveDataID: String) {
+        viewModel.addLocomotiveData(
+            LocomotiveData(
+                locomotiveDataID = locomotiveDataID,
+                itineraryID = itineraryID,
+                series = null,
+                number = null,
+                typeOfTraction = TypeOfTraction.DieselLocomotive,
+                countSections = CountSections.TwoSection,
+                startAcceptance = null,
+                endAcceptance = null,
+                startDelivery = null,
+                endDelivery = null,
+                electricSectionList = mutableListOf(),
+                dieselFuelSectionList = mutableListOf(
+                    DieselFuelSection(
+                        sectionID = generateStringID(),
+                        locomotiveDataID = locomotiveDataID,
+                        accepted = null,
+                        delivery = null,
+                        supply = null
+                    ).apply {
+                        viewModel.addDieselFuelSection(this)
+                    },
+
+                    DieselFuelSection(
+                        sectionID = generateStringID(),
+                        locomotiveDataID = locomotiveDataID,
+                        accepted = null,
+                        delivery = null,
+                        supply = null
+                    ).apply {
+                        viewModel.addDieselFuelSection(this)
+                    },
+
+                    DieselFuelSection(
+                        sectionID = generateStringID(),
+                        locomotiveDataID = locomotiveDataID,
+                        accepted = null,
+                        delivery = null,
+                        supply = null
+                    ).apply {
+                        viewModel.addDieselFuelSection(this)
+                    },
+
+                    DieselFuelSection(
+                        sectionID = generateStringID(),
+                        locomotiveDataID = locomotiveDataID,
+                        accepted = null,
+                        delivery = null,
+                        supply = null
+                    ).apply {
+                        viewModel.addDieselFuelSection(this)
+                    }
+                ),
+                countBrakeShoes = null,
+                countExtinguishers = null
+            )
         )
     }
 }
