@@ -19,6 +19,7 @@ interface IRepository {
     fun getListFollowingByPassenger(itineraryID: String): Single<List<FollowingByPassenger>>
 
     fun getDieselFuelSectionList(locomotiveDataID: String): Single<List<DieselFuelSection>>
+    fun getDieselFuelSection(sectionID: String): Single<DieselFuelSection>
 
     fun addItinerary(itinerary: Itinerary): Single<Long>
     fun addLocomotiveData(locomotiveData: LocomotiveData): Single<Long>
@@ -38,6 +39,7 @@ interface IRepository {
     fun changeFallowingByPassenger(followingByPassenger: FollowingByPassenger): Single<Int>
     fun changeDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Int>
 
-    fun updateAcceptedDieselFuelSection(sectionID: String, accepted: Int): Single<Int>
-    fun updateDeliveryDieselFuelSection(sectionID: String, delivery: Int): Single<Int>
+    fun updateAcceptedDieselFuelSection(sectionID: String, accepted: Int?): Single<Int>
+    fun updateDeliveryDieselFuelSection(sectionID: String, delivery: Int?): Single<Int>
+    fun updateConsumptionDieselFuelSection(sectionID: String, consumption: Int?): Single<Int>
 }

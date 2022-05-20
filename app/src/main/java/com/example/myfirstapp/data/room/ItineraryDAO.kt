@@ -77,6 +77,9 @@ interface ItineraryDAO {
     @Query("SELECT * FROM dieselSection WHERE locomotiveDataID = :locomotiveDataID")
     fun getListDieselFuelSection(locomotiveDataID: String): MutableList<DieselFuelSectionRoomEntity>
 
+    @Query("SELECT * FROM dieselSection WHERE sectionID = :sectionID")
+    fun getDieselFuelSection(sectionID: String): DieselFuelSectionRoomEntity
+
     @Insert
     fun addDieselFuelSection(roomEntity: DieselFuelSectionRoomEntity): Long
 
@@ -89,12 +92,21 @@ interface ItineraryDAO {
     @Query("UPDATE dieselSection SET accepted = :accepted WHERE sectionId = :sectionID")
     fun updateAcceptedDieselFuelSection(
         sectionID: String,
-        accepted: Int
+        accepted: Int?
     ): Int
 
     @Query("UPDATE dieselSection SET delivery = :delivery WHERE sectionId = :sectionID")
     fun updateDeliveryDieselFuelSection(
         sectionID: String,
-        delivery: Int
+        delivery: Int?
     ): Int
+
+
+    @Query("UPDATE dieselSection SET consumption = :consumption WHERE sectionId = :sectionID")
+    fun updateConsumptionDieselFuelSection(
+        sectionID: String,
+        consumption: Int?
+    ): Int
+
+
 }

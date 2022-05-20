@@ -3,10 +3,10 @@ package com.example.myfirstapp.ui.add_loco_screen
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -16,14 +16,9 @@ import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.BlockDieselFuelBinding
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
 import com.example.myfirstapp.domain.entity.CountSections
-import com.example.myfirstapp.domain.entity.DieselFuelSection
-import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.AddDieselFuelSectionUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.GetListDieselFuelSectionUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.UpdateAcceptedDieselFuelSectionUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.UpdateDeliveryDieselFuelSectionUseCase
+import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -47,6 +42,7 @@ const val KEY_COUNT_SECTIONS = "keyCountSection"
 const val KEY_COEFFICIENT = "keyCoefficient"
 const val KEY_PARENT_ID = "keyParentID"
 const val KEY_LOCOMOTIVE_DATA_ID = "keyLocomotiveDataID"
+const val KEY_LIST_DIESEL_FUEL_SECTION_ID = "keyListDieselFuelSectionID"
 
 class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     companion object {
@@ -59,22 +55,29 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
 
     private val binding: FragmentAddLocoBinding by viewBinding()
     private val getListDieselFuelSectionUseCase: GetListDieselFuelSectionUseCase by inject()
+    private val getDieselFuelSectionUseCase: GetDieselFuelSectionUseCase by inject()
     private val updateAcceptedDieselFuelSectionUseCase: UpdateAcceptedDieselFuelSectionUseCase by inject()
     private val updateDeliveryDieselFuelSectionUseCase: UpdateDeliveryDieselFuelSectionUseCase by inject()
+    private val updateConsumptionDieselFuelUseCase: UpdateConsumptionDieselFuelUseCase by inject()
     private val addDieselFuelSectionUseCase: AddDieselFuelSectionUseCase by inject()
     private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase by inject()
+
     private val viewModel: AddLocoViewModel by viewModels {
         AddLocoViewModelFactory(
             locomotiveDataID = arguments?.getString(KEY_LOCOMOTIVE_DATA_ID).toString(),
             getListDieselFuelSectionUseCase,
+            getDieselFuelSectionUseCase,
             updateAcceptedDieselFuelSectionUseCase,
             updateDeliveryDieselFuelSectionUseCase,
+            updateConsumptionDieselFuelUseCase,
             addDieselFuelSectionUseCase,
             addLocomotiveDataUseCase
         )
     }
     private lateinit var itineraryID: String
     private lateinit var locomotiveDataID: String
+    private lateinit var listDieselFuelSectionID: ArrayList<String>
+
     private val dateAndTimeNow = getInstance()
     private val dateAndTimeStartAcceptance by lazy { getInstance() }
     private val dateAndTimeEndAcceptance by lazy { getInstance() }
@@ -98,70 +101,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     // Тепловоз
     private var coefficient by Delegates.notNull<Double>()
 
-    //  переменные расхода энергоресурсов секции 1
-    private var secOneDieselFuelAcceptance: Int = 0
-    private var secOneDieselFuelDelivery: Int = 0
-    private var secOneResultDieselFuelInLitres: Int = 0
-    private var secOneResultDieselFuelInKilo: Int = 0
-
-    //  переменные расхода энергоресурсов секции 2
-    private var secTwoDieselFuelAcceptance: Int? = null
-    private var secTwoDieselFuelDelivery: Int? = null
-    private var secTwoResultDieselFuelInLitres: Int = 0
-    private var secTwoResultDieselFuelInKilo: Int = 0
-
-    //  переменные расхода энергоресурсов секции 3
-    private var secThreeDieselFuelAcceptance: Int? = null
-    private var secThreeDieselFuelDelivery: Int? = null
-    private var secThreeResultDieselFuelInLitres: Int = 0
-    private var secThreeResultDieselFuelInKilo: Int = 0
-
-    //  переменные расхода энергоресурсов секции 4
-    private var secFourDieselFuelAcceptance: Int? = null
-    private var secFourDieselFuelDelivery: Int? = null
-    private var secFourResultDieselFuelInLitres: Int = 0
-    private var secFourResultDieselFuelInKilo: Int = 0
-
-    // Электровоз
-    //  переменные расхода энергоресурсов секции 1
-    private var secOneEnergyAcceptance: Int? = null
-    private var secOneEnergyDelivery: Int? = null
-    private var secOneResultEnergy: Int = 0
-    private var secOneRecoveryAcceptance: Int? = null
-    private var secOneRecoveryDelivery: Int? = null
-    private var secOneResultRecovery: Int = 0
-
-    //  переменные расхода энергоресурсов секции 2
-    private var secTwoEnergyAcceptance: Int? = null
-    private var secTwoEnergyDelivery: Int? = null
-    private var secTwoResultEnergy: Int = 0
-    private var secTwoRecoveryAcceptance: Int? = null
-    private var secTwoRecoveryDelivery: Int? = null
-    private var secTwoResultRecovery: Int = 0
-
-    //  переменные расхода энергоресурсов секции 3
-    private var secThreeEnergyAcceptance: Int? = null
-    private var secThreeEnergyDelivery: Int? = null
-    private var secThreeResultEnergy: Int = 0
-    private var secThreeRecoveryAcceptance: Int? = null
-    private var secThreeRecoveryDelivery: Int? = null
-    private var secThreeResultRecovery: Int = 0
-
-    //  переменные расхода энергоресурсов секции 4
-    private var secFourEnergyAcceptance: Int? = null
-    private var secFourEnergyDelivery: Int? = null
-    private var secFourResultEnergy: Int = 0
-    private var secFourRecoveryAcceptance: Int? = null
-    private var secFourRecoveryDelivery: Int? = null
-    private var secFourResultRecovery: Int = 0
-
-    // переменные расхода энергоресурсов общие
-    private var totalConsumptionDieselLiter: Int = 0
-    private var totalConsumptionDieselKilo: Double = 0.0
-
-    private var totalConsumptionEnergy: Int = 0
-    private var totalConsumptionRecovery: Int = 0
-
     // инвентарь
     private var countBrakeShoes: Int = 0
     private var countExtinguishers: Int = 0
@@ -177,6 +116,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             coefficient = bundle.getDouble(KEY_COEFFICIENT)
             itineraryID = bundle.getString(KEY_PARENT_ID).toString()
             locomotiveDataID = bundle.getString(KEY_LOCOMOTIVE_DATA_ID).toString()
+            listDieselFuelSectionID = bundle.getStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID)!!
         }
         setCountSection()
         setTypeOfTraction()
@@ -448,26 +388,26 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
 
-        liveResultInput(binding.includeDieselFuelSec1, CountSections.OneSection)
-        liveResultInput(binding.includeDieselFuelSec2, CountSections.TwoSection)
-        liveResultInput(binding.includeDieselFuelSec3, CountSections.ThreeSection)
-        liveResultInput(binding.includeDieselFuelSec4, CountSections.FourSection)
+        resultInput(binding.includeDieselFuelSec1, CountSections.OneSection.index)
+        resultInput(binding.includeDieselFuelSec2, CountSections.TwoSection.index)
+        resultInput(binding.includeDieselFuelSec3, CountSections.ThreeSection.index)
+        resultInput(binding.includeDieselFuelSec4, CountSections.FourSection.index)
 
         /** Подписался на изменеия расхода секции*/
         viewModel.getResultSecOne().observe(viewLifecycleOwner) { result ->
             renderDataDieselFuelSecOne(result)
         }
         viewModel.getResultSecTwo().observe(viewLifecycleOwner) { result ->
-            secTwoResultDieselFuelInLitres = result
+            renderDataDieselFuelSecTwo(result)
         }
         viewModel.getResultSecThree().observe(viewLifecycleOwner) { result ->
-            secThreeResultDieselFuelInLitres = result
+            renderDataDieselFuelSecThree(result)
         }
         viewModel.getResultSecFour().observe(viewLifecycleOwner) { result ->
-            secFourResultDieselFuelInLitres = result
+            renderDataDieselFuelSecFour(result)
         }
+        /** Подписался на изменения общего расхода*/
         viewModel.getTotalResult().observe(viewLifecycleOwner) { result ->
-            totalConsumptionDieselLiter = result
             binding.dataTotalConsumptionDieselLiter.text = result.toString()
         }
 
@@ -497,67 +437,107 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     /** Установка значения из ViewModel после вычисления*/
     private fun renderDataDieselFuelSecOne(state: StateAddLocoDieselFuel) {
         when (state) {
-            is StateAddLocoDieselFuel.Loading -> {}
-            is StateAddLocoDieselFuel.Success -> {
-                val result = 0
-                secOneResultDieselFuelInLitres = result
-                binding.includeDieselFuelSec1.resultDieselFuelLiter.text = result.toString()
-                binding.includeDieselFuelSec1.resultDieselFuelKilo.text =
-                    String.format("%.2f", result * coefficient)
+            is StateAddLocoDieselFuel.EmptyData -> {
+                Toast.makeText(requireContext(), "EmptyData", Toast.LENGTH_SHORT).show()
+                binding.includeDieselFuelSec1.resultGroup.visibility = View.GONE
             }
-            is StateAddLocoDieselFuel.Error -> {}
+            is StateAddLocoDieselFuel.Success -> {
+                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                binding.includeDieselFuelSec1.resultGroup.visibility = View.VISIBLE
+                binding.includeDieselFuelSec1.resultDieselFuelLiter.text = state.result.toString()
+                binding.includeDieselFuelSec1.resultDieselFuelKilo.text =
+                    String.format("%.2f", state.result * coefficient)
+            }
+            is StateAddLocoDieselFuel.Error -> {
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                binding.root.snack(state.message.toString())
+                binding.includeDieselFuelSec1.resultGroup.visibility = View.GONE
+            }
         }
     }
 
-    /** Ввод данных о количестве топлива*/
-    private fun liveResultInput(layout: BlockDieselFuelBinding, sec: CountSections) {
-        layout.dataDieselFuelAcceptance.addTextChangedListener {
-            // сохраняем в Room
-//            viewModel.
+    private fun renderDataDieselFuelSecTwo(state: StateAddLocoDieselFuel) {
+        when (state) {
+            is StateAddLocoDieselFuel.EmptyData -> {
+                binding.includeDieselFuelSec2.resultGroup.visibility = View.GONE
+            }
+            is StateAddLocoDieselFuel.Success -> {
+                binding.includeDieselFuelSec2.resultGroup.visibility = View.VISIBLE
+                binding.includeDieselFuelSec2.resultDieselFuelLiter.text = state.result.toString()
+                binding.includeDieselFuelSec2.resultDieselFuelKilo.text =
+                    String.format("%.2f", state.result * coefficient)
+            }
+            is StateAddLocoDieselFuel.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeDieselFuelSec2.resultGroup.visibility = View.GONE
+            }
+        }
+    }
 
-            // расход на секцию
-            viewModel.acceptedBySection(sec, it.toString().toInt())
-//            calculationOfExpenseDiesel(
-//                layout.resultDieselFuelLiter,
-//                layout.resultDieselFuelKilo,
-//                it.toString().toIntOrNull(),
-//                layout.dataDieselFuelDelivery.text.toString().toIntOrNull()
-//            )
-// отображение принято в кило
-            layout.dataDieselFuelKiloAcceptance.text = setDataDieselFuelInKilograms(
-                coefficient,
-                layout.dataDieselFuelAcceptance.text.toString().toIntOrNull()
-            )
-//// суммарный расход
-//            setTotalConsumptionDiesel()
+    private fun renderDataDieselFuelSecThree(state: StateAddLocoDieselFuel) {
+        when (state) {
+            is StateAddLocoDieselFuel.EmptyData -> {
+                binding.includeDieselFuelSec3.resultGroup.visibility = View.GONE
+            }
+            is StateAddLocoDieselFuel.Success -> {
+                binding.includeDieselFuelSec3.resultGroup.visibility = View.VISIBLE
+                binding.includeDieselFuelSec3.resultDieselFuelLiter.text = state.result.toString()
+                binding.includeDieselFuelSec3.resultDieselFuelKilo.text =
+                    String.format("%.2f", state.result * coefficient)
+            }
+            is StateAddLocoDieselFuel.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeDieselFuelSec3.resultGroup.visibility = View.GONE
+            }
+        }
+    }
 
-// установка фона
-            setBackgroundAcceptance(
-                layout.dataDieselFuelAcceptance.text.toString().toIntOrNull(),
-                layout.dataDieselFuelDelivery.text.toString().toIntOrNull(),
-                layout.dieselFuelAcceptance,
-                layout.dieselFuelDelivery
+    private fun renderDataDieselFuelSecFour(state: StateAddLocoDieselFuel) {
+        when (state) {
+            is StateAddLocoDieselFuel.EmptyData -> {
+                binding.includeDieselFuelSec4.resultGroup.visibility = View.GONE
+            }
+            is StateAddLocoDieselFuel.Success -> {
+                binding.includeDieselFuelSec4.resultGroup.visibility = View.VISIBLE
+                binding.includeDieselFuelSec4.resultDieselFuelLiter.text = state.result.toString()
+                binding.includeDieselFuelSec4.resultDieselFuelKilo.text =
+                    String.format("%.2f", state.result * coefficient)
+            }
+            is StateAddLocoDieselFuel.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeDieselFuelSec4.resultGroup.visibility = View.GONE
+            }
+        }
+    }
+
+    /** Ввод данных о количестве топлива */
+    private fun resultInput(layout: BlockDieselFuelBinding, sectionIndex: Int) {
+        layout.dataDieselFuelAcceptance.addTextChangedListener { data ->
+            viewModel.saveAcceptedInRoom(
+                locomotiveDataID,
+                sectionIndex,
+                listDieselFuelSectionID[sectionIndex],
+                data.toString().toIntOrNull()
             )
+//            viewModel.acceptedBySection(sectionIndex, data.toString().toIntOrNull())
+            data?.let { inLiters ->
+                layout.dataDieselFuelKiloAcceptance.text =
+                    setDataDieselFuelInKilograms(coefficient, inLiters.toString().toIntOrNull())
+            }
         }
 
-        layout.dataDieselFuelDelivery.addTextChangedListener {
-            calculationOfExpenseDiesel(
-                layout.resultDieselFuelLiter,
-                layout.resultDieselFuelKilo,
-                layout.dataDieselFuelAcceptance.text.toString().toIntOrNull(),
-                it.toString().toIntOrNull()
+        layout.dataDieselFuelDelivery.addTextChangedListener { data ->
+            viewModel.saveDeliveryInRoom(
+                locomotiveDataID,
+                sectionIndex,
+                listDieselFuelSectionID[sectionIndex],
+                data.toString().toIntOrNull()
             )
-            layout.dataDieselFuelKiloDelivery.text = setDataDieselFuelInKilograms(
-                coefficient,
-                layout.dataDieselFuelDelivery.text.toString().toIntOrNull()
-            )
-            setTotalConsumptionDiesel()
-            setBackgroundDelivery(
-                layout.dataDieselFuelAcceptance.text.toString().toIntOrNull(),
-                layout.dataDieselFuelDelivery.text.toString().toIntOrNull(),
-                layout.dieselFuelAcceptance,
-                layout.dieselFuelDelivery,
-            )
+//            viewModel.deliveryBySection(sectionIndex, data.toString().toIntOrNull())
+            data?.let { inLiters ->
+                layout.dataDieselFuelKiloDelivery.text =
+                    setDataDieselFuelInKilograms(coefficient, inLiters.toString().toIntOrNull())
+            }
         }
     }
 
@@ -698,63 +678,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             viewForKilo.text = getString(R.string.text_for_empty_data)
         }
         return result
-    }
-
-    /* Метод для подсчета общего расхода электроэнергии всех секций*/
-    private fun setTotalConsumptionEnergy() {
-        totalConsumptionEnergy =
-            secOneResultEnergy + secTwoResultEnergy + secThreeResultEnergy + secFourResultEnergy
-        Log.d("Debug", "$totalConsumptionEnergy")
-        if (totalConsumptionEnergy > 0) binding.dataTotalConsumption.text =
-            totalConsumptionEnergy.toString()
-        else binding.dataTotalConsumption.text = getString(R.string.text_for_empty_data)
-    }
-
-    /* Метод для подсчета общего расхода рекуперации всех секций*/
-    private fun setTotalConsumptionRecovery() {
-        totalConsumptionRecovery =
-            secOneResultRecovery + secTwoResultRecovery + secThreeResultRecovery + secFourResultRecovery
-        if (totalConsumptionRecovery > 0) binding.dataTotalRecovery.text =
-            totalConsumptionRecovery.toString()
-        else binding.dataTotalRecovery.text = getString(R.string.text_for_empty_data)
-    }
-
-    /* Метод для подсчета общего расхода топлива всех секций в литрах и килограммах*/
-    private fun setTotalConsumptionDiesel() {
-        viewModel.calculationTotalConsumption(
-            listOf(
-                secOneResultDieselFuelInLitres,
-                secTwoResultDieselFuelInLitres,
-                secThreeResultDieselFuelInLitres,
-                secFourResultDieselFuelInLitres,
-            )
-        )
-//        // считаем общий расход в литрах
-//        totalConsumptionDieselLiter =
-//            secOneResultDieselFuelInLitres + secTwoResultDieselFuelInLitres
-//        +secThreeResultDieselFuelInLitres + secFourResultDieselFuelInLitres
-//        // считаем общий расход в килограммах
-//        totalConsumptionDieselKilo = totalConsumptionDieselLiter * coefficient
-//        // выводим общий расход на экран
-//        if (totalConsumptionDieselLiter > 0) {
-//            binding.dataTotalConsumptionDieselLiter.text =
-//                totalConsumptionDieselLiter.toString()
-//            binding.dataTotalConsumptionDieselKilo.text =
-//                String.format("%.2f", totalConsumptionDieselKilo)
-//        } else {
-//            binding.dataTotalConsumptionDieselLiter.text = getString(R.string.text_for_empty_data)
-//            binding.dataTotalConsumptionDieselKilo.text = getString(R.string.text_for_empty_data)
-//        }
-    }
-
-    /* Метод для перевода литров в киллограммы
-    * возвращает результат вычислений в String, при невозможности вычислений возвращает R.string.text_for_empty_data*/
-    private fun setDataDieselFuelInKilograms(
-        coefficient: Double,
-        data: Int?
-    ): String {
-        return if (data != null && data > 0) String.format("%.2f", data * coefficient)
-        else getString(R.string.text_for_empty_data)
     }
 
     private fun setBackgroundAcceptance(

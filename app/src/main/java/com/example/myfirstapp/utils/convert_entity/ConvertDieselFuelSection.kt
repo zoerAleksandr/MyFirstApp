@@ -18,7 +18,8 @@ fun toDieselFuelSection(roomEntity: DieselFuelSectionRoomEntity): DieselFuelSect
         roomEntity.locomotiveDataID,
         roomEntity.accepted,
         roomEntity.delivery,
-        roomEntity.supply
+        roomEntity.supply,
+        roomEntity.consumption
     )
 }
 
@@ -28,6 +29,7 @@ fun toDieselFuelSectionRoomEntity(entity: DieselFuelSection): DieselFuelSectionR
         entity.locomotiveDataID,
         entity.accepted,
         entity.delivery,
-        entity.supply
+        entity.supply,
+        entity.consumption
     )
 }

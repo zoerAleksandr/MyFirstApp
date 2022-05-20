@@ -109,6 +109,18 @@
         app:layout_constraintEnd_toStartOf="@id/unit_delivery_kilo"
         app:layout_constraintTop_toBottomOf="@id/diesel_fuel_delivery" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/result_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="
+            text_result_diesel_fuel,
+            result_diesel_fuel_liter,
+            unit_result_diesel_fuel_liter,
+            result_diesel_fuel_kilo,
+            unit_result_diesel_fuel_kilo" />
+
     <TextView
         android:id="@+id/text_result_diesel_fuel"
         android:layout_width="wrap_content"

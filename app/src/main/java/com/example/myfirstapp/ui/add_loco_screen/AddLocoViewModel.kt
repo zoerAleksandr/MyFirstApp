@@ -3,14 +3,9 @@ package com.example.myfirstapp.ui.add_loco_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.DieselFuelSection
-import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.AddDieselFuelSectionUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.GetListDieselFuelSectionUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.UpdateAcceptedDieselFuelSectionUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.UpdateDeliveryDieselFuelSectionUseCase
+import com.example.myfirstapp.domain.usecase.section.diesel.*
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -18,119 +13,189 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AddLocoViewModel(
     private val getListDieselFuelSectionUseCase: GetListDieselFuelSectionUseCase,
+    private val getDieselFuelSectionUseCase: GetDieselFuelSectionUseCase,
     private val updateAcceptedDieselFuelSectionUseCase: UpdateAcceptedDieselFuelSectionUseCase,
     private val updateDeliveryDieselFuelSectionUseCase: UpdateDeliveryDieselFuelSectionUseCase,
+    private val updateConsumptionDieselFuelUseCase: UpdateConsumptionDieselFuelUseCase,
     private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase,
     private val addDieselFuelSectionUseCase: AddDieselFuelSectionUseCase,
     private val locomotiveDataID: String
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     private val liveDataResultSecOne: MutableLiveData<StateAddLocoDieselFuel> = MutableLiveData()
-    private val liveDataResultSecTwo: MutableLiveData<Int> = MutableLiveData()
-    private val liveDataResultSecThree: MutableLiveData<Int> = MutableLiveData()
-    private val liveDataResultSecFour: MutableLiveData<Int> = MutableLiveData()
+    private val liveDataResultSecTwo: MutableLiveData<StateAddLocoDieselFuel> = MutableLiveData()
+    private val liveDataResultSecThree: MutableLiveData<StateAddLocoDieselFuel> = MutableLiveData()
+    private val liveDataResultSecFour: MutableLiveData<StateAddLocoDieselFuel> = MutableLiveData()
 
-    private val liveDataResultTotal: MutableLiveData<Int> = MutableLiveData()
+    private val liveDataResultTotal: MutableLiveData<StateAddLocoDieselFuel> = MutableLiveData()
 
     fun getResultSecOne(): LiveData<StateAddLocoDieselFuel> {
         return liveDataResultSecOne
     }
 
-    fun getResultSecTwo(): LiveData<Int> {
+    fun getResultSecTwo(): LiveData<StateAddLocoDieselFuel> {
         return liveDataResultSecTwo
     }
 
-    fun getResultSecThree(): LiveData<Int> {
+    fun getResultSecThree(): LiveData<StateAddLocoDieselFuel> {
         return liveDataResultSecThree
     }
 
-    fun getResultSecFour(): LiveData<Int> {
+    fun getResultSecFour(): LiveData<StateAddLocoDieselFuel> {
         return liveDataResultSecFour
     }
 
-    fun getTotalResult(): LiveData<Int> {
+    fun getTotalResult(): LiveData<StateAddLocoDieselFuel> {
         return liveDataResultTotal
     }
 
-    fun saveAccepted(sectionID: String, value: Int) {
-        updateAcceptedDieselFuelSectionUseCase.execute(
-            sectionID, value
-        )
-    }
-
-    // Расчет расхода по секциям приемка
-    fun acceptedBySection(section: CountSections, value: Int) {
-        when (section) {
-            CountSections.OneSection -> run {
-                calculationConsamptionDieselFuel(value, section.index)
+    fun saveAcceptedInRoom(
+        locomotiveDataID: String,
+        sectionIndex: Int,
+        sectionID: String,
+        value: Int?
+    ) {
+        Single.just(sectionID)
+            .observeOn(Schedulers.io())
+            .concatMap {
+                updateAcceptedDieselFuelSectionUseCase.execute(
+                    it, value
+                )
             }
-            CountSections.TwoSection -> run {
-                liveDataResultSecTwo.postValue(2 + value)
+            .concatMap {
+                getListDieselFuelSectionUseCase.execute(locomotiveDataID)
             }
-            CountSections.ThreeSection -> run {
-                liveDataResultSecThree.postValue(3 + value)
-            }
-            CountSections.FourSection -> run {
-                liveDataResultSecFour.postValue(4 + value)
-            }
-        }
-    }
-
-    private fun calculationConsamptionDieselFuel(value: Int, section: Int) {
-        compositeDisposable.add(
-            Single.just(locomotiveDataID)
-                .observeOn(Schedulers.io())
-                .concatMap {
-                    getListDieselFuelSectionUseCase.execute(it)
+            .subscribeBy(
+                onSuccess = {
+                    postConsumptionBySection(sectionIndex, sectionID)
                 }
-                .subscribeBy(
-                    onSuccess = { locoData ->
-                        val delivery: Int? = locoData[section].delivery
-                        val supply: Int? = locoData[section].supply
-                        if (delivery != null) {
+            )
+    }
+
+    fun saveDeliveryInRoom(
+        locomotiveDataID: String,
+        sectionIndex: Int,
+        sectionID: String,
+        value: Int?
+    ) {
+        Single.just(sectionID)
+            .observeOn(Schedulers.io())
+            .concatMap {
+                // Обновляем в Room
+                updateDeliveryDieselFuelSectionUseCase.execute(
+                    it, value
+                )
+            }
+            .concatMap {
+                // Получаем новые данные
+                getListDieselFuelSectionUseCase.execute(locomotiveDataID)
+            }
+            .subscribeBy(
+                onSuccess = {
+                    // считем расход секции
+                    postConsumptionBySection(sectionIndex, sectionID)
+                }
+            )
+    }
+
+    /** Получаем секцию по ID и после получчения отправляем View результат расхода по секции */
+    private fun postConsumptionBySection(
+        sectionIndex: Int,
+        sectionID: String
+    ) {
+        requestDieselFuelSection(sectionID)
+            .subscribeBy(
+                onSuccess = { section ->
+                    when (sectionIndex) {
+                        0 -> {
                             liveDataResultSecOne.postValue(
-                                StateAddLocoDieselFuel.Success(
-                                    calculationBySectionDieselFuel(
-                                        value,
-                                        delivery,
-                                        supply
-                                    )
-                                )
+                                calculationBySectionDieselFuel(section)
                             )
                         }
-                    },
-                    onError = {
-                        liveDataResultSecOne.postValue(StateAddLocoDieselFuel.Error("Ошибка получения данных"))
+                        1 -> {
+                            liveDataResultSecTwo.postValue(
+                                calculationBySectionDieselFuel(section)
+                            )
+                        }
+                        2 -> {
+                            liveDataResultSecThree.postValue(
+                                calculationBySectionDieselFuel(section)
+                            )
+                        }
+                        3 -> {
+                            liveDataResultSecFour.postValue(
+                                calculationBySectionDieselFuel(section)
+                            )
+                        }
                     }
-                )
-        )
+                }
+            )
     }
 
-    private fun calculationBySectionDieselFuel(accepted: Int, delivery: Int, supply: Int?): Int {
-        return accepted.plus(supply ?: 0).minus(delivery)
-//        return if (accepted == null || delivery == null){
-//            StateAddLocoDieselFuel.Error(null)
-//        }else if(accepted < delivery && supply == null){
-//            StateAddLocoDieselFuel.Error("Сдача больше приемки")
-//        }else if (supply != null && accepted.plus(supply) < delivery){
-//            StateAddLocoDieselFuel.Error("Сдача больше приемки")
-//        }else if (accepted > delivery && supply == null){
-//            StateAddLocoDieselFuel.Success(accepted, delivery, accepted.minus(delivery))
-//        }else if (supply != null && accepted.plus(supply) > delivery){
-//            StateAddLocoDieselFuel.Success(accepted, delivery, accepted.plus(supply).minus(delivery))
-//        }else{
-//            StateAddLocoDieselFuel.Error(null)
-//        }
-//
-    }
-
-    // Расчет общего расхода
-    fun calculationTotalConsumption(listConsumptionBySection: List<Int>) {
-        var total = 0
-        for (consumptionBySection in listConsumptionBySection) {
-            total += consumptionBySection
+    /** считаем расход и
+     * Определям значение которое будет показано во View расхода по секции*/
+    private fun calculationBySectionDieselFuel(section: DieselFuelSection): StateAddLocoDieselFuel {
+        return if (section.accepted == null || section.delivery == null) {
+            updateConsamptionDieselFuelBySection(section.sectionID, null)
+            StateAddLocoDieselFuel.EmptyData(true)
+        } else if (section.supply == null && section.accepted!! < section.delivery!!) {
+            updateConsamptionDieselFuelBySection(section.sectionID, null)
+            StateAddLocoDieselFuel.Error("Показание сдачи меньше показания приемки")
+        } else if (section.supply != null && section.accepted!!.plus(section.supply!!) < section.delivery!!) {
+            updateConsamptionDieselFuelBySection(section.sectionID, null)
+            StateAddLocoDieselFuel.Error("Показание сдачи меньше показания приемки")
+        } else {
+            val result = section.accepted!!.plus(section.supply ?: 0).minus(section.delivery!!)
+            updateConsamptionDieselFuelBySection(section.sectionID, result)
+            StateAddLocoDieselFuel.Success(result)
         }
-        liveDataResultTotal.postValue(total)
+    }
+
+    /** Считаем общий расход и отправляем результат во View */
+    private fun calculationTotalConsumption() {
+        Single.just(locomotiveDataID)
+            .observeOn(Schedulers.io())
+            .concatMap {
+                getListDieselFuelSectionUseCase.execute(locomotiveDataID)
+            }
+            .subscribeBy(
+                onSuccess = {
+                    var total = 0
+                    for (section in it) {
+                        section.consumption?.let { cons ->
+                            total += cons
+                        }
+                    }
+                    if (total > 0) {
+                        liveDataResultTotal.postValue(StateAddLocoDieselFuel.Success(total))
+                    }else{
+                        liveDataResultTotal.postValue(StateAddLocoDieselFuel.EmptyData(true))
+                    }
+                }
+            )
+    }
+
+    // запрос данных секции по ID
+    private fun requestDieselFuelSection(sectionID: String): Single<DieselFuelSection> {
+        return Single.just(sectionID)
+            .observeOn(Schedulers.io())
+            .concatMap {
+                getDieselFuelSectionUseCase.execute(sectionID)
+            }
+    }
+
+    // Обновляем данные расхода по секции в Room
+    private fun updateConsamptionDieselFuelBySection(sectionID: String, data: Int?) {
+         Single.just(sectionID)
+            .observeOn(Schedulers.io())
+            .concatMap {
+                updateConsumptionDieselFuelUseCase.execute(it, data)
+            }
+            .subscribeBy(
+                onSuccess = {
+                    calculationTotalConsumption()
+                }
+            )
     }
 
     override fun onCleared() {

@@ -62,6 +62,14 @@ class RoomRepository : IRepository, KoinComponent {
         )
     }
 
+    override fun getDieselFuelSection(sectionID: String): Single<DieselFuelSection> {
+        return Single.just(
+            toDieselFuelSection(
+                localStorage.getDieselFuelSection(sectionID)
+            )
+        )
+    }
+
     override fun addItinerary(itinerary: Itinerary): Single<Long> {
         return Single.just(
             localStorage.addItinerary(
@@ -184,7 +192,7 @@ class RoomRepository : IRepository, KoinComponent {
 
     override fun updateAcceptedDieselFuelSection(
         sectionID: String,
-        accepted: Int
+        accepted: Int?
     ): Single<Int> {
         return Single.just(
             localStorage.updateAcceptedDieselFuelSection(
@@ -195,11 +203,21 @@ class RoomRepository : IRepository, KoinComponent {
 
     override fun updateDeliveryDieselFuelSection(
         sectionID: String,
-        delivery: Int
+        delivery: Int?
     ): Single<Int> {
         return Single.just(
             localStorage.updateDeliveryDieselFuelSection(
                 sectionID, delivery
+            )
+        )
+    }
+    override fun updateConsumptionDieselFuelSection(
+        sectionID: String,
+        consumption: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateConsumptionDieselFuelSection(
+                sectionID, consumption
             )
         )
     }

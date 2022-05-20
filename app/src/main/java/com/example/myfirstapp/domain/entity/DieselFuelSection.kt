@@ -5,5 +5,6 @@ data class DieselFuelSection(
     val locomotiveDataID: String,
     var accepted: Int?,
     var delivery: Int?,
-    var supply: Int?
+    var supply: Int?,
+    var consumption: Int?
 )

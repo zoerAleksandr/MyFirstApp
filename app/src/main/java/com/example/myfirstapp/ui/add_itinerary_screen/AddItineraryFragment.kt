@@ -39,6 +39,12 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private var restPointOfTurnover = false
     private val itineraryID = generateStringID()
     private val locomotiveDataID = generateStringID()
+    private val listDieselFuelSectionID = arrayListOf(
+        generateStringID(),
+        generateStringID(),
+        generateStringID(),
+        generateStringID()
+    )
     private val trainDataID = generateStringID()
     private val followingByPassengerID = generateStringID()
 
@@ -89,6 +95,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 putDouble(KEY_COEFFICIENT, 0.83)
                 putString(KEY_PARENT_ID, itineraryID)
                 putString(KEY_LOCOMOTIVE_DATA_ID, locomotiveDataID)
+                putStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID, listDieselFuelSectionID)
             }
             controller.openScreen(AddLocoFragment.newInstance(bundle))
         }
@@ -246,41 +253,45 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 electricSectionList = mutableListOf(),
                 dieselFuelSectionList = mutableListOf(
                     DieselFuelSection(
-                        sectionID = generateStringID(),
+                        sectionID = listDieselFuelSectionID[0],
                         locomotiveDataID = locomotiveDataID,
                         accepted = null,
                         delivery = null,
-                        supply = null
+                        supply = null,
+                        consumption = null
                     ).apply {
                         viewModel.addDieselFuelSection(this)
                     },
 
                     DieselFuelSection(
-                        sectionID = generateStringID(),
+                        sectionID = listDieselFuelSectionID[1],
                         locomotiveDataID = locomotiveDataID,
                         accepted = null,
                         delivery = null,
-                        supply = null
+                        supply = null,
+                        consumption = null
                     ).apply {
                         viewModel.addDieselFuelSection(this)
                     },
 
                     DieselFuelSection(
-                        sectionID = generateStringID(),
+                        sectionID = listDieselFuelSectionID[2],
                         locomotiveDataID = locomotiveDataID,
                         accepted = null,
                         delivery = null,
-                        supply = null
+                        supply = null,
+                        consumption = null
                     ).apply {
                         viewModel.addDieselFuelSection(this)
                     },
 
                     DieselFuelSection(
-                        sectionID = generateStringID(),
+                        sectionID = listDieselFuelSectionID[3],
                         locomotiveDataID = locomotiveDataID,
                         accepted = null,
                         delivery = null,
-                        supply = null
+                        supply = null,
+                        consumption = null
                     ).apply {
                         viewModel.addDieselFuelSection(this)
                     }
