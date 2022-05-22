@@ -162,7 +162,7 @@
             result_energy" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/result_recovery_energy_group"
+        android:id="@+id/result_recovery_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

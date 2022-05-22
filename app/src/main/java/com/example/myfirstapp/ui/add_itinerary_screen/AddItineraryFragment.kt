@@ -10,10 +10,7 @@ import com.example.myfirstapp.R
 import com.example.myfirstapp.app
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.Controller
-import com.example.myfirstapp.domain.entity.CountSections
-import com.example.myfirstapp.domain.entity.DieselFuelSection
-import com.example.myfirstapp.domain.entity.LocomotiveData
-import com.example.myfirstapp.domain.entity.TypeOfTraction
+import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.ui.add_loco_screen.*
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
@@ -40,6 +37,12 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private val itineraryID = generateStringID()
     private val locomotiveDataID = generateStringID()
     private val listDieselFuelSectionID = arrayListOf(
+        generateStringID(),
+        generateStringID(),
+        generateStringID(),
+        generateStringID()
+    )
+    private val listElectricSectionID = arrayListOf(
         generateStringID(),
         generateStringID(),
         generateStringID(),
@@ -96,6 +99,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 putString(KEY_PARENT_ID, itineraryID)
                 putString(KEY_LOCOMOTIVE_DATA_ID, locomotiveDataID)
                 putStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID, listDieselFuelSectionID)
+                putStringArrayList(KEY_LIST_ELECTRIC_SECTION_ID, listElectricSectionID)
             }
             controller.openScreen(AddLocoFragment.newInstance(bundle))
         }
@@ -250,7 +254,56 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 endAcceptance = null,
                 startDelivery = null,
                 endDelivery = null,
-                electricSectionList = mutableListOf(),
+                electricSectionList = mutableListOf(
+                    ElectricSection(
+                        sectionID = listElectricSectionID[0],
+                        locomotiveDataId = locomotiveDataID,
+                        acceptanceEnergy = null,
+                        deliveryEnergy = null,
+                        consumptionEnergy = null,
+                        acceptanceRecovery = null,
+                        deliveryRecovery = null,
+                        consumptionRecovery = null
+                    ).apply {
+                        viewModel.addElectricSection(this)
+                    },
+                    ElectricSection(
+                        sectionID = listElectricSectionID[1],
+                        locomotiveDataId = locomotiveDataID,
+                        acceptanceEnergy = null,
+                        deliveryEnergy = null,
+                        consumptionEnergy = null,
+                        acceptanceRecovery = null,
+                        deliveryRecovery = null,
+                        consumptionRecovery = null
+                    ).apply {
+                        viewModel.addElectricSection(this)
+                    },
+                    ElectricSection(
+                        sectionID = listElectricSectionID[2],
+                        locomotiveDataId = locomotiveDataID,
+                        acceptanceEnergy = null,
+                        deliveryEnergy = null,
+                        consumptionEnergy = null,
+                        acceptanceRecovery = null,
+                        deliveryRecovery = null,
+                        consumptionRecovery = null
+                    ).apply {
+                        viewModel.addElectricSection(this)
+                    },
+                    ElectricSection(
+                        sectionID = listElectricSectionID[3],
+                        locomotiveDataId = locomotiveDataID,
+                        acceptanceEnergy = null,
+                        deliveryEnergy = null,
+                        consumptionEnergy = null,
+                        acceptanceRecovery = null,
+                        deliveryRecovery = null,
+                        consumptionRecovery = null
+                    ).apply {
+                        viewModel.addElectricSection(this)
+                    },
+                ),
                 dieselFuelSectionList = mutableListOf(
                     DieselFuelSection(
                         sectionID = listDieselFuelSectionID[0],

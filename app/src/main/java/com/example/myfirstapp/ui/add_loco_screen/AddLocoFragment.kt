@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.BlockDieselFuelBinding
+import com.example.myfirstapp.databinding.BlockEnergyBinding
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
 import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.TypeOfTraction
@@ -39,6 +40,7 @@ const val KEY_COEFFICIENT = "keyCoefficient"
 const val KEY_PARENT_ID = "keyParentID"
 const val KEY_LOCOMOTIVE_DATA_ID = "keyLocomotiveDataID"
 const val KEY_LIST_DIESEL_FUEL_SECTION_ID = "keyListDieselFuelSectionID"
+const val KEY_LIST_ELECTRIC_SECTION_ID = "keyListElectricSectionID"
 
 class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     companion object {
@@ -59,6 +61,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     private lateinit var itineraryID: String
     private lateinit var locomotiveDataID: String
     private lateinit var listDieselFuelSectionID: ArrayList<String>
+    private lateinit var listElectricSectionID: ArrayList<String>
 
     private val dateAndTimeNow = getInstance()
     private val dateAndTimeStartAcceptance by lazy { getInstance() }
@@ -99,6 +102,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             itineraryID = bundle.getString(KEY_PARENT_ID).toString()
             locomotiveDataID = bundle.getString(KEY_LOCOMOTIVE_DATA_ID).toString()
             listDieselFuelSectionID = bundle.getStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID)!!
+            listElectricSectionID = bundle.getStringArrayList(KEY_LIST_ELECTRIC_SECTION_ID)!!
         }
         setCountSection()
         setTypeOfTraction()
@@ -375,7 +379,17 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         resultInputDieselFuel(binding.includeDieselFuelSec3, CountSections.ThreeSection.index)
         resultInputDieselFuel(binding.includeDieselFuelSec4, CountSections.FourSection.index)
 
-        /** Подписался на изменеия расхода секции*/
+        resultInputEnergy(binding.includeEnergySec1, CountSections.OneSection.index)
+        resultInputEnergy(binding.includeEnergySec2, CountSections.TwoSection.index)
+        resultInputEnergy(binding.includeEnergySec3, CountSections.ThreeSection.index)
+        resultInputEnergy(binding.includeEnergySec4, CountSections.FourSection.index)
+
+        resultInputRecovery(binding.includeEnergySec1, CountSections.OneSection.index)
+        resultInputRecovery(binding.includeEnergySec2, CountSections.TwoSection.index)
+        resultInputRecovery(binding.includeEnergySec3, CountSections.ThreeSection.index)
+        resultInputRecovery(binding.includeEnergySec4, CountSections.FourSection.index)
+
+        /** Подписался на изменеия расхода топлива на секции*/
         viewModel.getResultDieselSecOne().observe(viewLifecycleOwner) { result ->
             renderDataDieselFuelSecOne(result)
         }
@@ -388,9 +402,45 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         viewModel.getResultDieselSecFour().observe(viewLifecycleOwner) { result ->
             renderDataDieselFuelSecFour(result)
         }
-        /** Подписался на изменения общего расхода*/
+        /** Подписался на изменения общего расхода топлива*/
         viewModel.getTotalDieselResult().observe(viewLifecycleOwner) { result ->
             renderDataTotalConsumptionDieselFuel(result)
+        }
+
+        /** Подписался на изменеия расхода электроэнергии на секции*/
+        viewModel.getResultEnergyElectricSecOne().observe(viewLifecycleOwner) { result ->
+            renderDataEnergySecOne(result)
+        }
+        viewModel.getResultEnergyElectricSecTwo().observe(viewLifecycleOwner) { result ->
+            renderDataEnergySecTwo(result)
+        }
+        viewModel.getResultEnergyElectricSecThree().observe(viewLifecycleOwner) { result ->
+            renderDataEnergySecThree(result)
+        }
+        viewModel.getResultEnergyElectricSecFour().observe(viewLifecycleOwner) { result ->
+            renderDataEnergySecFour(result)
+        }
+        /** Подписался на изменения общего расхода электроэнергии*/
+        viewModel.getTotalEnergyElectricResult().observe(viewLifecycleOwner) { result ->
+            renderDataTotalConsumptionEnergy(result)
+        }
+
+        /** Подписался на изменеия рекуперации на секции*/
+        viewModel.getResultRecoveryElectricSecOne().observe(viewLifecycleOwner) { result ->
+            renderDataRecoverySecOne(result)
+        }
+        viewModel.getResultRecoveryElectricSecTwo().observe(viewLifecycleOwner) { result ->
+            renderDataRecoverySecTwo(result)
+        }
+        viewModel.getResultRecoveryElectricSecThree().observe(viewLifecycleOwner) { result ->
+            renderDataRecoverySecThree(result)
+        }
+        viewModel.getResultRecoveryElectricSecFour().observe(viewLifecycleOwner) { result ->
+            renderDataRecoverySecFour(result)
+        }
+        /** Подписался на изменения общего количества рекуперации*/
+        viewModel.getTotalRecoveryElectricResult().observe(viewLifecycleOwner) { result ->
+            renderDataTotalConsumptionRecovery(result)
         }
 
 // ИНВЕНТАРЬ
@@ -428,6 +478,36 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                     String.format("%.2f", result.result * coefficient)
             }
             is StateSection.Error -> {}
+        }
+    }
+
+    private fun renderDataTotalConsumptionEnergy(result: StateSection){
+        when(result){
+            is StateSection.EmptyData -> {
+                binding.blockResultsEnergy.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.blockResultsEnergy.visibility = View.VISIBLE
+                binding.dataTotalConsumptionEnergy.text = result.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.blockResultsEnergy.visibility = View.GONE
+            }
+        }
+    }
+    // TODO сделать независимые блоки для электроэнергии и рекуперации
+    private fun renderDataTotalConsumptionRecovery(result: StateSection){
+        when(result){
+            is StateSection.EmptyData -> {
+                binding.blockResultsEnergy.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.blockResultsEnergy.visibility = View.VISIBLE
+                binding.dataTotalRecovery.text = result.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.blockResultsEnergy.visibility = View.GONE
+            }
         }
     }
 
@@ -504,6 +584,128 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         }
     }
 
+    private fun renderDataEnergySecOne(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec1.resultEnergyGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec1.resultEnergyGroup.visibility = View.VISIBLE
+                binding.includeEnergySec1.resultEnergy.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec1.resultEnergyGroup.visibility = View.GONE
+            }
+        }
+    }
+    private fun renderDataEnergySecTwo(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec2.resultEnergyGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec2.resultEnergyGroup.visibility = View.VISIBLE
+                binding.includeEnergySec2.resultEnergy.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec2.resultEnergyGroup.visibility = View.GONE
+            }
+        }
+    }
+    private fun renderDataEnergySecThree(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec3.resultEnergyGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec3.resultEnergyGroup.visibility = View.VISIBLE
+                binding.includeEnergySec3.resultEnergy.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec3.resultEnergyGroup.visibility = View.GONE
+            }
+        }
+    }
+    private fun renderDataEnergySecFour(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec4.resultEnergyGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec4.resultEnergyGroup.visibility = View.VISIBLE
+                binding.includeEnergySec4.resultEnergy.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec4.resultEnergyGroup.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun renderDataRecoverySecOne(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec1.resultRecoveryGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec1.resultRecoveryGroup.visibility = View.VISIBLE
+                binding.includeEnergySec1.resultRecovery.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec1.resultRecoveryGroup.visibility = View.GONE
+            }
+        }
+    }
+    private fun renderDataRecoverySecTwo(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec2.resultRecoveryGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec2.resultRecoveryGroup.visibility = View.VISIBLE
+                binding.includeEnergySec2.resultRecovery.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec2.resultRecoveryGroup.visibility = View.GONE
+            }
+        }
+    }
+    private fun renderDataRecoverySecThree(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec3.resultRecoveryGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec3.resultRecoveryGroup.visibility = View.VISIBLE
+                binding.includeEnergySec3.resultRecovery.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec3.resultRecoveryGroup.visibility = View.GONE
+            }
+        }
+    }
+    private fun renderDataRecoverySecFour(state: StateSection) {
+        when (state) {
+            is StateSection.EmptyData -> {
+                binding.includeEnergySec4.resultRecoveryGroup.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.includeEnergySec4.resultRecoveryGroup.visibility = View.VISIBLE
+                binding.includeEnergySec4.resultRecovery.text = state.result.toString()
+            }
+            is StateSection.Error -> {
+                binding.root.snack(state.message.toString())
+                binding.includeEnergySec4.resultRecoveryGroup.visibility = View.GONE
+            }
+        }
+    }
+
     /** Ввод данных о количестве топлива */
     private fun resultInputDieselFuel(layout: BlockDieselFuelBinding, sectionIndex: Int) {
         layout.dataDieselFuelAcceptance.addTextChangedListener { data ->
@@ -534,6 +736,42 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 layout.dataDieselFuelKiloDelivery.text =
                     setDataDieselFuelInKilograms(coefficient, data.toString().toIntOrNull())
             }
+        }
+    }
+
+    /** Ввод данных счетчиков электроэнергии */
+    private fun resultInputEnergy(layout: BlockEnergyBinding, sectionIndex: Int) {
+        layout.dataEnergyAcceptance1.addTextChangedListener { data ->
+            viewModel.saveAcceptedEnergyInRoom(
+                sectionIndex,
+                listElectricSectionID[sectionIndex],
+                data.toString().toIntOrNull()
+            )
+        }
+        layout.dataEnergyDelivery1.addTextChangedListener { data ->
+            viewModel.saveDeliveryEnergyInRoom(
+                sectionIndex,
+                listElectricSectionID[sectionIndex],
+                data.toString().toIntOrNull()
+            )
+        }
+    }
+
+    /** Ввод данных счетчиков рекуперации */
+    private fun resultInputRecovery(layout: BlockEnergyBinding, sectionIndex: Int) {
+        layout.dataRecoveryAcceptance.addTextChangedListener { data ->
+            viewModel.saveAcceptedRecoveryInRoom(
+                sectionIndex,
+                listElectricSectionID[sectionIndex],
+                data.toString().toIntOrNull()
+            )
+        }
+        layout.dataRecoveryDelivery.addTextChangedListener { data ->
+            viewModel.saveDeliveryRecoveryInRoom(
+                sectionIndex,
+                listElectricSectionID[sectionIndex],
+                data.toString().toIntOrNull()
+            )
         }
     }
 
@@ -640,40 +878,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             )
             binding.root.snack(getString(R.string.text_for_snackbar_error_time_end_delivery))
         } else setDefaultBackground(requireContext(), binding.endOfDelivery)
-    }
-
-    /* Метод для подсчета расхода энергоресурсов и отображения на экране
-    * Возвращает 0 если не заполнено одно из полей или первое поле "acceptance" больше чем второе "delivery"
-    * переменная view получает значение text от результата вычислений*/
-    private fun calculationOfExpense(view: TextView, acceptance: Int?, delivery: Int?): Int {
-        var result = 0
-        if (acceptance != null && delivery != null && acceptance < delivery) {
-            result = Math.subtractExact(delivery, acceptance)
-            view.text = result.toString()
-        } else view.text = getString(R.string.text_for_empty_data)
-        return result
-    }
-
-    /* Метод для подсчета расхода топлива и отображения на экране в литрах и килограммах
-    * Возвращает 0 если не заполнено одно из полей или первое поле "acceptance" больше чем второе "delivery"
-    * переменная viewForLiter получает значение text от результата вычислений в литрах
-    * переменная viewForKilo получает значение text от результата вычислений в килограммах*/
-    private fun calculationOfExpenseDiesel(
-        viewForLiter: TextView,
-        viewForKilo: TextView,
-        acceptance: Int?,
-        delivery: Int?
-    ): Int {
-        var result = 0
-        if (acceptance != null && delivery != null && acceptance < delivery) {
-            result = Math.subtractExact(delivery, acceptance)
-            viewForLiter.text = result.toString()
-            viewForKilo.text = String.format("%.2f", result * coefficient)
-        } else {
-            viewForLiter.text = getString(R.string.text_for_empty_data)
-            viewForKilo.text = getString(R.string.text_for_empty_data)
-        }
-        return result
     }
 
     private fun setBackgroundAcceptance(
