@@ -21,25 +21,43 @@ interface IRepository {
     fun getDieselFuelSectionList(locomotiveDataID: String): Single<List<DieselFuelSection>>
     fun getDieselFuelSection(sectionID: String): Single<DieselFuelSection>
 
+    fun getElectricSectionList(locomotiveDataID: String): Single<List<ElectricSection>>
+    fun getElectricSection(sectionID: String): Single<ElectricSection>
+
+
+
     fun addItinerary(itinerary: Itinerary): Single<Long>
     fun addLocomotiveData(locomotiveData: LocomotiveData): Single<Long>
     fun addTrainData(trainData: TrainData): Single<Long>
     fun addFallowingByPassenger(followingByPassenger: FollowingByPassenger): Single<Long>
     fun addDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Long>
+    fun addElectricSection(electricSection: ElectricSection): Single<Long>
 
     fun removeItinerary(itinerary: Itinerary): Single<Int>
     fun removeLocomotiveData(locomotiveData: LocomotiveData): Single<Int>
     fun removeTrainData(trainData: TrainData): Single<Int>
     fun removeFallowingByPassenger(followingByPassenger: FollowingByPassenger): Single<Int>
     fun removeDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Int>
+    fun removeElectricSection(electricSection: ElectricSection): Single<Int>
 
     fun changeItinerary(itinerary: Itinerary): Single<Int>
     fun changeLocomotiveData(locomotiveData: LocomotiveData): Single<Int>
     fun changeTrainData(trainData: TrainData): Single<Int>
     fun changeFallowingByPassenger(followingByPassenger: FollowingByPassenger): Single<Int>
     fun changeDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Int>
+    fun changeElectricSection(electricSection: ElectricSection): Single<Int>
 
     fun updateAcceptedDieselFuelSection(sectionID: String, accepted: Int?): Single<Int>
     fun updateDeliveryDieselFuelSection(sectionID: String, delivery: Int?): Single<Int>
     fun updateConsumptionDieselFuelSection(sectionID: String, consumption: Int?): Single<Int>
+
+    fun updateAcceptedEnergyElectricSection(sectionID: String, accepted: Int?): Single<Int>
+    fun updateDeliveryEnergyElectricSection(sectionID: String, delivery: Int?): Single<Int>
+    fun updateConsumptionEnergyElectricSection(sectionID: String, consumption: Int?): Single<Int>
+
+    fun updateAcceptedRecoveryElectricSection(sectionID: String, accepted: Int?): Single<Int>
+    fun updateDeliveryRecoveryElectricSection(sectionID: String, delivery: Int?): Single<Int>
+    fun updateConsumptionRecoveryElectricSection(sectionID: String, consumption: Int?): Single<Int>
+
+
 }

@@ -18,17 +18,4 @@ val viewModelModule = module {
             addDieselFuelSectionUseCase = get()
         )
     }
-
-    viewModel {
-        AddLocoViewModel(
-            locomotiveDataID = "kjnk",
-            getListDieselFuelSectionUseCase = get(),
-            getDieselFuelSectionUseCase = get(),
-            updateAcceptedDieselFuelSectionUseCase = get(),
-            updateDeliveryDieselFuelSectionUseCase = get(),
-            updateConsumptionDieselFuelUseCase = get(),
-            addDieselFuelSectionUseCase = get(),
-            addLocomotiveDataUseCase = get()
-        )
-    }
 }

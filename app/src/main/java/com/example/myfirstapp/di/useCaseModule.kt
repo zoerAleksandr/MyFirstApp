@@ -6,6 +6,7 @@ import com.example.myfirstapp.domain.usecase.itinerary.GetItineraryListByMonth
 import com.example.myfirstapp.domain.usecase.itinerary.RemoveItineraryUseCase
 import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
 import com.example.myfirstapp.domain.usecase.section.diesel.*
+import com.example.myfirstapp.domain.usecase.section.electric.*
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -21,4 +22,17 @@ val useCaseModule = module {
     single { AddLocomotiveDataUseCase(repository = get()) }
     single { UpdateConsumptionDieselFuelUseCase(repository = get()) }
     single { GetDieselFuelSectionUseCase(repository = get()) }
+
+    // Electric Section
+    single { AddElectricSectionUseCase(repository = get()) }
+    single { ChangeElectricSectionUseCase(repository = get()) }
+    single { GetElectricSectionUseCase(repository = get()) }
+    single { GetElectricSectionUseCaseList(repository = get()) }
+    single { RemoveElectricSectionUseCase(repository = get()) }
+    single { UpdateAcceptedEnergyElectricSectionUseCase(repository = get()) }
+    single { UpdateDeliveryEnergyElectricSectionUseCase(repository = get()) }
+    single { UpdateConsumptionEnergyElectricSectionUseCase(repository = get()) }
+    single { UpdateAcceptedRecoveryElectricSectionUseCase(repository = get()) }
+    single { UpdateDeliveryRecoveryElectricSectionUseCase(repository = get()) }
+    single { UpdateConsumptionRecoveryElectricSectionUseCase(repository = get()) }
 }

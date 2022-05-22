@@ -18,6 +18,7 @@
         <entry key="app/src/main/res/drawable/ic_item_menu_24.xml" value="0.247" />
         <entry key="app/src/main/res/drawable/ic_minus_24.xml" value="0.216" />
         <entry key="app/src/main/res/drawable/ic_photo_camera_24.xml" value="0.2958904109589041" />
+        <entry key="app/src/main/res/drawable/ic_rotate_left_24.xml" value="0.177" />
         <entry key="app/src/main/res/drawable/icon_mini_fab.xml" value="0.2958904109589041" />
         <entry key="app/src/main/res/drawable/item_background.xml" value="0.321025641025641" />
         <entry key="app/src/main/res/drawable/item_date_background.xml" value="0.30462962962962964" />
@@ -43,7 +44,7 @@
         <entry key="app/src/main/res/font/sora_thin.xml" value="0.28493035035880115" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="app/src/main/res/layout/block_diesel_fuel.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/block_energy.xml" value="0.26378794356562635" />
+        <entry key="app/src/main/res/layout/block_energy.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_add.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_add_itinerary.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_add_loco.xml" value="0.25" />

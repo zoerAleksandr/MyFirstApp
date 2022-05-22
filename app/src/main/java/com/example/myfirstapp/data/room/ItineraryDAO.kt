@@ -108,5 +108,58 @@ interface ItineraryDAO {
         consumption: Int?
     ): Int
 
+    // ElectricSection
+    @Query("SELECT * FROM electricSection WHERE locomotiveDataID = :locomotiveDataID")
+    fun getListElectricSection(locomotiveDataID: String): MutableList<ElectricSectionRoomEntity>
+
+    @Query("SELECT * FROM electricSection WHERE sectionID = :sectionID")
+    fun getElectricSection(sectionID: String): ElectricSectionRoomEntity
+
+    @Insert
+    fun addElectricSection(roomEntity: ElectricSectionRoomEntity): Long
+
+    @Delete
+    fun removeElectricSection(roomEntity: ElectricSectionRoomEntity): Int
+
+    @Update
+    fun changeElectricSection(roomEntity: ElectricSectionRoomEntity): Int
+
+    @Query("UPDATE electricSection SET acceptanceEnergy = :accepted WHERE sectionId = :sectionID")
+    fun updateAcceptedEnergyElectricSection(
+        sectionID: String,
+        accepted: Int?
+    ): Int
+
+    @Query("UPDATE electricSection SET deliveryEnergy = :delivery WHERE sectionId = :sectionID")
+    fun updateDeliveryEnergyElectricSection(
+        sectionID: String,
+        delivery: Int?
+    ): Int
+
+
+    @Query("UPDATE electricSection SET consumptionEnergy = :consumption WHERE sectionId = :sectionID")
+    fun updateConsumptionEnergyElectricSection(
+        sectionID: String,
+        consumption: Int?
+    ): Int
+
+    @Query("UPDATE electricSection SET acceptanceRecovery = :accepted WHERE sectionId = :sectionID")
+    fun updateAcceptedRecoveryElectricSection(
+        sectionID: String,
+        accepted: Int?
+    ): Int
+
+    @Query("UPDATE electricSection SET deliveryRecovery = :delivery WHERE sectionId = :sectionID")
+    fun updateDeliveryRecoveryElectricSection(
+        sectionID: String,
+        delivery: Int?
+    ): Int
+
+
+    @Query("UPDATE electricSection SET consumptionRecovery = :consumption WHERE sectionId = :sectionID")
+    fun updateConsumptionRecoveryElectricSection(
+        sectionID: String,
+        consumption: Int?
+    ): Int
 
 }

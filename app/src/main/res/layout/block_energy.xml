@@ -18,28 +18,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <TextView
         android:id="@+id/subtitle_block_energy_text_view"
         style="@style/StyleSecondaryText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        tools:text="1 Секция"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/image_energy_1"
+        android:id="@+id/image_energy"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toBottomOf="@id/energy_acceptance_1"
+        android:src="@drawable/ic_electric_bolt_24"
+        app:layout_constraintBottom_toBottomOf="@id/energy_acceptance"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/energy_acceptance_1" />
+        app:layout_constraintTop_toTopOf="@id/energy_acceptance" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/energy_acceptance_1"
+        android:id="@+id/energy_acceptance"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_gravity="end"
@@ -48,7 +49,8 @@
         app:boxBackgroundColor="@color/background_data"
         app:endIconMode="clear_text"
         app:errorIconDrawable="@null"
-        app:layout_constraintEnd_toStartOf="@id/energy_delivery_1"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toStartOf="@id/energy_delivery"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/subtitle_block_energy_text_view">
 
@@ -65,7 +67,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/energy_delivery_1"
+        android:id="@+id/energy_delivery"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_gravity="end"
@@ -73,8 +75,9 @@
         app:boxBackgroundColor="@color/background_data"
         app:endIconMode="clear_text"
         app:errorIconDrawable="@null"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/energy_acceptance_1"
+        app:layout_constraintStart_toEndOf="@id/energy_acceptance"
         app:layout_constraintTop_toBottomOf="@id/subtitle_block_energy_text_view">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -90,17 +93,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/image_recovery_1"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintBottom_toBottomOf="@id/recovery_acceptance_1"
+        android:id="@+id/image_recovery"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_electric_bolt_24"
+        app:layout_constraintBottom_toBottomOf="@id/recovery_acceptance"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/recovery_acceptance_1" />
+        app:layout_constraintTop_toTopOf="@id/recovery_acceptance" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/recovery_acceptance_1"
+        android:id="@+id/recovery_acceptance"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_marginTop="8dp"
@@ -108,14 +112,16 @@
         app:boxBackgroundColor="@color/background_data"
         app:endIconMode="clear_text"
         app:errorIconDrawable="@null"
-        app:layout_constraintEnd_toStartOf="@id/recovery_delivery_1"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toStartOf="@id/recovery_delivery"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/energy_acceptance_1">
+        app:layout_constraintTop_toBottomOf="@id/energy_acceptance">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/data_recovery_acceptance_1"
+            android:id="@+id/data_recovery_acceptance"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:hint="принято"
             android:inputType="number"
             android:paddingBottom="8dp"
             android:textAppearance="@style/StyleTextDataMini" />
@@ -123,61 +129,84 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/recovery_delivery_1"
+        android:id="@+id/recovery_delivery"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_marginTop="8dp"
         app:boxBackgroundColor="@color/background_data"
         app:endIconMode="clear_text"
         app:errorIconDrawable="@null"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/recovery_acceptance_1"
-        app:layout_constraintTop_toBottomOf="@id/energy_delivery_1">
+        app:layout_constraintStart_toEndOf="@id/recovery_acceptance"
+        app:layout_constraintTop_toBottomOf="@id/energy_delivery">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/data_recovery_delivery_1"
+            android:id="@+id/data_recovery_delivery"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:hint="сдано"
             android:inputType="number"
             android:paddingBottom="8dp"
             android:textAppearance="@style/StyleTextDataMini" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/result_energy_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
+        android:visibility="gone"
+        app:constraint_referenced_ids="
+            prefix_result_energy,
+            result_energy" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/result_recovery_energy_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="
+            prefix_result_recovery,
+            result_recovery" />
+
+
+    <TextView
+        android:id="@+id/prefix_result_energy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="расход: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/result_energy"
+        app:layout_constraintTop_toBottomOf="@id/recovery_delivery" />
+
+    <TextView
+        android:id="@+id/result_energy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/prefix_result_recovery"
+        app:layout_constraintTop_toBottomOf="@id/recovery_delivery"
+        tools:text="11" />
+
+    <TextView
+        android:id="@+id/prefix_result_recovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="рекуперация: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/result_recovery"
+        app:layout_constraintTop_toBottomOf="@id/recovery_delivery" />
+
+    <TextView
+        android:id="@+id/result_recovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recovery_delivery_1">
+        app:layout_constraintTop_toBottomOf="@id/recovery_delivery"
+        tools:text="3" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="расход: " />
-
-        <TextView
-            android:id="@+id/result_energy_sec1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="0"
-            tools:text="11" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="рекуперация: " />
-
-        <TextView
-            android:id="@+id/result_recovery_sec1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            tools:text="3" />
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,6 +70,22 @@ class RoomRepository : IRepository, KoinComponent {
         )
     }
 
+    override fun getElectricSectionList(locomotiveDataID: String): Single<List<ElectricSection>> {
+        return Single.just(
+            toElectricSectionList(
+                localStorage.getListElectricSection(locomotiveDataID)
+            )
+        )
+    }
+
+    override fun getElectricSection(sectionID: String): Single<ElectricSection> {
+        return Single.just(
+            toElectricSection(
+                localStorage.getElectricSection(sectionID)
+            )
+        )
+    }
+
     override fun addItinerary(itinerary: Itinerary): Single<Long> {
         return Single.just(
             localStorage.addItinerary(
@@ -106,6 +122,14 @@ class RoomRepository : IRepository, KoinComponent {
         return Single.just(
             localStorage.addDieselFuelSection(
                 toDieselFuelSectionRoomEntity(dieselFuelSection)
+            )
+        )
+    }
+
+    override fun addElectricSection(electricSection: ElectricSection): Single<Long> {
+        return Single.just(
+            localStorage.addElectricSection(
+                toElectricSectionRoomEntity(electricSection)
             )
         )
     }
@@ -150,6 +174,14 @@ class RoomRepository : IRepository, KoinComponent {
         )
     }
 
+    override fun removeElectricSection(electricSection: ElectricSection): Single<Int> {
+        return Single.just(
+            localStorage.removeElectricSection(
+                toElectricSectionRoomEntity(electricSection)
+            )
+        )
+    }
+
     override fun changeItinerary(itinerary: Itinerary): Single<Int> {
         return Single.just(
             localStorage.changeItinerary(
@@ -190,6 +222,14 @@ class RoomRepository : IRepository, KoinComponent {
         )
     }
 
+    override fun changeElectricSection(electricSection: ElectricSection): Single<Int> {
+        return Single.just(
+            localStorage.changeElectricSection(
+                toElectricSectionRoomEntity(electricSection)
+            )
+        )
+    }
+
     override fun updateAcceptedDieselFuelSection(
         sectionID: String,
         accepted: Int?
@@ -217,6 +257,72 @@ class RoomRepository : IRepository, KoinComponent {
     ): Single<Int> {
         return Single.just(
             localStorage.updateConsumptionDieselFuelSection(
+                sectionID, consumption
+            )
+        )
+    }
+
+    override fun updateAcceptedEnergyElectricSection(
+        sectionID: String,
+        accepted: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateAcceptedEnergyElectricSection(
+                sectionID, accepted
+            )
+        )
+    }
+
+    override fun updateDeliveryEnergyElectricSection(
+        sectionID: String,
+        delivery: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateDeliveryEnergyElectricSection(
+                sectionID, delivery
+            )
+        )
+    }
+
+    override fun updateConsumptionEnergyElectricSection(
+        sectionID: String,
+        consumption: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateConsumptionEnergyElectricSection(
+                sectionID, consumption
+            )
+        )
+    }
+
+    override fun updateAcceptedRecoveryElectricSection(
+        sectionID: String,
+        accepted: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateAcceptedRecoveryElectricSection(
+                sectionID, accepted
+            )
+        )
+    }
+
+    override fun updateDeliveryRecoveryElectricSection(
+        sectionID: String,
+        delivery: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateDeliveryRecoveryElectricSection(
+                sectionID, delivery
+            )
+        )
+    }
+
+    override fun updateConsumptionRecoveryElectricSection(
+        sectionID: String,
+        consumption: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateConsumptionRecoveryElectricSection(
                 sectionID, consumption
             )
         )

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -17,8 +16,6 @@ import com.example.myfirstapp.databinding.BlockDieselFuelBinding
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
 import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.TypeOfTraction
-import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -28,7 +25,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import java.util.*
 import java.util.Calendar.getInstance
 import kotlin.properties.Delegates
@@ -54,24 +50,10 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     }
 
     private val binding: FragmentAddLocoBinding by viewBinding()
-    private val getListDieselFuelSectionUseCase: GetListDieselFuelSectionUseCase by inject()
-    private val getDieselFuelSectionUseCase: GetDieselFuelSectionUseCase by inject()
-    private val updateAcceptedDieselFuelSectionUseCase: UpdateAcceptedDieselFuelSectionUseCase by inject()
-    private val updateDeliveryDieselFuelSectionUseCase: UpdateDeliveryDieselFuelSectionUseCase by inject()
-    private val updateConsumptionDieselFuelUseCase: UpdateConsumptionDieselFuelUseCase by inject()
-    private val addDieselFuelSectionUseCase: AddDieselFuelSectionUseCase by inject()
-    private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase by inject()
 
     private val viewModel: AddLocoViewModel by viewModels {
         AddLocoViewModelFactory(
-            locomotiveDataID = arguments?.getString(KEY_LOCOMOTIVE_DATA_ID).toString(),
-            getListDieselFuelSectionUseCase,
-            getDieselFuelSectionUseCase,
-            updateAcceptedDieselFuelSectionUseCase,
-            updateDeliveryDieselFuelSectionUseCase,
-            updateConsumptionDieselFuelUseCase,
-            addDieselFuelSectionUseCase,
-            addLocomotiveDataUseCase
+            locomotiveDataID = arguments?.getString(KEY_LOCOMOTIVE_DATA_ID).toString()
         )
     }
     private lateinit var itineraryID: String
@@ -388,27 +370,27 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
 
-        resultInput(binding.includeDieselFuelSec1, CountSections.OneSection.index)
-        resultInput(binding.includeDieselFuelSec2, CountSections.TwoSection.index)
-        resultInput(binding.includeDieselFuelSec3, CountSections.ThreeSection.index)
-        resultInput(binding.includeDieselFuelSec4, CountSections.FourSection.index)
+        resultInputDieselFuel(binding.includeDieselFuelSec1, CountSections.OneSection.index)
+        resultInputDieselFuel(binding.includeDieselFuelSec2, CountSections.TwoSection.index)
+        resultInputDieselFuel(binding.includeDieselFuelSec3, CountSections.ThreeSection.index)
+        resultInputDieselFuel(binding.includeDieselFuelSec4, CountSections.FourSection.index)
 
         /** Подписался на изменеия расхода секции*/
-        viewModel.getResultSecOne().observe(viewLifecycleOwner) { result ->
+        viewModel.getResultDieselSecOne().observe(viewLifecycleOwner) { result ->
             renderDataDieselFuelSecOne(result)
         }
-        viewModel.getResultSecTwo().observe(viewLifecycleOwner) { result ->
+        viewModel.getResultDieselSecTwo().observe(viewLifecycleOwner) { result ->
             renderDataDieselFuelSecTwo(result)
         }
-        viewModel.getResultSecThree().observe(viewLifecycleOwner) { result ->
+        viewModel.getResultDieselSecThree().observe(viewLifecycleOwner) { result ->
             renderDataDieselFuelSecThree(result)
         }
-        viewModel.getResultSecFour().observe(viewLifecycleOwner) { result ->
+        viewModel.getResultDieselSecFour().observe(viewLifecycleOwner) { result ->
             renderDataDieselFuelSecFour(result)
         }
         /** Подписался на изменения общего расхода*/
-        viewModel.getTotalResult().observe(viewLifecycleOwner) { result ->
-            binding.dataTotalConsumptionDieselLiter.text = result.toString()
+        viewModel.getTotalDieselResult().observe(viewLifecycleOwner) { result ->
+            renderDataTotalConsumptionDieselFuel(result)
         }
 
 // ИНВЕНТАРЬ
@@ -434,76 +416,88 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         }
     }
 
-    /** Установка значения из ViewModel после вычисления*/
-    private fun renderDataDieselFuelSecOne(state: StateAddLocoDieselFuel) {
+    private fun renderDataTotalConsumptionDieselFuel(result: StateSection) {
+        when (result) {
+            is StateSection.EmptyData -> {
+                binding.blockResultDieselFuelLayout.visibility = View.GONE
+            }
+            is StateSection.Success -> {
+                binding.blockResultDieselFuelLayout.visibility = View.VISIBLE
+                binding.dataTotalConsumptionDieselLiter.text = result.result.toString()
+                binding.dataTotalConsumptionDieselKilo.text =
+                    String.format("%.2f", result.result * coefficient)
+            }
+            is StateSection.Error -> {}
+        }
+    }
+
+    /** Установка значения расхода на секцию из ViewModel после вычисления*/
+    private fun renderDataDieselFuelSecOne(state: StateSection) {
         when (state) {
-            is StateAddLocoDieselFuel.EmptyData -> {
-                Toast.makeText(requireContext(), "EmptyData", Toast.LENGTH_SHORT).show()
+            is StateSection.EmptyData -> {
                 binding.includeDieselFuelSec1.resultGroup.visibility = View.GONE
             }
-            is StateAddLocoDieselFuel.Success -> {
-                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+            is StateSection.Success -> {
                 binding.includeDieselFuelSec1.resultGroup.visibility = View.VISIBLE
                 binding.includeDieselFuelSec1.resultDieselFuelLiter.text = state.result.toString()
                 binding.includeDieselFuelSec1.resultDieselFuelKilo.text =
                     String.format("%.2f", state.result * coefficient)
             }
-            is StateAddLocoDieselFuel.Error -> {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+            is StateSection.Error -> {
                 binding.root.snack(state.message.toString())
                 binding.includeDieselFuelSec1.resultGroup.visibility = View.GONE
             }
         }
     }
 
-    private fun renderDataDieselFuelSecTwo(state: StateAddLocoDieselFuel) {
+    private fun renderDataDieselFuelSecTwo(state: StateSection) {
         when (state) {
-            is StateAddLocoDieselFuel.EmptyData -> {
+            is StateSection.EmptyData -> {
                 binding.includeDieselFuelSec2.resultGroup.visibility = View.GONE
             }
-            is StateAddLocoDieselFuel.Success -> {
+            is StateSection.Success -> {
                 binding.includeDieselFuelSec2.resultGroup.visibility = View.VISIBLE
                 binding.includeDieselFuelSec2.resultDieselFuelLiter.text = state.result.toString()
                 binding.includeDieselFuelSec2.resultDieselFuelKilo.text =
                     String.format("%.2f", state.result * coefficient)
             }
-            is StateAddLocoDieselFuel.Error -> {
+            is StateSection.Error -> {
                 binding.root.snack(state.message.toString())
                 binding.includeDieselFuelSec2.resultGroup.visibility = View.GONE
             }
         }
     }
 
-    private fun renderDataDieselFuelSecThree(state: StateAddLocoDieselFuel) {
+    private fun renderDataDieselFuelSecThree(state: StateSection) {
         when (state) {
-            is StateAddLocoDieselFuel.EmptyData -> {
+            is StateSection.EmptyData -> {
                 binding.includeDieselFuelSec3.resultGroup.visibility = View.GONE
             }
-            is StateAddLocoDieselFuel.Success -> {
+            is StateSection.Success -> {
                 binding.includeDieselFuelSec3.resultGroup.visibility = View.VISIBLE
                 binding.includeDieselFuelSec3.resultDieselFuelLiter.text = state.result.toString()
                 binding.includeDieselFuelSec3.resultDieselFuelKilo.text =
                     String.format("%.2f", state.result * coefficient)
             }
-            is StateAddLocoDieselFuel.Error -> {
+            is StateSection.Error -> {
                 binding.root.snack(state.message.toString())
                 binding.includeDieselFuelSec3.resultGroup.visibility = View.GONE
             }
         }
     }
 
-    private fun renderDataDieselFuelSecFour(state: StateAddLocoDieselFuel) {
+    private fun renderDataDieselFuelSecFour(state: StateSection) {
         when (state) {
-            is StateAddLocoDieselFuel.EmptyData -> {
+            is StateSection.EmptyData -> {
                 binding.includeDieselFuelSec4.resultGroup.visibility = View.GONE
             }
-            is StateAddLocoDieselFuel.Success -> {
+            is StateSection.Success -> {
                 binding.includeDieselFuelSec4.resultGroup.visibility = View.VISIBLE
                 binding.includeDieselFuelSec4.resultDieselFuelLiter.text = state.result.toString()
                 binding.includeDieselFuelSec4.resultDieselFuelKilo.text =
                     String.format("%.2f", state.result * coefficient)
             }
-            is StateAddLocoDieselFuel.Error -> {
+            is StateSection.Error -> {
                 binding.root.snack(state.message.toString())
                 binding.includeDieselFuelSec4.resultGroup.visibility = View.GONE
             }
@@ -511,32 +505,34 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     }
 
     /** Ввод данных о количестве топлива */
-    private fun resultInput(layout: BlockDieselFuelBinding, sectionIndex: Int) {
+    private fun resultInputDieselFuel(layout: BlockDieselFuelBinding, sectionIndex: Int) {
         layout.dataDieselFuelAcceptance.addTextChangedListener { data ->
             viewModel.saveAcceptedInRoom(
-                locomotiveDataID,
                 sectionIndex,
                 listDieselFuelSectionID[sectionIndex],
                 data.toString().toIntOrNull()
             )
-//            viewModel.acceptedBySection(sectionIndex, data.toString().toIntOrNull())
-            data?.let { inLiters ->
+            if (data.isNullOrBlank()) {
+                layout.acceptanceKiloGroup.visibility = View.GONE
+            } else {
+                layout.acceptanceKiloGroup.visibility = View.VISIBLE
                 layout.dataDieselFuelKiloAcceptance.text =
-                    setDataDieselFuelInKilograms(coefficient, inLiters.toString().toIntOrNull())
+                    setDataDieselFuelInKilograms(coefficient, data.toString().toIntOrNull())
             }
         }
 
         layout.dataDieselFuelDelivery.addTextChangedListener { data ->
             viewModel.saveDeliveryInRoom(
-                locomotiveDataID,
                 sectionIndex,
                 listDieselFuelSectionID[sectionIndex],
                 data.toString().toIntOrNull()
             )
-//            viewModel.deliveryBySection(sectionIndex, data.toString().toIntOrNull())
-            data?.let { inLiters ->
+            if (data.isNullOrBlank()) {
+                layout.deliveryKiloGroup.visibility = View.GONE
+            } else {
+                layout.deliveryKiloGroup.visibility = View.VISIBLE
                 layout.dataDieselFuelKiloDelivery.text =
-                    setDataDieselFuelInKilograms(coefficient, inLiters.toString().toIntOrNull())
+                    setDataDieselFuelInKilograms(coefficient, data.toString().toIntOrNull())
             }
         }
     }
@@ -708,10 +704,5 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 deliveryView.error = null
             }
         }
-    }
-
-    override fun onDestroyView() {
-        // TODO обновить LocomotiveData в Room
-        super.onDestroyView()
     }
 }
