@@ -68,4 +68,7 @@ interface IRepository {
     fun updateEndAcceptance(locomotiveDataID: String, calendar: Calendar?): Single<Int>
     fun updateStartDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int>
     fun updateEndDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int>
+
+    fun updateBreakShoes(locomotiveDataID: String, count: Int?): Single<Int>
+    fun updateExtinguishers(locomotiveDataID: String, count: Int?): Single<Int>
 }

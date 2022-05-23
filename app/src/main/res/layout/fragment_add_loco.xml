@@ -309,6 +309,7 @@
                     android:id="@+id/container_sec_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -393,7 +394,8 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/shape_background_main_block"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/StyleSecondaryText"

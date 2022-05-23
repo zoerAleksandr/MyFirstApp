@@ -532,21 +532,25 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         binding.btnMinusBrakeShoes.setOnClickListener {
             if (countBrakeShoes > 0) {
                 countBrakeShoes -= 1
+                viewModel.saveBreakShoes(locomotiveDataID, countBrakeShoes)
                 binding.dataBrakeShoes.text = countBrakeShoes.toString()
             } else binding.root.snack(getString(R.string.text_for_snackbar_input_less_zero))
         }
         binding.btnPlusBrakeShoes.setOnClickListener {
             countBrakeShoes += 1
+            viewModel.saveBreakShoes(locomotiveDataID, countBrakeShoes)
             binding.dataBrakeShoes.text = countBrakeShoes.toString()
         }
         binding.btnMinusExtinguishers.setOnClickListener {
             if (countExtinguishers > 0) {
                 countExtinguishers -= 1
+                viewModel.saveExtinguishers(locomotiveDataID, countExtinguishers)
                 binding.dataExtinguishers.text = countExtinguishers.toString()
             } else binding.root.snack(getString(R.string.text_for_snackbar_input_less_zero))
         }
         binding.btnPlusExtinguishers.setOnClickListener {
             countExtinguishers += 1
+            viewModel.saveExtinguishers(locomotiveDataID, countExtinguishers)
             binding.dataExtinguishers.text = countExtinguishers.toString()
         }
     }

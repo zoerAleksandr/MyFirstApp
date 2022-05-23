@@ -62,6 +62,10 @@ class AddLocoViewModel(
     private val updateStartDeliveryUseCase: UpdateStartDeliveryUseCase by inject()
     private val updateEndDeliveryUseCase: UpdateEndDeliveryUseCase by inject()
 
+    // Inventory
+    private val updateBreakShoesUseCase: UpdateBreakShoesUseCase by inject()
+    private val updateExtinguishersUseCase: UpdateExtinguishersUseCase by inject()
+
     // LiveData for Diesel Section
     private val liveDataDieselResultSecOne: MutableLiveData<StateSection> = MutableLiveData()
     private val liveDataDieselResultSecTwo: MutableLiveData<StateSection> = MutableLiveData()
@@ -155,6 +159,27 @@ class AddLocoViewModel(
         return liveDataElectricRecoveryElectricResultTotal
     }
 
+    fun saveBreakShoes(locomotiveDataID: String, count: Int?) {
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateBreakShoesUseCase.execute(locomotiveDataID, count)
+                }
+                .subscribe()
+        )
+    }
+    fun saveExtinguishers(locomotiveDataID: String, count: Int?) {
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateExtinguishersUseCase.execute(locomotiveDataID, count)
+                }
+                .subscribe()
+        )
+    }
+
     fun saveStartAcceptance(locomotiveDataID: String, calendar: Calendar?) {
         compositeDisposable.add(
             Single.just(locomotiveDataID)
@@ -199,7 +224,7 @@ class AddLocoViewModel(
         )
     }
 
-    fun saveTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction){
+    fun saveTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction) {
         compositeDisposable.add(
             Single.just(locomotiveDataID)
                 .observeOn(Schedulers.io())
@@ -209,7 +234,8 @@ class AddLocoViewModel(
                 .subscribe()
         )
     }
-    fun saveCountSection(locomotiveDataID: String, countSections: CountSections){
+
+    fun saveCountSection(locomotiveDataID: String, countSections: CountSections) {
         compositeDisposable.add(
             Single.just(locomotiveDataID)
                 .observeOn(Schedulers.io())
@@ -220,7 +246,7 @@ class AddLocoViewModel(
         )
     }
 
-    fun saveNumberLoco(locomotiveDataID: String, data: String?){
+    fun saveNumberLoco(locomotiveDataID: String, data: String?) {
         compositeDisposable.add(
             Single.just(locomotiveDataID)
                 .observeOn(Schedulers.io())
@@ -231,7 +257,7 @@ class AddLocoViewModel(
         )
     }
 
-    fun saveSeriesLoco(locomotiveDataID: String, data: String?){
+    fun saveSeriesLoco(locomotiveDataID: String, data: String?) {
         compositeDisposable.add(
             Single.just(locomotiveDataID)
                 .observeOn(Schedulers.io())

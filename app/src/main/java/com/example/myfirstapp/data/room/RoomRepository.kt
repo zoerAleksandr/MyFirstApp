@@ -382,4 +382,16 @@ class RoomRepository : IRepository, KoinComponent {
             localStorage.updateCalendarEndDelivery(locomotiveDataID, calendar)
         )
     }
+
+    override fun updateBreakShoes(locomotiveDataID: String, count: Int?): Single<Int> {
+        return Single.just(
+            localStorage.updateBreakShoes(locomotiveDataID, count)
+        )
+    }
+
+    override fun updateExtinguishers(locomotiveDataID: String, count: Int?): Single<Int> {
+        return Single.just(
+            localStorage.updateExtinguishers(locomotiveDataID, count)
+        )
+    }
 }

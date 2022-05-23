@@ -188,4 +188,10 @@ interface ItineraryDAO {
 
     @Query("UPDATE locomotive SET endDelivery = :calendar WHERE locomotiveDataID =:locomotiveDataID")
     fun updateCalendarEndDelivery(locomotiveDataID: String, calendar: Calendar?): Int
+
+    @Query("UPDATE locomotive SET countBrakeShoes = :count WHERE locomotiveDataID =:locomotiveDataID")
+    fun updateBreakShoes(locomotiveDataID: String, count: Int?): Int
+
+    @Query("UPDATE locomotive SET countExtinguishers = :count WHERE locomotiveDataID =:locomotiveDataID")
+    fun updateExtinguishers(locomotiveDataID: String, count: Int?): Int
 }
