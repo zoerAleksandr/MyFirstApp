@@ -339,4 +339,22 @@ class RoomRepository : IRepository, KoinComponent {
             localStorage.updateSeriesLoco(locomotiveDataID, series)
         )
     }
+
+    override fun updateTypeOfTraction(
+        locomotiveDataID: String,
+        typeOfTraction: TypeOfTraction
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateTypeOfTraction(locomotiveDataID, typeOfTraction)
+        )
+    }
+
+    override fun updateCountSection(
+        locomotiveDataID: String,
+        countSections: CountSections
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateCountSection(locomotiveDataID, countSections)
+        )
+    }
 }

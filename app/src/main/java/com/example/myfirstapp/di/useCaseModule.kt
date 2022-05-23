@@ -19,6 +19,8 @@ val useCaseModule = module {
     single { AddLocomotiveDataUseCase(repository = get()) }
     single { UpdateSeriesLocoUseCase(repository = get()) }
     single { UpdateNumberLocoUseCase(repository = get()) }
+    single { UpdateTypeOfTractionUseCase(repository = get()) }
+    single { UpdateCountSectionUseCase(repository = get()) }
 
     // Diesel Section
     single { AddDieselFuelSectionUseCase(repository = get()) }

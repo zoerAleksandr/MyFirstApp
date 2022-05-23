@@ -2,6 +2,8 @@ package com.example.myfirstapp.data.room
 
 import androidx.room.*
 import com.example.myfirstapp.data.room.entity.*
+import com.example.myfirstapp.domain.entity.CountSections
+import com.example.myfirstapp.domain.entity.TypeOfTraction
 
 @Dao
 interface ItineraryDAO {
@@ -167,4 +169,10 @@ interface ItineraryDAO {
 
     @Query("UPDATE locomotive SET number = :number WHERE locomotiveDataID = :locomotiveDataID")
     fun updateNumberLoco(locomotiveDataID: String, number: String?): Int
+
+    @Query("UPDATE locomotive SET typeOfTraction = :typeOfTraction WHERE locomotiveDataID = :locomotiveDataID")
+    fun updateTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction): Int
+
+    @Query("UPDATE locomotive SET countSections = :countSections WHERE locomotiveDataID = :locomotiveDataID")
+    fun updateCountSection(locomotiveDataID: String, countSections: CountSections): Int
 }

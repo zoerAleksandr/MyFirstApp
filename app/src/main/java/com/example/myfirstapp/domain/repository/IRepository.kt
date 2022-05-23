@@ -59,4 +59,7 @@ interface IRepository {
 
     fun updateNumberLoco(locomotiveDataID: String, number: String?): Single<Int>
     fun updateSeriesLoco(locomotiveDataID: String, series: String?): Single<Int>
+
+    fun updateTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction): Single<Int>
+    fun updateCountSection(locomotiveDataID: String, countSections: CountSections): Single<Int>
 }

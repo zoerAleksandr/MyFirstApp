@@ -5,7 +5,6 @@ import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -104,8 +103,8 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             listDieselFuelSectionID = bundle.getStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID)!!
             listElectricSectionID = bundle.getStringArrayList(KEY_LIST_ELECTRIC_SECTION_ID)!!
         }
-        setCountSection()
-        setTypeOfTraction()
+        setCountSection(countSection)
+        setTypeOfTraction(typeLoco)
 
         binding.includeEnergySec1.subtitleBlockEnergyTextView.text =
             resources.getString(R.string.subtitle_block_energy_sec_1)
@@ -164,12 +163,20 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
         binding.etSeriesLoco.addTextChangedListener {
-            val data = if (it.isNullOrBlank()) { null } else { it.toString() }
+            val data = if (it.isNullOrBlank()) {
+                null
+            } else {
+                it.toString()
+            }
             viewModel.saveSeriesLoco(locomotiveDataID, data)
         }
 
         binding.etNumberLoco.addTextChangedListener {
-            val data = if (it.isNullOrBlank()) { null } else { it.toString() }
+            val data = if (it.isNullOrBlank()) {
+                null
+            } else {
+                it.toString()
+            }
             viewModel.saveNumberLoco(locomotiveDataID, data)
         }
 
@@ -198,7 +205,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                             typeLoco = TypeOfTraction.ElectricLocomotive
                         }
                     }
-                    setTypeOfTraction()
+                    setTypeOfTraction(typeLoco)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -219,7 +226,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                     CountSections.ThreeSection -> getTabAt(2)
                     CountSections.FourSection -> getTabAt(3)
                 }
-
             )
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
@@ -237,7 +243,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                             countSection = CountSections.FourSection
                         }
                     }
-                    setCountSection()
+                    setCountSection(countSection)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -490,8 +496,8 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         }
     }
 
-    private fun renderDataTotalConsumptionEnergy(result: StateSection){
-        when(result){
+    private fun renderDataTotalConsumptionEnergy(result: StateSection) {
+        when (result) {
             is StateSection.EmptyData -> {
                 binding.blockResultsEnergy.visibility = View.GONE
             }
@@ -504,9 +510,10 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
     }
+
     // TODO сделать независимые блоки для электроэнергии и рекуперации
-    private fun renderDataTotalConsumptionRecovery(result: StateSection){
-        when(result){
+    private fun renderDataTotalConsumptionRecovery(result: StateSection) {
+        when (result) {
             is StateSection.EmptyData -> {
                 binding.blockResultsEnergy.visibility = View.GONE
             }
@@ -608,6 +615,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
     }
+
     private fun renderDataEnergySecTwo(state: StateSection) {
         when (state) {
             is StateSection.EmptyData -> {
@@ -623,6 +631,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
     }
+
     private fun renderDataEnergySecThree(state: StateSection) {
         when (state) {
             is StateSection.EmptyData -> {
@@ -638,6 +647,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
     }
+
     private fun renderDataEnergySecFour(state: StateSection) {
         when (state) {
             is StateSection.EmptyData -> {
@@ -669,6 +679,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
     }
+
     private fun renderDataRecoverySecTwo(state: StateSection) {
         when (state) {
             is StateSection.EmptyData -> {
@@ -684,6 +695,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
     }
+
     private fun renderDataRecoverySecThree(state: StateSection) {
         when (state) {
             is StateSection.EmptyData -> {
@@ -699,6 +711,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             }
         }
     }
+
     private fun renderDataRecoverySecFour(state: StateSection) {
         when (state) {
             is StateSection.EmptyData -> {
@@ -784,8 +797,8 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         }
     }
 
-    private fun setCountSection() {
-        when (countSection) {
+    private fun setCountSection(countSections: CountSections) {
+        when (countSections) {
             CountSections.OneSection -> {
                 binding.containerSec1.visibility = View.VISIBLE
                 binding.containerSec2.visibility = View.GONE
@@ -811,10 +824,11 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 binding.containerSec4.visibility = View.VISIBLE
             }
         }
+        viewModel.saveCountSection(locomotiveDataID, countSections)
     }
 
-    private fun setTypeOfTraction() {
-        when (typeLoco) {
+    private fun setTypeOfTraction(typeOfTraction: TypeOfTraction) {
+        when (typeOfTraction) {
             TypeOfTraction.DieselLocomotive -> {
                 binding.apply {
                     includeEnergySec1.blockEnergy.visibility = View.GONE
@@ -845,6 +859,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 }
             }
         }
+        viewModel.saveTypeOfTraction(locomotiveDataID, typeOfTraction)
     }
 
     /* Метод для определения корректности введенных данных о времени приемки локомотива*/

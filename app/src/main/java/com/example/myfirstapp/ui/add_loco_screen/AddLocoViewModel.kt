@@ -3,10 +3,14 @@ package com.example.myfirstapp.ui.add_loco_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.DieselFuelSection
 import com.example.myfirstapp.domain.entity.ElectricSection
+import com.example.myfirstapp.domain.entity.TypeOfTraction
+import com.example.myfirstapp.domain.usecase.locomotive.UpdateCountSectionUseCase
 import com.example.myfirstapp.domain.usecase.locomotive.UpdateNumberLocoUseCase
 import com.example.myfirstapp.domain.usecase.locomotive.UpdateSeriesLocoUseCase
+import com.example.myfirstapp.domain.usecase.locomotive.UpdateTypeOfTractionUseCase
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*
 import io.reactivex.rxjava3.core.Single
@@ -49,6 +53,10 @@ class AddLocoViewModel(
     // Series and Number
     private val updateSeriesLocoUseCase: UpdateSeriesLocoUseCase by inject()
     private val updateNumberLocoUseCase: UpdateNumberLocoUseCase by inject()
+
+    // TypeOfTraction and CountSection
+    private val updateTypeOfTractionUseCase: UpdateTypeOfTractionUseCase by inject()
+    private val updateCountSectionUseCase: UpdateCountSectionUseCase by inject()
 
     // LiveData for Diesel Section
     private val liveDataDieselResultSecOne: MutableLiveData<StateSection> = MutableLiveData()
@@ -142,6 +150,28 @@ class AddLocoViewModel(
     fun getTotalRecoveryElectricResult(): LiveData<StateSection> {
         return liveDataElectricRecoveryElectricResultTotal
     }
+
+    fun saveTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction){
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateTypeOfTractionUseCase.execute(locomotiveDataID, typeOfTraction)
+                }
+                .subscribe()
+        )
+    }
+    fun saveCountSection(locomotiveDataID: String, countSections: CountSections){
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateCountSectionUseCase.execute(locomotiveDataID, countSections)
+                }
+                .subscribe()
+        )
+    }
+
     fun saveNumberLoco(locomotiveDataID: String, data: String?){
         compositeDisposable.add(
             Single.just(locomotiveDataID)
