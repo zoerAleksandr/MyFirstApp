@@ -22,7 +22,7 @@ interface ItineraryDAO {
     fun changeItinerary(roomEntity: ItineraryRoomEntity): Int
 
     // LocomotiveData
-    @Query("SELECT * FROM locomotive WHERE locomotive_data_id = :locomotiveDataID")
+    @Query("SELECT * FROM locomotive WHERE locomotiveDataID = :locomotiveDataID")
     fun getLocomotiveData(locomotiveDataID: String): LocomotiveDataRoomEntity
 
     @Query("SELECT * FROM locomotive WHERE itineraryID = :itineraryID")
@@ -162,4 +162,9 @@ interface ItineraryDAO {
         consumption: Int?
     ): Int
 
+    @Query("UPDATE locomotive SET series = :series WHERE locomotiveDataID = :locomotiveDataID")
+    fun updateSeriesLoco(locomotiveDataID: String, series: String?): Int
+
+    @Query("UPDATE locomotive SET number = :number WHERE locomotiveDataID = :locomotiveDataID")
+    fun updateNumberLoco(locomotiveDataID: String, number: String?): Int
 }

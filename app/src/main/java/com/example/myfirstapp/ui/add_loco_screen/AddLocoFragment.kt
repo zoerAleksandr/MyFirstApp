@@ -163,6 +163,15 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 editor?.putStringSet(LIST_SERIES, setCopy)?.apply()
             }
         }
+        binding.etSeriesLoco.addTextChangedListener {
+            val data = if (it.isNullOrBlank()) { null } else { it.toString() }
+            viewModel.saveSeriesLoco(locomotiveDataID, data)
+        }
+
+        binding.etNumberLoco.addTextChangedListener {
+            val data = if (it.isNullOrBlank()) { null } else { it.toString() }
+            viewModel.saveNumberLoco(locomotiveDataID, data)
+        }
 
 /*Селектор выбора типа тяги*/
         binding.typeLocoTabLayout.apply {

@@ -24,8 +24,6 @@ interface IRepository {
     fun getElectricSectionList(locomotiveDataID: String): Single<List<ElectricSection>>
     fun getElectricSection(sectionID: String): Single<ElectricSection>
 
-
-
     fun addItinerary(itinerary: Itinerary): Single<Long>
     fun addLocomotiveData(locomotiveData: LocomotiveData): Single<Long>
     fun addTrainData(trainData: TrainData): Single<Long>
@@ -59,5 +57,6 @@ interface IRepository {
     fun updateDeliveryRecoveryElectricSection(sectionID: String, delivery: Int?): Single<Int>
     fun updateConsumptionRecoveryElectricSection(sectionID: String, consumption: Int?): Single<Int>
 
-
+    fun updateNumberLoco(locomotiveDataID: String, number: String?): Single<Int>
+    fun updateSeriesLoco(locomotiveDataID: String, series: String?): Single<Int>
 }

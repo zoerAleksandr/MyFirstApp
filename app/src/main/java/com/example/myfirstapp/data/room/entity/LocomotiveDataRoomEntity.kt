@@ -14,7 +14,6 @@ import java.util.*
 )
 data class LocomotiveDataRoomEntity(
     @PrimaryKey
-    @ColumnInfo(name = "locomotive_data_id")
     val locomotiveDataID: String,
     val itineraryID: String,
     var series: String?,

@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.domain.entity.DieselFuelSection
 import com.example.myfirstapp.domain.entity.ElectricSection
+import com.example.myfirstapp.domain.usecase.locomotive.UpdateNumberLocoUseCase
+import com.example.myfirstapp.domain.usecase.locomotive.UpdateSeriesLocoUseCase
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*
 import io.reactivex.rxjava3.core.Single
@@ -43,6 +45,10 @@ class AddLocoViewModel(
             UpdateDeliveryRecoveryElectricSectionUseCase by inject()
     private val updateConsumptionRecoveryElectricSectionUseCase:
             UpdateConsumptionRecoveryElectricSectionUseCase by inject()
+
+    // Series and Number
+    private val updateSeriesLocoUseCase: UpdateSeriesLocoUseCase by inject()
+    private val updateNumberLocoUseCase: UpdateNumberLocoUseCase by inject()
 
     // LiveData for Diesel Section
     private val liveDataDieselResultSecOne: MutableLiveData<StateSection> = MutableLiveData()
@@ -135,6 +141,27 @@ class AddLocoViewModel(
 
     fun getTotalRecoveryElectricResult(): LiveData<StateSection> {
         return liveDataElectricRecoveryElectricResultTotal
+    }
+    fun saveNumberLoco(locomotiveDataID: String, data: String?){
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateNumberLocoUseCase.execute(it, data)
+                }
+                .subscribe()
+        )
+    }
+
+    fun saveSeriesLoco(locomotiveDataID: String, data: String?){
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateSeriesLocoUseCase.execute(it, data)
+                }
+                .subscribe()
+        )
     }
 
     fun saveAcceptedInRoom(sectionIndex: Int, sectionID: String, value: Int?) {
