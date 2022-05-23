@@ -1,6 +1,5 @@
 package com.example.myfirstapp.data.room.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.myfirstapp.domain.entity.CountSections

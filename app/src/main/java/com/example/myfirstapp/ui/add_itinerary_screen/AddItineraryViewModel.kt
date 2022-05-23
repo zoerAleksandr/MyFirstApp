@@ -24,36 +24,6 @@ class AddItineraryViewModel(
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    fun saveItinerary(
-        itineraryID: String,
-        number: String?,
-        appearanceAtWork: Calendar?,
-        endOfWork: Calendar?,
-        restAtThePointOfTurnover: Boolean,
-        notes: String?
-    ) {
-        val itinerary = Itinerary(
-            itineraryID,
-            number,
-            appearanceAtWork,
-            endOfWork,
-            restAtThePointOfTurnover,
-            notes,
-            mutableListOf(),
-            mutableListOf(),
-            mutableListOf()
-        )
-        compositeDisposable.add(
-            Single.just(itinerary)
-                .observeOn(Schedulers.io())
-                .map {
-                    addItineraryUseCase.execute(itinerary)
-                }
-                .subscribe()
-        )
-    }
-
-
     fun addLocomotiveData(locomotiveData: LocomotiveData) {
         compositeDisposable.add(
             Single.just(locomotiveData)

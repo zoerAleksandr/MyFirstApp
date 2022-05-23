@@ -8,7 +8,10 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel {
-        MainViewModel(getItineraryListUseCase = get())
+        MainViewModel(
+            getItineraryListUseCase = get(),
+            addItineraryUseCase = get()
+            )
     }
 
     viewModel {

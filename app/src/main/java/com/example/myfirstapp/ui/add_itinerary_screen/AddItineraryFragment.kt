@@ -22,8 +22,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import java.util.Calendar.*
 
+const val ITINERARY_ID = "itineraryId"
 
 class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
+    companion object {
+        fun newInstance(bundle: Bundle): AddItineraryFragment {
+            val fragment = AddItineraryFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 
     private val binding: FragmentAddItineraryBinding by viewBinding()
     private val viewModel: AddItineraryViewModel by viewModel()
@@ -34,20 +42,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private var dateAndTimeTurnout: Calendar? = null
     private var dateAndTimeEnding: Calendar? = null
     private var restPointOfTurnover = false
-    private val itineraryID = generateStringID()
-    private val locomotiveDataID = generateStringID()
-    private val listDieselFuelSectionID = arrayListOf(
-        generateStringID(),
-        generateStringID(),
-        generateStringID(),
-        generateStringID()
-    )
-    private val listElectricSectionID = arrayListOf(
-        generateStringID(),
-        generateStringID(),
-        generateStringID(),
-        generateStringID()
-    )
+    private lateinit var itineraryID: String
     private val trainDataID = generateStringID()
     private val followingByPassengerID = generateStringID()
 
@@ -61,6 +56,9 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let { bundle ->
+            itineraryID = bundle.getString(ITINERARY_ID).toString()
+        }
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(
@@ -91,7 +89,25 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddLoco.setOnClickListener {
-            createLocomotiveDataEntity(itineraryID, locomotiveDataID)
+            val locomotiveDataID = generateStringID()
+            val listDieselFuelSectionID = arrayListOf(
+                generateStringID(),
+                generateStringID(),
+                generateStringID(),
+                generateStringID()
+            )
+            val listElectricSectionID = arrayListOf(
+                generateStringID(),
+                generateStringID(),
+                generateStringID(),
+                generateStringID()
+            )
+            createLocomotiveDataEntity(
+                itineraryID,
+                locomotiveDataID,
+                listDieselFuelSectionID,
+                listElectricSectionID
+            )
             val bundle = Bundle().apply {
                 putParcelable(KEY_TYPE_OF_TRACTION, TypeOfTraction.DieselLocomotive)
                 putParcelable(KEY_COUNT_SECTIONS, CountSections.TwoSection)
@@ -205,7 +221,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     }
 
     override fun onDestroyView() {
-        saveItinerary()
+        // TODO update Itinerary ?
         super.onDestroyView()
     }
 
@@ -230,18 +246,12 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         } else setDefaultBackground(requireContext(), binding.blockEnding)
     }
 
-    private fun saveItinerary() {
-        viewModel.saveItinerary(
-            itineraryID,
-            binding.etNumberItinerary.text.toString(),
-            dateAndTimeTurnout,
-            dateAndTimeEnding,
-            restPointOfTurnover,
-            binding.notesText.text.toString()
-        )
-    }
-
-    private fun createLocomotiveDataEntity(itineraryID: String, locomotiveDataID: String) {
+    private fun createLocomotiveDataEntity(
+        itineraryID: String,
+        locomotiveDataID: String,
+        listDieselFuelSectionID: ArrayList<String>,
+        listElectricSectionID: ArrayList<String>,
+    ) {
         viewModel.addLocomotiveData(
             LocomotiveData(
                 locomotiveDataID = locomotiveDataID,
