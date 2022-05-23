@@ -2,6 +2,7 @@ package com.example.myfirstapp.domain.repository
 
 import com.example.myfirstapp.domain.entity.*
 import io.reactivex.rxjava3.core.Single
+import java.util.*
 
 interface IRepository {
     fun getListItinerary(): Single<MutableList<Itinerary>>
@@ -62,4 +63,9 @@ interface IRepository {
 
     fun updateTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction): Single<Int>
     fun updateCountSection(locomotiveDataID: String, countSections: CountSections): Single<Int>
+
+    fun updateStartAcceptance(locomotiveDataID: String, calendar: Calendar?): Single<Int>
+    fun updateEndAcceptance(locomotiveDataID: String, calendar: Calendar?): Single<Int>
+    fun updateStartDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int>
+    fun updateEndDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int>
 }

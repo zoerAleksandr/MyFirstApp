@@ -6,6 +6,7 @@ import com.example.myfirstapp.utils.convert_entity.*
 import io.reactivex.rxjava3.core.Single
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.*
 
 class RoomRepository : IRepository, KoinComponent {
     private val localStorage: ItineraryDAO by inject()
@@ -355,6 +356,30 @@ class RoomRepository : IRepository, KoinComponent {
     ): Single<Int> {
         return Single.just(
             localStorage.updateCountSection(locomotiveDataID, countSections)
+        )
+    }
+
+    override fun updateStartAcceptance(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarStartAcceptance(locomotiveDataID, calendar)
+        )
+    }
+
+    override fun updateEndAcceptance(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarEndAcceptance(locomotiveDataID, calendar)
+        )
+    }
+
+    override fun updateStartDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarStartDelivery(locomotiveDataID, calendar)
+        )
+    }
+
+    override fun updateEndDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarEndDelivery(locomotiveDataID, calendar)
         )
     }
 }

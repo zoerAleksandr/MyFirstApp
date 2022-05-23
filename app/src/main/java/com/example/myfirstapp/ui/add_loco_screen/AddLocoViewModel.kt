@@ -7,10 +7,7 @@ import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.DieselFuelSection
 import com.example.myfirstapp.domain.entity.ElectricSection
 import com.example.myfirstapp.domain.entity.TypeOfTraction
-import com.example.myfirstapp.domain.usecase.locomotive.UpdateCountSectionUseCase
-import com.example.myfirstapp.domain.usecase.locomotive.UpdateNumberLocoUseCase
-import com.example.myfirstapp.domain.usecase.locomotive.UpdateSeriesLocoUseCase
-import com.example.myfirstapp.domain.usecase.locomotive.UpdateTypeOfTractionUseCase
+import com.example.myfirstapp.domain.usecase.locomotive.*
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*
 import io.reactivex.rxjava3.core.Single
@@ -19,6 +16,7 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.*
 
 class AddLocoViewModel(
     private val locomotiveDataID: String
@@ -57,6 +55,12 @@ class AddLocoViewModel(
     // TypeOfTraction and CountSection
     private val updateTypeOfTractionUseCase: UpdateTypeOfTractionUseCase by inject()
     private val updateCountSectionUseCase: UpdateCountSectionUseCase by inject()
+
+    // Calendar Acceptance and Delivery
+    private val updateStartAcceptanceUseCase: UpdateStartAcceptanceUseCase by inject()
+    private val updateEndAcceptanceUseCase: UpdateEndAcceptanceUseCase by inject()
+    private val updateStartDeliveryUseCase: UpdateStartDeliveryUseCase by inject()
+    private val updateEndDeliveryUseCase: UpdateEndDeliveryUseCase by inject()
 
     // LiveData for Diesel Section
     private val liveDataDieselResultSecOne: MutableLiveData<StateSection> = MutableLiveData()
@@ -149,6 +153,50 @@ class AddLocoViewModel(
 
     fun getTotalRecoveryElectricResult(): LiveData<StateSection> {
         return liveDataElectricRecoveryElectricResultTotal
+    }
+
+    fun saveStartAcceptance(locomotiveDataID: String, calendar: Calendar?) {
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateStartAcceptanceUseCase.execute(locomotiveDataID, calendar)
+                }
+                .subscribe()
+        )
+    }
+
+    fun saveEndAcceptance(locomotiveDataID: String, calendar: Calendar?) {
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateEndAcceptanceUseCase.execute(locomotiveDataID, calendar)
+                }
+                .subscribe()
+        )
+    }
+
+    fun saveStartDelivery(locomotiveDataID: String, calendar: Calendar?) {
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateStartDeliveryUseCase.execute(locomotiveDataID, calendar)
+                }
+                .subscribe()
+        )
+    }
+
+    fun saveEndDelivery(locomotiveDataID: String, calendar: Calendar?) {
+        compositeDisposable.add(
+            Single.just(locomotiveDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    updateEndDeliveryUseCase.execute(locomotiveDataID, calendar)
+                }
+                .subscribe()
+        )
     }
 
     fun saveTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction){

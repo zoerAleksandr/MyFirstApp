@@ -19,14 +19,11 @@ import com.example.myfirstapp.domain.entity.TypeOfTraction
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import org.koin.core.component.KoinComponent
 import java.util.*
-import java.util.Calendar.getInstance
+import java.util.Calendar.*
 import kotlin.properties.Delegates
 
 const val PREFERENCES = "preferences"
@@ -63,10 +60,10 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     private lateinit var listElectricSectionID: ArrayList<String>
 
     private val dateAndTimeNow = getInstance()
-    private val dateAndTimeStartAcceptance by lazy { getInstance() }
-    private val dateAndTimeEndAcceptance by lazy { getInstance() }
-    private val dateAndTimeStartDelivery by lazy { getInstance() }
-    private val dateAndTimeEndDelivery by lazy { getInstance() }
+    private var dateAndTimeStartAcceptance: Calendar? = null
+    private var dateAndTimeEndAcceptance: Calendar? = null
+    private var dateAndTimeStartDelivery: Calendar? = null
+    private var dateAndTimeEndDelivery: Calendar? = null
 
     // тип тяги
     private lateinit var typeLoco: TypeOfTraction
@@ -76,6 +73,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
 
     // для настройки dataPicker
     private var dateStartAcceptance: Long = 0
+    private var dateEndAcceptance: Long = 0
     private var dateStartDelivery: Long = 0
 
     // для проверки заполнения времени
@@ -253,140 +251,212 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
 
 /*Дата и время начала приемки локомотива*/
         binding.startOfAcceptance.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .setTitleText(getString(R.string.text_for_date_picker_start_acceptance))
-                .build()
+            val timePickerStartAcceptance =
+                getTimePicker(
+                    getString(R.string.text_for_time_picker_start_acceptance),
+                    dateAndTimeNow
+                ).also { timePicker ->
+                    timePicker.addOnPositiveButtonClickListener {
+                        dateAndTimeStartAcceptance?.let { calendar ->
+                            calendar.set(HOUR_OF_DAY, timePicker.hour)
+                            calendar.set(MINUTE, timePicker.minute)
+                        }
+                        viewModel.saveStartAcceptance(locomotiveDataID, dateAndTimeStartAcceptance)
+                        binding.apply {
+                            timeLocoStartAcceptance.text = setTextTime(timePicker)
+                            timeLocoStartAcceptance.alpha = 1f
+                        }
+                    }
+                    timePicker.addOnCancelListener {
+                        // TODO Укажите время
+                    }
+                }
 
-            val timePicker = MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setTitleText(getString(R.string.text_for_time_picker_start_acceptance))
-                .setHour(dateAndTimeNow.get(Calendar.HOUR_OF_DAY))
-                .setMinute(dateAndTimeNow.get(Calendar.MINUTE))
-                .build()
+            val datePickerStartAcceptance =
+                getDatePicker(getString(R.string.text_for_date_picker_start_acceptance), null)
+                    .also { datePicker ->
+                        datePicker.addOnPositiveButtonClickListener { dateInMillis ->
+                            dateAndTimeStartAcceptance = getInstance().apply {
+                                timeInMillis = dateInMillis
+                            }
+                            dateStartAcceptance = dateInMillis
+                            binding.apply {
+                                dateLocoStartAcceptance.text = setTextDate(dateInMillis)
+                                dateLocoStartAcceptance.alpha = 1f
+                            }
+                            timePickerStartAcceptance.show(
+                                requireActivity().supportFragmentManager,
+                                "TIME_PICKER_TURNOUT"
+                            )
+                        }
 
-            datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_TURNOUT")
+                    }
 
-            datePicker.addOnPositiveButtonClickListener { date ->
-                dateAndTimeStartAcceptance.timeInMillis = date
-                dateStartAcceptance = date
-                binding.dateLocoStartAcceptance.text = setTextDate(date)
-                binding.dateLocoStartAcceptance.alpha = 1f
-                timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_TURNOUT")
-            }
-
-            timePicker.addOnPositiveButtonClickListener {
-                dateAcceptanceFixed = true
-                dateAndTimeStartAcceptance.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                dateAndTimeStartAcceptance.set(Calendar.MINUTE, timePicker.minute)
-                binding.timeLocoStartAcceptance.text = setTextTime(timePicker)
-                binding.timeLocoStartAcceptance.alpha = 1f
-                verificationAcceptanceDateAndTime()
-            }
+            datePickerStartAcceptance.show(
+                requireActivity().supportFragmentManager,
+                "DATE_PICKER_TURNOUT"
+            )
         }
 
 /*Дата и время окончания приемки локомотива*/
         binding.endOfAcceptance.setOnClickListener {
-            val constraintBuilder = CalendarConstraints.Builder()
-            constraintBuilder.setValidator(DateValidatorPointForward.from(dateStartAcceptance))
-            val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .setCalendarConstraints(constraintBuilder.build())
-                .setTitleText(getString(R.string.text_for_date_picker_end_acceptance))
-                .build()
+            val timePickerEndAcceptance =
+                getTimePicker(
+                    getString(R.string.text_for_time_picker_ending),
+                    dateAndTimeNow
+                ).also { timePicker ->
+                    timePicker.addOnPositiveButtonClickListener {
+                        dateAndTimeEndAcceptance?.let { calendar ->
+                            calendar.set(HOUR_OF_DAY, timePicker.hour)
+                            calendar.set(MINUTE, timePicker.minute)
+                        }
+                        viewModel.saveEndAcceptance(locomotiveDataID, dateAndTimeEndAcceptance)
+                        binding.apply {
+                            timeLocoEndAcceptance.text = setTextTime(timePicker)
+                            timeLocoEndAcceptance.alpha = 1f
+                        }
+                    }
+                    timePicker.addOnCancelListener {
+                        // TODO Укажите время
+                    }
+                }
 
-            val timePicker = MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setTitleText(getString(R.string.text_for_time_end_acceptance))
-                .setHour(dateAndTimeNow.get(Calendar.HOUR_OF_DAY))
-                .setMinute(dateAndTimeNow.get(Calendar.MINUTE))
-                .build()
+            val calendarConstraints = CalendarConstraints.Builder()
+                .apply {
+                    setValidator(DateValidatorPointForward.from(dateStartAcceptance))
+                }
 
-            datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_TURNOUT")
+            val datePickerEndAcceptance =
+                getDatePicker(
+                    getString(R.string.text_for_date_picker_end_acceptance),
+                    calendarConstraints
+                )
+                    .also { datePicker ->
+                        datePicker.addOnPositiveButtonClickListener { dateInMillis ->
+                            dateAndTimeEndAcceptance = getInstance().apply {
+                                timeInMillis = dateInMillis
+                            }
+                            dateEndAcceptance = dateInMillis
+                            binding.apply {
+                                dateLocoEndAcceptance.text = setTextDate(dateInMillis)
+                                dateLocoEndAcceptance.alpha = 1f
+                            }
+                            timePickerEndAcceptance.show(
+                                requireActivity().supportFragmentManager,
+                                "TIME_PICKER_TURNOUT"
+                            )
+                        }
 
-            datePicker.addOnPositiveButtonClickListener { date ->
-                dateAndTimeEndAcceptance.timeInMillis = date
-                binding.dateLocoEndAcceptance.text = setTextDate(date)
-                binding.dateLocoEndAcceptance.alpha = 1f
-                timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_TURNOUT")
-            }
+                    }
+            datePickerEndAcceptance.show(
+                requireActivity().supportFragmentManager,
+                "DATE_PICKER_TURNOUT"
+            )
 
-            timePicker.addOnPositiveButtonClickListener {
-                dateAndTimeEndAcceptance.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                dateAndTimeEndAcceptance.set(Calendar.MINUTE, timePicker.minute)
-                binding.timeLocoEndAcceptance.text = setTextTime(timePicker)
-                binding.timeLocoEndAcceptance.alpha = 1f
-                verificationAcceptanceDateAndTime()
-            }
         }
 
 /*Дата и время начала сдачи локомотива*/
         binding.startOfDelivery.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .setTitleText(getString(R.string.text_for_date_picker_start_delivery))
-                .build()
+            val timePicker =
+                getTimePicker(
+                    getString(R.string.text_for_time_picker_start_delivery),
+                    dateAndTimeNow
+                ).also { timePicker ->
+                    timePicker.addOnPositiveButtonClickListener {
+                        dateAndTimeStartDelivery?.let { calendar ->
+                            calendar.set(HOUR_OF_DAY, timePicker.hour)
+                            calendar.set(MINUTE, timePicker.minute)
+                        }
+                        viewModel.saveStartDelivery(locomotiveDataID, dateAndTimeStartDelivery)
+                        binding.apply {
+                            timeLocoStartDelivery.text = setTextTime(timePicker)
+                            timeLocoStartDelivery.alpha = 1f
+                        }
+                    }
+                    timePicker.addOnCancelListener {
+                        // TODO Укажите время
+                    }
+                }
+            val calendarConstraints = CalendarConstraints.Builder()
+                .apply {
+                    setValidator(DateValidatorPointForward.from(dateEndAcceptance))
+                }
 
-            val timePicker = MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setTitleText(getString(R.string.text_for_time_picker_start_delivery))
-                .setHour(dateAndTimeNow.get(Calendar.HOUR_OF_DAY))
-                .setMinute(dateAndTimeNow.get(Calendar.MINUTE))
-                .build()
+            val datePicker =
+                getDatePicker(
+                    getString(R.string.text_for_date_picker_start_delivery),
+                    calendarConstraints
+                )
+                    .also { datePicker ->
+                        datePicker.addOnPositiveButtonClickListener { dateInMillis ->
+                            dateAndTimeStartDelivery = getInstance().apply {
+                                timeInMillis = dateInMillis
+                            }
+                            dateStartDelivery = dateInMillis
+                            binding.apply {
+                                dateLocoStartDelivery.text = setTextDate(dateInMillis)
+                                dateLocoStartDelivery.alpha = 1f
+                            }
+                            timePicker.show(
+                                requireActivity().supportFragmentManager,
+                                "TIME_PICKER_TURNOUT"
+                            )
+                        }
 
+                    }
             datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_TURNOUT")
-
-            datePicker.addOnPositiveButtonClickListener { date ->
-                dateAndTimeStartDelivery.timeInMillis = date
-                dateStartDelivery = date
-                binding.dateLocoStartDelivery.text = setTextDate(date)
-                binding.dateLocoStartDelivery.alpha = 1f
-                timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_TURNOUT")
-            }
-
-            timePicker.addOnPositiveButtonClickListener {
-                dateDeliveryFixed = true
-                dateAndTimeStartDelivery.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                dateAndTimeStartDelivery.set(Calendar.MINUTE, timePicker.minute)
-                binding.timeLocoStartDelivery.text = setTextTime(timePicker)
-                binding.timeLocoStartDelivery.alpha = 1f
-                verificationDeliveryDateAndTime()
-            }
         }
 
 /*Дата и время окончания сдачи локомотива*/
         binding.endOfDelivery.setOnClickListener {
-            val constraintBuilder = CalendarConstraints.Builder()
-            constraintBuilder.setValidator(DateValidatorPointForward.from(dateStartDelivery))
-            val datePicker = MaterialDatePicker.Builder.datePicker()
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .setCalendarConstraints(constraintBuilder.build())
-                .setTitleText(getString(R.string.text_for_date_picker_end_delivery))
-                .build()
+            val timePicker =
+                getTimePicker(
+                    getString(R.string.text_for_time_picker_ending),
+                    dateAndTimeNow
+                ).also { timePicker ->
+                    timePicker.addOnPositiveButtonClickListener {
+                        dateAndTimeEndDelivery?.let { calendar ->
+                            calendar.set(HOUR_OF_DAY, timePicker.hour)
+                            calendar.set(MINUTE, timePicker.minute)
+                        }
+                        viewModel.saveEndDelivery(locomotiveDataID, dateAndTimeEndDelivery)
+                        binding.apply {
+                            timeLocoEndDelivery.text = setTextTime(timePicker)
+                            timeLocoEndDelivery.alpha = 1f
+                        }
+                    }
+                    timePicker.addOnCancelListener {
+                        // TODO Укажите время
+                    }
+                }
 
-            val timePicker = MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setTitleText(getString(R.string.text_for_time_end_delivery))
-                .setHour(dateAndTimeNow.get(Calendar.HOUR_OF_DAY))
-                .setMinute(dateAndTimeNow.get(Calendar.MINUTE))
-                .build()
+            val calendarConstraints = CalendarConstraints.Builder()
+                .apply {
+                    setValidator(DateValidatorPointForward.from(dateStartDelivery))
+                }
 
+            val datePicker =
+                getDatePicker(
+                    getString(R.string.text_for_date_picker_end_delivery),
+                    calendarConstraints
+                )
+                    .also { datePicker ->
+                        datePicker.addOnPositiveButtonClickListener { dateInMillis ->
+                            dateAndTimeEndDelivery = getInstance().apply {
+                                timeInMillis = dateInMillis
+                            }
+                            binding.apply {
+                                dateLocoEndDelivery.text = setTextDate(dateInMillis)
+                                dateLocoEndDelivery.alpha = 1f
+                            }
+                            timePicker.show(
+                                requireActivity().supportFragmentManager,
+                                "TIME_PICKER_TURNOUT"
+                            )
+                        }
+
+                    }
             datePicker.show(requireActivity().supportFragmentManager, "DATE_PICKER_TURNOUT")
-
-            datePicker.addOnPositiveButtonClickListener { date ->
-                dateAndTimeEndDelivery.timeInMillis = date
-                binding.dateLocoEndDelivery.text = setTextDate(date)
-                binding.dateLocoEndDelivery.alpha = 1f
-                timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_TURNOUT")
-            }
-
-            timePicker.addOnPositiveButtonClickListener {
-                dateAndTimeEndDelivery.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                dateAndTimeEndDelivery.set(Calendar.MINUTE, timePicker.minute)
-                binding.timeLocoEndDelivery.text = setTextTime(timePicker)
-                binding.timeLocoEndDelivery.alpha = 1f
-                verificationDeliveryDateAndTime()
-            }
         }
 
         resultInputDieselFuel(binding.includeDieselFuelSec1, CountSections.OneSection.index)
@@ -873,7 +943,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             binding.root.snack(getString(R.string.text_for_snackbar_error_empty_date_start_acceptance))
         } else setDefaultBackground(requireContext(), binding.startOfAcceptance)
 
-        if (dateAcceptanceFixed && dateAndTimeStartAcceptance.timeInMillis >= dateAndTimeEndAcceptance.timeInMillis) {
+        if (dateAcceptanceFixed && dateAndTimeStartAcceptance?.timeInMillis!! >= dateAndTimeEndAcceptance?.timeInMillis!!) {
             setErrorBackground(
                 requireContext(),
                 binding.endOfAcceptance,
@@ -894,7 +964,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             binding.root.snack(getString(R.string.text_for_snackbar_error_empty_date_start_delivery))
         } else setDefaultBackground(requireContext(), binding.startOfDelivery)
 
-        if (dateDeliveryFixed && dateAndTimeStartDelivery.timeInMillis >= dateAndTimeEndDelivery.timeInMillis) {
+        if (dateDeliveryFixed && dateAndTimeStartDelivery?.timeInMillis!! >= dateAndTimeEndDelivery?.timeInMillis!!) {
             setErrorBackground(
                 requireContext(),
                 binding.endOfDelivery,

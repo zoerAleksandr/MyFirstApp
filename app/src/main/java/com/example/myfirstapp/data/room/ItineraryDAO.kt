@@ -4,6 +4,7 @@ import androidx.room.*
 import com.example.myfirstapp.data.room.entity.*
 import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.TypeOfTraction
+import java.util.*
 
 @Dao
 interface ItineraryDAO {
@@ -175,4 +176,16 @@ interface ItineraryDAO {
 
     @Query("UPDATE locomotive SET countSections = :countSections WHERE locomotiveDataID = :locomotiveDataID")
     fun updateCountSection(locomotiveDataID: String, countSections: CountSections): Int
+
+    @Query("UPDATE locomotive SET startAcceptance = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    fun updateCalendarStartAcceptance(locomotiveDataID: String, calendar: Calendar?): Int
+
+    @Query("UPDATE locomotive SET endAcceptance = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    fun updateCalendarEndAcceptance(locomotiveDataID: String, calendar: Calendar?): Int
+
+    @Query("UPDATE locomotive SET startDelivery = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    fun updateCalendarStartDelivery(locomotiveDataID: String, calendar: Calendar?): Int
+
+    @Query("UPDATE locomotive SET endDelivery = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    fun updateCalendarEndDelivery(locomotiveDataID: String, calendar: Calendar?): Int
 }

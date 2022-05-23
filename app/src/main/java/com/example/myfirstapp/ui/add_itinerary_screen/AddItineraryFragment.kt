@@ -1,6 +1,5 @@
 package com.example.myfirstapp.ui.add_itinerary_screen
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -53,7 +52,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { bundle ->
@@ -129,99 +127,98 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         /** Блок ввода даты и времени явки на работу */
-        val timePickerTurnout =
-            getTimePicker(getString(R.string.text_for_time_picker_turnout), dateAndTimeNow)
-                .also { timePickerTurnout ->
-                    timePickerTurnout.addOnPositiveButtonClickListener {
-                        dateAndTimeTurnout?.let { calendar ->
-                            calendar.set(HOUR_OF_DAY, timePickerTurnout.hour)
-                            calendar.set(MINUTE, timePickerTurnout.minute)
-                        }
-                        binding.apply {
-                            timeTurnout.text = setTextTime(timePickerTurnout)
-                            timeTurnout.alpha = 1f
-                        }
-                        verificationWorkTime()
-                    }
-                }
-
-        val datePickerTurnout =
-            getDatePicker(getString(R.string.text_for_date_picker_turnout), null)
-                .also { datePickerTurnout ->
-                    datePickerTurnout.addOnPositiveButtonClickListener { dateInMillis ->
-                        dateAndTimeTurnout = getInstance().apply {
-                            timeInMillis = dateInMillis
-                        }
-                        dateTurnout = dateInMillis
-                        binding.apply {
-                            dateTurnout.text = setTextDate(dateInMillis)
-                            dateTurnout.alpha = 1f
-                        }
-                        timePickerTurnout.show(
-                            requireActivity().supportFragmentManager,
-                            "TIME_PICKER_TURNOUT"
-                        )
-                    }
-                }
-
         binding.blockTurnout.setOnClickListener {
+            val timePickerTurnout =
+                getTimePicker(getString(R.string.text_for_time_picker_turnout), dateAndTimeNow)
+                    .also { timePickerTurnout ->
+                        timePickerTurnout.addOnPositiveButtonClickListener {
+                            dateAndTimeTurnout?.let { calendar ->
+                                calendar.set(HOUR_OF_DAY, timePickerTurnout.hour)
+                                calendar.set(MINUTE, timePickerTurnout.minute)
+                            }
+                            binding.apply {
+                                timeTurnout.text = setTextTime(timePickerTurnout)
+                                timeTurnout.alpha = 1f
+                            }
+                            verificationWorkTime()
+                        }
+                    }
+
+            val datePickerTurnout =
+                getDatePicker(getString(R.string.text_for_date_picker_turnout), null)
+                    .also { datePickerTurnout ->
+                        datePickerTurnout.addOnPositiveButtonClickListener { dateInMillis ->
+                            dateAndTimeTurnout = getInstance().apply {
+                                timeInMillis = dateInMillis
+                            }
+                            dateTurnout = dateInMillis
+                            binding.apply {
+                                dateTurnout.text = setTextDate(dateInMillis)
+                                dateTurnout.alpha = 1f
+                            }
+                            timePickerTurnout.show(
+                                requireActivity().supportFragmentManager,
+                                "TIME_PICKER_TURNOUT"
+                            )
+                        }
+                    }
+
             datePickerTurnout.show(requireActivity().supportFragmentManager, "DATE_PICKER_TURNOUT")
         }
 
         /** Блок ввода даты и времени окончания работы.
          * constraintBuilder обеспечивает невозможность ввода даты
          * ранее указанной в Блоке явки */
-        val constraintBuilder = CalendarConstraints.Builder().apply {
-            setValidator(DateValidatorPointForward.from(dateTurnout))
-        }
-
-        val timePickerEnding =
-            getTimePicker(
-                getString(R.string.text_for_time_picker_ending),
-                dateAndTimeNow
-            ).also { timePickerEnding ->
-                timePickerEnding.addOnPositiveButtonClickListener {
-                    dateAndTimeEnding = getInstance().apply {
-                        set(HOUR_OF_DAY, timePickerEnding.hour)
-                        set(MINUTE, timePickerEnding.minute)
-                    }
-                    binding.apply {
-                        timeEnding.text = setTextTime(timePickerEnding)
-                        timeEnding.alpha = 1f
-                    }
-                    verificationWorkTime()
-                }
-
-            }
-
-        val datePickerEnding =
-            getDatePicker(
-                getString(R.string.text_for_date_picker_ending),
-                constraintBuilder
-            ).also { datePickerEnding ->
-                datePickerEnding.addOnPositiveButtonClickListener { date ->
-                    dateAndTimeEnding = getInstance().apply {
-                        timeInMillis = date
-                    }
-                    binding.apply {
-                        dataEnding.text = setTextDate(date)
-                        dataEnding.alpha = 1f
-                    }
-                    timePickerEnding.show(
-                        requireActivity().supportFragmentManager,
-                        "TIME_PICKER_ENDING"
-                    )
-                }
-
-            }
-
         binding.blockEnding.setOnClickListener {
+            val timePickerEnding =
+                getTimePicker(
+                    getString(R.string.text_for_time_picker_ending),
+                    dateAndTimeNow
+                ).also { timePickerEnding ->
+                    timePickerEnding.addOnPositiveButtonClickListener {
+                        dateAndTimeEnding = getInstance().apply {
+                            set(HOUR_OF_DAY, timePickerEnding.hour)
+                            set(MINUTE, timePickerEnding.minute)
+                        }
+                        binding.apply {
+                            timeEnding.text = setTextTime(timePickerEnding)
+                            timeEnding.alpha = 1f
+                        }
+                        verificationWorkTime()
+                    }
+
+                }
+
+            val constraintBuilder = CalendarConstraints.Builder().apply {
+                setValidator(DateValidatorPointForward.from(dateTurnout))
+            }
+
+            val datePickerEnding =
+                getDatePicker(
+                    getString(R.string.text_for_date_picker_ending),
+                    constraintBuilder
+                ).also { datePickerEnding ->
+                    datePickerEnding.addOnPositiveButtonClickListener { date ->
+                        dateAndTimeEnding = getInstance().apply {
+                            timeInMillis = date
+                        }
+                        binding.apply {
+                            dataEnding.text = setTextDate(date)
+                            dataEnding.alpha = 1f
+                        }
+                        timePickerEnding.show(
+                            requireActivity().supportFragmentManager,
+                            "TIME_PICKER_ENDING"
+                        )
+                    }
+
+                }
             datePickerEnding.show(requireActivity().supportFragmentManager, "DATE_PICKER_ENDING")
         }
     }
 
     override fun onDestroyView() {
-        // TODO update Itinerary ?
+        // TODO update Itinerary !! updateLocomotiveDataUseCase
         super.onDestroyView()
     }
 
