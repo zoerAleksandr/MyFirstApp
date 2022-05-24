@@ -5,20 +5,29 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddTrainBinding
 import com.example.myfirstapp.ui.add_loco_screen.PREFERENCES
 import com.example.myfirstapp.utils.AppStateAddTrain
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+const val KEY_TRAIN_DATA_ID = "keyTrainDataId"
+const val KEY_TRAIN_DATA_PARENT_ID = "keyTParentId"
 
 class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
+    companion object {
+        fun newInstance(bundle: Bundle): AddTrainFragment {
+            val fragment = AddTrainFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
     private val binding: FragmentAddTrainBinding by viewBinding()
     private lateinit var adapter: AddTrainFragmentAdapter
 
-    private val viewModel: ViewModelAddTrainFragment by lazy {
-        ViewModelProvider(this)[ViewModelAddTrainFragment::class.java]
-    }
+    private val viewModel: AddTrainViewModel by viewModel()
 
     @SuppressLint("CommitPrefEdits")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

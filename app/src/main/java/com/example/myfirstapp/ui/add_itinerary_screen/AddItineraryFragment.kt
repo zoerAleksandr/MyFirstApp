@@ -13,6 +13,8 @@ import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.ui.add_loco_screen.*
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
+import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_ID
+import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_PARENT_ID
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -42,8 +44,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private var dateAndTimeEnding: Calendar? = null
     private var restPointOfTurnover = false
     private lateinit var itineraryID: String
-    private val trainDataID = generateStringID()
-    private val followingByPassengerID = generateStringID()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -123,7 +123,22 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddTrain.setOnClickListener {
-            controller.openScreen(AddTrainFragment())
+            val trainDataId = generateStringID()
+            val trainData = TrainData(
+                trainDataID = trainDataId,
+                itineraryID = itineraryID,
+                numberOfTrain = null,
+                weight = null,
+                wheelAxle = null,
+                conditionalLength = null,
+                stations = mutableListOf()
+            )
+            createTrainData(trainData)
+            val bundle = Bundle().apply {
+                putString(KEY_TRAIN_DATA_PARENT_ID, itineraryID)
+                putString(KEY_TRAIN_DATA_ID, trainDataId)
+            }
+            controller.openScreen(AddTrainFragment.newInstance(bundle))
         }
 
         /** Блок ввода даты и времени явки на работу */
@@ -360,5 +375,9 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 countExtinguishers = null
             )
         )
+    }
+
+    private fun createTrainData(trainData: TrainData) {
+        viewModel.addTrainData(trainData)
     }
 }
