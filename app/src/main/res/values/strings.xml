@@ -33,6 +33,16 @@
     <string name="text_unit_liter">л</string>
     <string name="text_expense">расход:</string>
 
+    // Header Screen
+    <string name="header_train">Поезд</string>
+
+    // TrainData
+    <string name="hint_number">Номер</string>
+    <string name="hint_weight">Вес</string>
+    <string name="hint_axle">оси</string>
+    <string name="hint_conditional_length">УД</string>
+    <string name="text_for_empty_station_list">Добавьте станцию отправления</string>
+
     // item
     <string name="text_empty"> </string>
     <string name="text_over_time">%1$sч %2$sм</string>
