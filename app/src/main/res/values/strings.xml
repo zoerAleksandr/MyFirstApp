@@ -41,4 +41,18 @@
     <string name="item_placeholder_date_text">00</string>
     <string name="item_placeholder_station_text">Участок</string>
     <string name="item_placeholder_loco_text">Локомотив</string>
+    <string name="add_loco_subtitle_acceptance">приемка</string>
+    <string name="add_loco_subtitle_delivery">сдача</string>
+
+    // block energy
+    <string name="subtitle_block_energy_sec_1">Секция 1</string>
+    <string name="subtitle_block_energy_sec_2">Секция 2</string>
+    <string name="subtitle_block_energy_sec_3">Секция 3</string>
+    <string name="subtitle_block_energy_sec_4">Секция 4</string>
+
+    // block diesel fuel
+    <string name="subtitle_block_diesel_fuel_sec_1">Секция 1</string>
+    <string name="subtitle_block_diesel_fuel_sec_2">Секция 2</string>
+    <string name="subtitle_block_diesel_fuel_sec_3">Секция 3</string>
+    <string name="subtitle_block_diesel_fuel_sec_4">Секция 4</string>
 </resources>

@@ -10,15 +10,16 @@ import com.example.myfirstapp.databinding.FragmentMainBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.ui.add_itinerary_screen.AddItineraryFragment
+import com.example.myfirstapp.ui.add_itinerary_screen.ITINERARY_ID
 import com.example.myfirstapp.ui.viewving_screen.KEY_ITINERARY
 import com.example.myfirstapp.ui.viewving_screen.ViewingFragment
 import com.example.myfirstapp.utils.AppState
+import com.example.myfirstapp.utils.generateStringID
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /*По LongClick на FAВ сделать появляющееся меню для добавления прочих работ*/
 class MainFragment : Fragment(R.layout.fragment_main) {
-
     private val binding: FragmentMainBinding by viewBinding()
     private val viewModel: MainViewModel by viewModel()
     private val adapterItinerary: MainFragmentAdapter by lazy {
@@ -27,7 +28,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
     private val controller by lazy { activity as Controller }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (activity !is Controller) {
@@ -46,7 +46,19 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewModel.getCurrentData(1).observe(viewLifecycleOwner) { renderData(it) }
 
         binding.fab.setOnClickListener {
-            controller.openScreen(AddItineraryFragment())
+            val itineraryId = generateStringID()
+            viewModel.saveItinerary(
+                itineraryId,
+                null,
+                null,
+                null,
+                false,
+                null
+            )
+            val bundle = Bundle().apply {
+                putString(ITINERARY_ID, itineraryId)
+            }
+            controller.openScreen(AddItineraryFragment.newInstance(bundle))
         }
     }
 
@@ -73,6 +85,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val bundle = Bundle().apply {
             putString(KEY_ITINERARY, itinerary.itineraryID)
         }
-       controller.openScreen(ViewingFragment.newInstance(bundle))
+        controller.openScreen(ViewingFragment.newInstance(bundle))
     }
 }

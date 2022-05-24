@@ -1,12 +1,12 @@
 package com.example.myfirstapp.domain.entity
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
-sealed class TypeOfTraction : Parcelable {
+sealed class TypeOfTraction(val typeText: String) : Parcelable {
     @Parcelize
-    object DieselLocomotive : TypeOfTraction()
+    object DieselLocomotive : TypeOfTraction("Diesel")
 
     @Parcelize
-    object ElectricLocomotive : TypeOfTraction()
+    object ElectricLocomotive : TypeOfTraction("Electric")
 }

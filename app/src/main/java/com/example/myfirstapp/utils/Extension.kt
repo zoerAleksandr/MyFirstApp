@@ -1,12 +1,17 @@
 package com.example.myfirstapp.utils
 
 import android.view.View
+import com.example.myfirstapp.R
 import com.google.android.material.snackbar.Snackbar
 
 fun View.snack(message: String) {
-    Snackbar.make(
+    val snackBar = Snackbar.make(
         this,
         message,
         Snackbar.LENGTH_LONG
-    ).show()
+    )
+        .setGestureInsetBottomIgnored(true)
+        .setBackgroundTint(resources.getColor(R.color.red, null))
+
+    snackBar.show()
 }

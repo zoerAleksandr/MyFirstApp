@@ -6,6 +6,7 @@ import com.example.myfirstapp.utils.convert_entity.*
 import io.reactivex.rxjava3.core.Single
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.*
 
 class RoomRepository : IRepository, KoinComponent {
     private val localStorage: ItineraryDAO by inject()
@@ -56,6 +57,36 @@ class RoomRepository : IRepository, KoinComponent {
             toFollowingByPassengerList(localStorage.getListFollowingByPassenger(itineraryID))
         )
 
+    override fun getDieselFuelSectionList(locomotiveDataID: String): Single<List<DieselFuelSection>> {
+        return Single.just(
+            toDieselFuelSectionList(localStorage.getListDieselFuelSection(locomotiveDataID))
+        )
+    }
+
+    override fun getDieselFuelSection(sectionID: String): Single<DieselFuelSection> {
+        return Single.just(
+            toDieselFuelSection(
+                localStorage.getDieselFuelSection(sectionID)
+            )
+        )
+    }
+
+    override fun getElectricSectionList(locomotiveDataID: String): Single<List<ElectricSection>> {
+        return Single.just(
+            toElectricSectionList(
+                localStorage.getListElectricSection(locomotiveDataID)
+            )
+        )
+    }
+
+    override fun getElectricSection(sectionID: String): Single<ElectricSection> {
+        return Single.just(
+            toElectricSection(
+                localStorage.getElectricSection(sectionID)
+            )
+        )
+    }
+
     override fun addItinerary(itinerary: Itinerary): Single<Long> {
         return Single.just(
             localStorage.addItinerary(
@@ -84,6 +115,22 @@ class RoomRepository : IRepository, KoinComponent {
         return Single.just(
             localStorage.addFollowingByPassenger(
                 toFollowingByPassengerRoomEntity(followingByPassenger)
+            )
+        )
+    }
+
+    override fun addDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Long> {
+        return Single.just(
+            localStorage.addDieselFuelSection(
+                toDieselFuelSectionRoomEntity(dieselFuelSection)
+            )
+        )
+    }
+
+    override fun addElectricSection(electricSection: ElectricSection): Single<Long> {
+        return Single.just(
+            localStorage.addElectricSection(
+                toElectricSectionRoomEntity(electricSection)
             )
         )
     }
@@ -120,6 +167,22 @@ class RoomRepository : IRepository, KoinComponent {
         )
     }
 
+    override fun removeDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Int> {
+        return Single.just(
+            localStorage.removeDieselFuelSection(
+                toDieselFuelSectionRoomEntity(dieselFuelSection)
+            )
+        )
+    }
+
+    override fun removeElectricSection(electricSection: ElectricSection): Single<Int> {
+        return Single.just(
+            localStorage.removeElectricSection(
+                toElectricSectionRoomEntity(electricSection)
+            )
+        )
+    }
+
     override fun changeItinerary(itinerary: Itinerary): Single<Int> {
         return Single.just(
             localStorage.changeItinerary(
@@ -148,6 +211,197 @@ class RoomRepository : IRepository, KoinComponent {
         return Single.just(
             localStorage.changeFollowingByPassenger(
                 toFollowingByPassengerRoomEntity(followingByPassenger)
+            )
+        )
+    }
+
+    override fun changeDieselFuelSection(dieselFuelSection: DieselFuelSection): Single<Int> {
+        return Single.just(
+            localStorage.changeDieselFuelSection(
+                toDieselFuelSectionRoomEntity(dieselFuelSection)
+            )
+        )
+    }
+
+    override fun changeElectricSection(electricSection: ElectricSection): Single<Int> {
+        return Single.just(
+            localStorage.changeElectricSection(
+                toElectricSectionRoomEntity(electricSection)
+            )
+        )
+    }
+
+    override fun updateAcceptedDieselFuelSection(
+        sectionID: String,
+        accepted: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateAcceptedDieselFuelSection(
+                sectionID, accepted
+            )
+        )
+    }
+
+    override fun updateDeliveryDieselFuelSection(
+        sectionID: String,
+        delivery: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateDeliveryDieselFuelSection(
+                sectionID, delivery
+            )
+        )
+    }
+    override fun updateConsumptionDieselFuelSection(
+        sectionID: String,
+        consumption: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateConsumptionDieselFuelSection(
+                sectionID, consumption
+            )
+        )
+    }
+
+    override fun updateAcceptedEnergyElectricSection(
+        sectionID: String,
+        accepted: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateAcceptedEnergyElectricSection(
+                sectionID, accepted
+            )
+        )
+    }
+
+    override fun updateDeliveryEnergyElectricSection(
+        sectionID: String,
+        delivery: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateDeliveryEnergyElectricSection(
+                sectionID, delivery
+            )
+        )
+    }
+
+    override fun updateConsumptionEnergyElectricSection(
+        sectionID: String,
+        consumption: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateConsumptionEnergyElectricSection(
+                sectionID, consumption
+            )
+        )
+    }
+
+    override fun updateAcceptedRecoveryElectricSection(
+        sectionID: String,
+        accepted: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateAcceptedRecoveryElectricSection(
+                sectionID, accepted
+            )
+        )
+    }
+
+    override fun updateDeliveryRecoveryElectricSection(
+        sectionID: String,
+        delivery: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateDeliveryRecoveryElectricSection(
+                sectionID, delivery
+            )
+        )
+    }
+
+    override fun updateConsumptionRecoveryElectricSection(
+        sectionID: String,
+        consumption: Int?
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateConsumptionRecoveryElectricSection(
+                sectionID, consumption
+            )
+        )
+    }
+
+    override fun updateNumberLoco(locomotiveDataID: String, number: String?): Single<Int> {
+        return Single.just(
+            localStorage.updateNumberLoco(locomotiveDataID, number)
+        )
+    }
+
+    override fun updateSeriesLoco(locomotiveDataID: String, series: String?): Single<Int> {
+        return Single.just(
+            localStorage.updateSeriesLoco(locomotiveDataID, series)
+        )
+    }
+
+    override fun updateTypeOfTraction(
+        locomotiveDataID: String,
+        typeOfTraction: TypeOfTraction
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateTypeOfTraction(locomotiveDataID, typeOfTraction)
+        )
+    }
+
+    override fun updateCountSection(
+        locomotiveDataID: String,
+        countSections: CountSections
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateCountSection(locomotiveDataID, countSections)
+        )
+    }
+
+    override fun updateStartAcceptance(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarStartAcceptance(locomotiveDataID, calendar)
+        )
+    }
+
+    override fun updateEndAcceptance(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarEndAcceptance(locomotiveDataID, calendar)
+        )
+    }
+
+    override fun updateStartDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarStartDelivery(locomotiveDataID, calendar)
+        )
+    }
+
+    override fun updateEndDelivery(locomotiveDataID: String, calendar: Calendar?): Single<Int> {
+        return Single.just(
+            localStorage.updateCalendarEndDelivery(locomotiveDataID, calendar)
+        )
+    }
+
+    override fun updateBreakShoes(locomotiveDataID: String, count: Int?): Single<Int> {
+        return Single.just(
+            localStorage.updateBreakShoes(locomotiveDataID, count)
+        )
+    }
+
+    override fun updateExtinguishers(locomotiveDataID: String, count: Int?): Single<Int> {
+        return Single.just(
+            localStorage.updateExtinguishers(locomotiveDataID, count)
+        )
+    }
+
+    override fun updateItineraryLocomotive(
+        itineraryID: String,
+        locomotiveData: MutableList<LocomotiveData>
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateItineraryLocomotive(
+                itineraryID, locomotiveData
             )
         )
     }

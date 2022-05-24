@@ -6,7 +6,7 @@ data class LocomotiveData(
     val locomotiveDataID: String,
     val itineraryID: String,
     var series: String?,
-    var number: Byte?,
+    var number: String?,
     var typeOfTraction: TypeOfTraction,
     var countSections: CountSections,
 
@@ -15,8 +15,8 @@ data class LocomotiveData(
     var startDelivery: Calendar?,
     var endDelivery: Calendar?,
 
-    var counterElectricListRoomEntity: MutableList<String>,
-    var dieselFuelListRoomEntity: MutableList<String>,
+    var electricSectionList: MutableList<ElectricSection>,
+    var dieselFuelSectionList: MutableList<DieselFuelSection>,
 
     var countBrakeShoes: Int?,
     var countExtinguishers: Int?
