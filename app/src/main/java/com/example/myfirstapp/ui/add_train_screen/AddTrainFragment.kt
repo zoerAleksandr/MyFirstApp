@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
@@ -23,6 +24,7 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             return fragment
         }
     }
+    private lateinit var trainDataId: String
 
     private val binding: FragmentAddTrainBinding by viewBinding()
     private lateinit var adapter: AddTrainFragmentAdapter
@@ -33,6 +35,9 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.let {
+            trainDataId = it.getString(KEY_TRAIN_DATA_ID).toString()
+        }
         val sharedPreferences = requireActivity().getSharedPreferences(
             PREFERENCES,
             Context.MODE_PRIVATE
@@ -58,6 +63,10 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
 
         adapter = AddTrainFragmentAdapter(requireActivity(), customAdapterDropDown)
         binding.recyclerTrain.adapter = adapter
+
+        binding.dataNumberTrain.addTextChangedListener {
+            viewModel.saveNumberOfTrain(trainDataId, it.toString().toIntOrNull())
+        }
 
         binding.btnAddStation.setOnClickListener {
 //            viewModel.insert(Station(null,null, null, null))

@@ -15,10 +15,11 @@ class RoomRepository : IRepository, KoinComponent {
         return toItineraryList(localStorage.getListItinerary())
     }
 
-    override fun getItinerary(itineraryID: String): Single<Itinerary> =
-        Single.just(
+    override fun getItinerary(itineraryID: String): Single<Itinerary> {
+        return Single.just(
             toItinerary(localStorage.getItinerary(itineraryID))
         )
+    }
 
     override fun getLocomotiveData(locomotiveDataID: String): Single<LocomotiveData> =
         Single.just(
@@ -252,6 +253,7 @@ class RoomRepository : IRepository, KoinComponent {
             )
         )
     }
+
     override fun updateConsumptionDieselFuelSection(
         sectionID: String,
         consumption: Int?

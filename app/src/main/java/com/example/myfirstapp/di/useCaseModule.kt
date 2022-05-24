@@ -5,10 +5,13 @@ import com.example.myfirstapp.domain.usecase.locomotive.*
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*
 import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
+import com.example.myfirstapp.domain.usecase.train.ChangeTrainDataUseCase
+import com.example.myfirstapp.domain.usecase.train.GetTrainDataByIdUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
     single { GetItineraryListByMonth(repository = get()) }
+    single { GetItineraryByIdUseCase(repository = get()) }
     single { AddItineraryUseCase(repository = get()) }
     single { RemoveItineraryUseCase(repository = get()) }
     single { ChangeItineraryUseCase(repository = get()) }
@@ -51,4 +54,6 @@ val useCaseModule = module {
 
     // Train Data
     single { AddTrainDataUseCase(repository = get()) }
+    single { GetTrainDataByIdUseCase(repository = get()) }
+    single { ChangeTrainDataUseCase(repository = get()) }
 }

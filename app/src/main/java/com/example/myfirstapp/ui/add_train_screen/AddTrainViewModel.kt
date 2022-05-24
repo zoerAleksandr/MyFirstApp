@@ -27,7 +27,6 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
     fun saveNumberOfTrain(trainDataID: String, number: Int?) {
         compositeDisposable.add(
             getTrainData(trainDataID)
-                .observeOn(Schedulers.io())
                 .subscribeBy(
                     onSuccess = { trainData ->
                         trainData.numberOfTrain = number

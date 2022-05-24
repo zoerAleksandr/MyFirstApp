@@ -1,7 +1,6 @@
 package com.example.myfirstapp.di
 
 import com.example.myfirstapp.ui.add_itinerary_screen.AddItineraryViewModel
-import com.example.myfirstapp.ui.add_loco_screen.AddLocoViewModel
 import com.example.myfirstapp.ui.add_train_screen.AddTrainViewModel
 import com.example.myfirstapp.ui.main_screen.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -12,12 +11,14 @@ val viewModelModule = module {
         MainViewModel(
             getItineraryListUseCase = get(),
             addItineraryUseCase = get()
-            )
+        )
     }
 
     viewModel {
         AddItineraryViewModel(
             addLocomotiveDataUseCase = get(),
+            changeItineraryUseCase = get(),
+            getItineraryByIdUseCase = get(),
             addTrainDataUseCase = get(),
             addDieselFuelSectionUseCase = get(),
             addElectricSectionUseCase = get()

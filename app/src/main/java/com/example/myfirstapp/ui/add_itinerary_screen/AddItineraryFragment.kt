@@ -378,6 +378,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     }
 
     private fun createTrainData(trainData: TrainData) {
-        viewModel.addTrainData(trainData)
+        viewModel.addTrainData(itineraryID, trainData)
     }
 }
