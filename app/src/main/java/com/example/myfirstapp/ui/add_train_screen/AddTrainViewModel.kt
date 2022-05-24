@@ -36,6 +36,57 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
         )
     }
 
+    fun saveWeight(trainDataID: String, weight: Int?) {
+        compositeDisposable.add(
+            getTrainData(trainDataID)
+                .subscribeBy(
+                    onSuccess = { trainData ->
+                        trainData.weight = weight
+                        changeTrainData(trainData)
+                    }
+                )
+        )
+    }
+
+    fun saveWheelAxle(trainDataID: String, wheelAxle: Int?) {
+        compositeDisposable.add(
+            getTrainData(trainDataID)
+                .subscribeBy(
+                    onSuccess = { trainData ->
+                        trainData.wheelAxle = wheelAxle
+                        changeTrainData(trainData)
+                    }
+                )
+        )
+    }
+
+    fun saveConditionalLength(trainDataID: String, conditionalLength: Int?) {
+        compositeDisposable.add(
+            getTrainData(trainDataID)
+                .subscribeBy(
+                    onSuccess = { trainData ->
+                        trainData.conditionalLength = conditionalLength
+                        changeTrainData(trainData)
+                    }
+                )
+        )
+    }
+
+    fun saveStation(trainDataID: String, station: Station) {
+        compositeDisposable.add(
+            getTrainData(trainDataID)
+                .subscribeBy(
+                    onSuccess = { trainData ->
+                        val list = mutableListOf<Station>().apply {
+                            addAll(trainData.stations)
+                            add(station)
+                        }
+                        trainData.stations = list
+                    }
+                )
+        )
+    }
+
     private fun getTrainData(trainDataID: String): Single<TrainData> {
         return Single.just(trainDataID)
             .observeOn(Schedulers.io())
@@ -46,14 +97,6 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
 
     private fun changeTrainData(trainData: TrainData) {
         changeTrainDataUseCase.execute(trainData)
-    }
-
-    fun insert(station: Station) {
-
-    }
-
-    fun remove(station: Station) {
-
     }
 
     override fun onCleared() {

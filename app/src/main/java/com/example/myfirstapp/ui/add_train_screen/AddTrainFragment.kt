@@ -68,6 +68,18 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             viewModel.saveNumberOfTrain(trainDataId, it.toString().toIntOrNull())
         }
 
+        binding.dataWeightTrain.addTextChangedListener {
+            viewModel.saveWeight(trainDataId, it.toString().toIntOrNull())
+        }
+
+        binding.dataAxleTrain.addTextChangedListener {
+            viewModel.saveWheelAxle(trainDataId, it.toString().toIntOrNull())
+        }
+
+        binding.dataConditionalLengthTrain.addTextChangedListener {
+            viewModel.saveConditionalLength(trainDataId, it.toString().toIntOrNull())
+        }
+
         binding.btnAddStation.setOnClickListener {
 //            viewModel.insert(Station(null,null, null, null))
 //            adapter.addStation(Station(null, null, null))
