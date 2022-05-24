@@ -1,9 +1,6 @@
 package com.example.myfirstapp.di
 
-import com.example.myfirstapp.domain.usecase.itinerary.AddItineraryUseCase
-import com.example.myfirstapp.domain.usecase.itinerary.ChangeItineraryUseCase
-import com.example.myfirstapp.domain.usecase.itinerary.GetItineraryListByMonth
-import com.example.myfirstapp.domain.usecase.itinerary.RemoveItineraryUseCase
+import com.example.myfirstapp.domain.usecase.itinerary.*
 import com.example.myfirstapp.domain.usecase.locomotive.*
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*
@@ -14,9 +11,11 @@ val useCaseModule = module {
     single { AddItineraryUseCase(repository = get()) }
     single { RemoveItineraryUseCase(repository = get()) }
     single { ChangeItineraryUseCase(repository = get()) }
+    single { UpdateItineraryLocomotiveUseCase(repository = get())}
 
     // LocomotiveData
     single { AddLocomotiveDataUseCase(repository = get()) }
+    single { ChangeLocomotiveDataUseCase(repository = get()) }
     single { UpdateSeriesLocoUseCase(repository = get()) }
     single { UpdateNumberLocoUseCase(repository = get()) }
     single { UpdateTypeOfTractionUseCase(repository = get()) }

@@ -16,7 +16,6 @@ val viewModelModule = module {
 
     viewModel {
         AddItineraryViewModel(
-            addItineraryUseCase = get(),
             addLocomotiveDataUseCase = get(),
             addDieselFuelSectionUseCase = get(),
             addElectricSectionUseCase = get()

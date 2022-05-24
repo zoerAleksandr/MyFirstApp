@@ -394,4 +394,15 @@ class RoomRepository : IRepository, KoinComponent {
             localStorage.updateExtinguishers(locomotiveDataID, count)
         )
     }
+
+    override fun updateItineraryLocomotive(
+        itineraryID: String,
+        locomotiveData: MutableList<LocomotiveData>
+    ): Single<Int> {
+        return Single.just(
+            localStorage.updateItineraryLocomotive(
+                itineraryID, locomotiveData
+            )
+        )
+    }
 }

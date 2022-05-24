@@ -71,4 +71,6 @@ interface IRepository {
 
     fun updateBreakShoes(locomotiveDataID: String, count: Int?): Single<Int>
     fun updateExtinguishers(locomotiveDataID: String, count: Int?): Single<Int>
+
+    fun updateItineraryLocomotive(itineraryID: String, locomotiveData: MutableList<LocomotiveData>): Single<Int>
 }

@@ -3,10 +3,7 @@ package com.example.myfirstapp.ui.add_loco_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myfirstapp.domain.entity.CountSections
-import com.example.myfirstapp.domain.entity.DieselFuelSection
-import com.example.myfirstapp.domain.entity.ElectricSection
-import com.example.myfirstapp.domain.entity.TypeOfTraction
+import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.domain.usecase.locomotive.*
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*

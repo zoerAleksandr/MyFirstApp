@@ -3,6 +3,7 @@ package com.example.myfirstapp.data.room
 import androidx.room.*
 import com.example.myfirstapp.data.room.entity.*
 import com.example.myfirstapp.domain.entity.CountSections
+import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.example.myfirstapp.domain.entity.TypeOfTraction
 import java.util.*
 
@@ -23,6 +24,9 @@ interface ItineraryDAO {
 
     @Update
     fun changeItinerary(roomEntity: ItineraryRoomEntity): Int
+
+    @Query("UPDATE itinerary SET locomotive_data_list = :locomotiveDataList WHERE itineraryID = :itineraryID")
+    fun updateItineraryLocomotive(itineraryID: String, locomotiveDataList: MutableList<LocomotiveData>): Int
 
     // LocomotiveData
     @Query("SELECT * FROM locomotive WHERE locomotiveDataID = :locomotiveDataID")
