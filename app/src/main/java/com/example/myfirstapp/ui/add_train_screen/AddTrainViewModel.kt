@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.domain.entity.Station
 import com.example.myfirstapp.domain.entity.TrainData
 import com.example.myfirstapp.domain.usecase.station.AddStationUseCase
-import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.ChangeTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.GetTrainDataByIdUseCase
-import com.example.myfirstapp.utils.AppStateAddTrain
+import com.example.myfirstapp.utils.AddTrainState
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -19,11 +18,12 @@ import org.koin.core.component.inject
 
 class AddTrainViewModel : ViewModel(), KoinComponent {
     private val compositeDisposable = CompositeDisposable()
-    private val lifeDataToObserve: MutableLiveData<AppStateAddTrain> = MutableLiveData()
+    private val lifeDataToObserve: MutableLiveData<AddTrainState> = MutableLiveData()
     private val getTrainDataUseCase: GetTrainDataByIdUseCase by inject()
     private val changeTrainDataUseCase: ChangeTrainDataUseCase by inject()
     private val addStationUseCase: AddStationUseCase by inject()
-    fun getData(trainDataID: Long): LiveData<AppStateAddTrain> {
+
+    fun getData(): LiveData<AddTrainState> {
         return lifeDataToObserve
     }
 
@@ -91,7 +91,7 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
         )
     }
 
-    fun saveStation(trainDataID: String, station: Station){
+    fun saveStation(trainDataID: String, station: Station) {
         compositeDisposable.add(
             Single.just(trainDataID)
                 .observeOn(Schedulers.io())
@@ -100,6 +100,7 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
                 }
                 .subscribeBy(
                     onSuccess = {
+                        lifeDataToObserve.postValue(AddTrainState.Success(station))
                         saveStationToTrainData(trainDataID, station)
                     }
                 )

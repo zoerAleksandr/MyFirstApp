@@ -50,7 +50,7 @@
         <entry key="app/src/main/res/layout/fragment_add_loco.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_add_other_work.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_add_passanger.xml" value="0.2726851851851852" />
-        <entry key="app/src/main/res/layout/fragment_add_train.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_add_train.xml" value="0.26610107421875" />
         <entry key="app/src/main/res/layout/fragment_details_change.xml" value="0.25181701581872595" />
         <entry key="app/src/main/res/layout/fragment_details_viewing.xml" value="0.27742805755395683" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />

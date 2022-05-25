@@ -9,7 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddTrainBinding
 import com.example.myfirstapp.domain.entity.Station
-import com.example.myfirstapp.utils.AppStateAddTrain
+import com.example.myfirstapp.utils.AddTrainState
 import com.example.myfirstapp.utils.generateStringID
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -40,7 +40,9 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             trainDataId = it.getString(KEY_TRAIN_DATA_ID).toString()
         }
 
-        viewModel.getData(123L).observe(viewLifecycleOwner) { state -> renderData(state) }
+        viewModel.getData().observe(viewLifecycleOwner) { state ->
+            renderData(state)
+        }
 
         initAdapter()
 
@@ -69,7 +71,6 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
                 departureTime = null
             )
             viewModel.saveStation(trainDataId, station)
-            adapter.addStation(station)
         }
     }
 
@@ -78,21 +79,17 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
         binding.recyclerTrain.adapter = adapter
     }
 
-    private fun renderData(state: AppStateAddTrain) {
+    private fun renderData(state: AddTrainState) {
         when (state) {
-            is AppStateAddTrain.Loading -> {
+            is AddTrainState.Loading -> {
 
             }
-            is AppStateAddTrain.Success -> {
+            is AddTrainState.Success -> {
                 // передал в адаптер новый массив станций
-                if (state.stationRoomEntity.isNotEmpty()) {
-                    binding.textEmptyStationList.visibility = View.GONE
-                    adapter.setData(state.stationRoomEntity)
-                } else {
-                    binding.textEmptyStationList.visibility = View.VISIBLE
-                }
+                binding.textEmptyStationList.visibility = View.GONE
+                adapter.addStation(state.station)
             }
-            is AppStateAddTrain.Error -> {
+            is AddTrainState.Error -> {
 
             }
         }

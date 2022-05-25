@@ -36,7 +36,7 @@
     // Header Screen
     <string name="header_train">Поезд</string>
 
-    // TrainData
+    // TrainData Layout
     <string name="hint_number">Номер</string>
     <string name="hint_weight">Вес</string>
     <string name="hint_axle">оси</string>
@@ -53,6 +53,10 @@
     <string name="item_placeholder_loco_text">Локомотив</string>
     <string name="add_loco_subtitle_acceptance">приемка</string>
     <string name="add_loco_subtitle_delivery">сдача</string>
+
+    // Item Station Layout
+    <string name="hint_station">Станция</string>
+    <string name="hint_empty_time">00:00</string>
 
     // block energy
     <string name="subtitle_block_energy_sec_1">Секция 1</string>

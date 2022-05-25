@@ -5,16 +5,17 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:baselineAligned="false">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/station"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
         android:layout_marginBottom="4dp"
-        android:hint="Станция"
+        android:layout_weight="5"
+        app:hintEnabled="false"
         app:boxBackgroundColor="@color/background_data"
         app:endIconMode="dropdown_menu"
         app:hintAnimationEnabled="true">
@@ -23,58 +24,56 @@
             android:id="@+id/data_station"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:hint="@string/hint_station"
             android:imeOptions="actionDone"
+            android:inputType="text"
             android:paddingStart="8dp"
             android:paddingTop="8dp"
-            android:inputType="text"
             android:paddingBottom="8dp"
             android:textAppearance="@style/StyleTextInputTextHint" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <FrameLayout
-        android:id="@+id/time_arrival"
+        android:id="@+id/time_arrival_layout"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_weight="2"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_weight="2"
         android:background="@drawable/shape_background_data_block"
         android:clickable="true"
-        android:gravity="center"
         android:focusable="true"
+        android:gravity="center"
         android:paddingVertical="4dp">
 
         <TextView
-            android:id="@+id/data_time_arrival"
+            android:id="@+id/time_arrival_text_view"
             style="@style/StyleTextDataMini"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.2"
             android:gravity="center"
-            android:text="00:00" />
+            android:text="@string/hint_empty_time" />
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/time_departure"
+        android:id="@+id/time_departure_layout"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_weight="2"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_weight="2"
         android:background="@drawable/shape_background_data_block"
         android:clickable="true"
         android:focusable="true"
         android:paddingVertical="4dp">
 
         <TextView
-            android:id="@+id/data_time_departure"
+            android:id="@+id/time_departure_text_view"
             style="@style/StyleTextDataMini"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:alpha="0.2"
             android:gravity="center"
-            android:text="00:00" />
+            android:text="@string/hint_empty_time" />
     </FrameLayout>
-
 </LinearLayout>
