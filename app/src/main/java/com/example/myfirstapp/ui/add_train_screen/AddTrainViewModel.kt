@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.domain.entity.Station
 import com.example.myfirstapp.domain.entity.TrainData
+import com.example.myfirstapp.domain.usecase.station.AddStationUseCase
+import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.ChangeTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.GetTrainDataByIdUseCase
 import com.example.myfirstapp.utils.AppStateAddTrain
@@ -20,6 +22,7 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
     private val lifeDataToObserve: MutableLiveData<AppStateAddTrain> = MutableLiveData()
     private val getTrainDataUseCase: GetTrainDataByIdUseCase by inject()
     private val changeTrainDataUseCase: ChangeTrainDataUseCase by inject()
+    private val addStationUseCase: AddStationUseCase by inject()
     fun getData(trainDataID: Long): LiveData<AppStateAddTrain> {
         return lifeDataToObserve
     }
@@ -72,7 +75,7 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
         )
     }
 
-    fun saveStation(trainDataID: String, station: Station) {
+    private fun saveStationToTrainData(trainDataID: String, station: Station) {
         compositeDisposable.add(
             getTrainData(trainDataID)
                 .subscribeBy(
@@ -82,6 +85,22 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
                             add(station)
                         }
                         trainData.stations = list
+                        changeTrainData(trainData)
+                    }
+                )
+        )
+    }
+
+    fun saveStation(trainDataID: String, station: Station){
+        compositeDisposable.add(
+            Single.just(trainDataID)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    addStationUseCase.execute(station)
+                }
+                .subscribeBy(
+                    onSuccess = {
+                        saveStationToTrainData(trainDataID, station)
                     }
                 )
         )

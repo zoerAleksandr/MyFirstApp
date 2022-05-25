@@ -4,6 +4,7 @@ import com.example.myfirstapp.domain.usecase.itinerary.*
 import com.example.myfirstapp.domain.usecase.locomotive.*
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*
+import com.example.myfirstapp.domain.usecase.station.*
 import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.ChangeTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.GetTrainDataByIdUseCase
@@ -56,4 +57,11 @@ val useCaseModule = module {
     single { AddTrainDataUseCase(repository = get()) }
     single { GetTrainDataByIdUseCase(repository = get()) }
     single { ChangeTrainDataUseCase(repository = get()) }
+
+    // Station
+    single { AddStationUseCase(repository = get()) }
+    single { GetStationUseCase(repository = get()) }
+    single { GetListStationUseCase(repository = get()) }
+    single { RemoveStationUseCase(repository = get()) }
+    single { ChangeStationUseCase(repository = get()) }
 }

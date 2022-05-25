@@ -41,11 +41,6 @@ class RoomRepository : IRepository, KoinComponent {
             toTrainDataList(localStorage.getListTrainData(itineraryID))
         )
 
-    override fun getListStation(trainDataID: String): Single<MutableList<Station>> =
-        Single.just(
-            toStationList(localStorage.getListStation(trainDataID))
-        )
-
     override fun getFollowingByPassenger(followingByPassengerID: String): Single<FollowingByPassenger> =
         Single.just(
             toFollowingByPassenger(
@@ -404,6 +399,46 @@ class RoomRepository : IRepository, KoinComponent {
         return Single.just(
             localStorage.updateItineraryLocomotive(
                 itineraryID, locomotiveData
+            )
+        )
+    }
+
+    override fun addStation(station: Station): Single<Long> {
+        return Single.just(
+            localStorage.addStation(
+                toStationRoomEntity(station)
+            )
+        )
+    }
+
+    override fun getStation(stationId: String): Single<Station> {
+        return Single.just(
+            toStation(
+                localStorage.getStation(stationId)
+            )
+        )
+    }
+
+    override fun getListStation(trainDataID: String): Single<MutableList<Station>> {
+        return Single.just(
+            toStationList(
+                localStorage.getListStation(trainDataID)
+            )
+        )
+    }
+
+    override fun removeStation(station: Station): Single<Int> {
+        return Single.just(
+            localStorage.removeStation(
+                toStationRoomEntity(station)
+            )
+        )
+    }
+
+    override fun changeStation(station: Station): Single<Int> {
+        return Single.just(
+            localStorage.changeStation(
+                toStationRoomEntity(station)
             )
         )
     }

@@ -14,8 +14,6 @@ interface IRepository {
     fun getTrainData(trainDataID: String): Single<TrainData>
     fun getListTrainData(itineraryID: String): Single<MutableList<TrainData>>
 
-    fun getListStation(trainDataID: String): Single<MutableList<Station>>
-
     fun getFollowingByPassenger(followingByPassengerID: String): Single<FollowingByPassenger>
     fun getListFollowingByPassenger(itineraryID: String): Single<List<FollowingByPassenger>>
 
@@ -73,4 +71,10 @@ interface IRepository {
     fun updateExtinguishers(locomotiveDataID: String, count: Int?): Single<Int>
 
     fun updateItineraryLocomotive(itineraryID: String, locomotiveData: MutableList<LocomotiveData>): Single<Int>
+
+    fun addStation(station: Station): Single<Long>
+    fun getStation(stationId: String): Single<Station>
+    fun getListStation(trainDataID: String): Single<MutableList<Station>>
+    fun removeStation(station: Station): Single<Int>
+    fun changeStation(station: Station): Single<Int>
 }

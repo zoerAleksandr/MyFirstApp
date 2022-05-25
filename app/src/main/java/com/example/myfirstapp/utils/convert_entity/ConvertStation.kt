@@ -17,7 +17,6 @@ fun toStationList(
 fun toStation(roomEntity: StationRoomEntity): Station {
     return Station(
         roomEntity.stationID,
-        roomEntity.itineraryID,
         roomEntity.trainDataID,
         roomEntity.stationName,
         roomEntity.arrivalTime,
@@ -27,7 +26,6 @@ fun toStation(roomEntity: StationRoomEntity): Station {
 fun toStationRoomEntity(station: Station): StationRoomEntity {
     return StationRoomEntity(
         station.stationID,
-        station.itineraryID,
         station.trainDataID,
         station.stationName,
         station.arrivalTime,

@@ -1,7 +1,6 @@
 package com.example.myfirstapp.ui.add_train_screen
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
@@ -9,8 +8,9 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddTrainBinding
-import com.example.myfirstapp.ui.add_loco_screen.PREFERENCES
+import com.example.myfirstapp.domain.entity.Station
 import com.example.myfirstapp.utils.AppStateAddTrain
+import com.example.myfirstapp.utils.generateStringID
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val KEY_TRAIN_DATA_ID = "keyTrainDataId"
@@ -24,6 +24,7 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             return fragment
         }
     }
+
     private lateinit var trainDataId: String
 
     private val binding: FragmentAddTrainBinding by viewBinding()
@@ -38,31 +39,10 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
         arguments?.let {
             trainDataId = it.getString(KEY_TRAIN_DATA_ID).toString()
         }
-        val sharedPreferences = requireActivity().getSharedPreferences(
-            PREFERENCES,
-            Context.MODE_PRIVATE
-        )
-        val editor = sharedPreferences?.edit()
-
-// экземпляр настроек полученых из сохраненного состояния
-        val set: MutableSet<String>? =
-            sharedPreferences?.getStringSet(LIST_STATION, mutableSetOf())
-// копия настроек для редактирования
-        val setCopy: MutableSet<String> = mutableSetOf<String>().apply {
-            addAll(set!!)
-        }
-// список для адаптера AutoCompileTextView
-        val string: MutableList<String> = mutableListOf<String>().apply {
-            addAll(setCopy)
-        }
-
-        val customAdapterDropDown =
-            CustomAdapterDropDown(requireContext(), R.layout.item_drop_down_btn_remove, string)
 
         viewModel.getData(123L).observe(viewLifecycleOwner) { state -> renderData(state) }
 
-        adapter = AddTrainFragmentAdapter(requireActivity(), customAdapterDropDown)
-        binding.recyclerTrain.adapter = adapter
+        initAdapter()
 
         binding.dataNumberTrain.addTextChangedListener {
             viewModel.saveNumberOfTrain(trainDataId, it.toString().toIntOrNull())
@@ -81,9 +61,21 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
         }
 
         binding.btnAddStation.setOnClickListener {
-//            viewModel.insert(Station(null,null, null, null))
-//            adapter.addStation(Station(null, null, null))
+            val station = Station(
+                stationID = generateStringID(),
+                trainDataID = trainDataId,
+                stationName = null,
+                arrivalTime = null,
+                departureTime = null
+            )
+            viewModel.saveStation(trainDataId, station)
+            adapter.addStation(station)
         }
+    }
+
+    private fun initAdapter() {
+        adapter = AddTrainFragmentAdapter()
+        binding.recyclerTrain.adapter = adapter
     }
 
     private fun renderData(state: AppStateAddTrain) {
