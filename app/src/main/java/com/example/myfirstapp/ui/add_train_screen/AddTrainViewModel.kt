@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.domain.entity.Station
 import com.example.myfirstapp.domain.entity.TrainData
 import com.example.myfirstapp.domain.usecase.station.AddStationUseCase
+import com.example.myfirstapp.domain.usecase.station.ChangeStationUseCase
+import com.example.myfirstapp.domain.usecase.station.GetStationUseCase
 import com.example.myfirstapp.domain.usecase.train.ChangeTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.GetTrainDataByIdUseCase
 import com.example.myfirstapp.utils.AddTrainState
@@ -15,16 +17,82 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.*
 
 class AddTrainViewModel : ViewModel(), KoinComponent {
     private val compositeDisposable = CompositeDisposable()
-    private val lifeDataToObserve: MutableLiveData<AddTrainState> = MutableLiveData()
+    private val addStationLifeData: MutableLiveData<AddTrainState> = MutableLiveData()
+    private val changeStationLifeData: MutableLiveData<AddTrainState> = MutableLiveData()
+
     private val getTrainDataUseCase: GetTrainDataByIdUseCase by inject()
     private val changeTrainDataUseCase: ChangeTrainDataUseCase by inject()
     private val addStationUseCase: AddStationUseCase by inject()
+    private val changeStationUseCase: ChangeStationUseCase by inject()
+    private val getStationUseCase: GetStationUseCase by inject()
 
-    fun getData(): LiveData<AddTrainState> {
-        return lifeDataToObserve
+    fun newStationObserve(): LiveData<AddTrainState> {
+        return addStationLifeData
+    }
+
+    fun changeStationObserve(): LiveData<AddTrainState> {
+        return changeStationLifeData
+    }
+
+    fun saveTimeArrival(stationId: String, arrival: Calendar) {
+        compositeDisposable.add(
+            getStation(stationId)
+                .subscribeBy(
+                    onSuccess = { station ->
+                        station.arrivalTime = arrival
+                        changeStation(station)
+                    }
+                )
+        )
+    }
+
+    fun saveTimeDeparture(stationId: String, departure: Calendar) {
+        compositeDisposable.add(
+            getStation(stationId)
+                .subscribeBy(
+                    onSuccess = { station ->
+                        station.departureTime = departure
+                        changeStation(station)
+                    }
+                )
+        )
+    }
+
+    fun saveStationName(stationId: String, stationName: String?){
+        compositeDisposable.add(
+            getStation(stationId)
+                .subscribeBy(
+                    onSuccess = { station ->
+                        station.stationName = stationName
+                        changeStation(station)
+                    }
+                )
+        )
+    }
+
+    private fun changeStation(station: Station) {
+        Single.just(station)
+            .observeOn(Schedulers.io())
+            .concatMap {
+                changeStationUseCase.execute(station)
+            }
+            .subscribeBy(
+                onSuccess = {
+                    changeStationLifeData.postValue(AddTrainState.Success(station))
+                }
+            )
+    }
+
+    private fun getStation(stationId: String): Single<Station> {
+        return Single.just(stationId)
+            .observeOn(Schedulers.io())
+            .concatMap {
+                getStationUseCase.execute(stationId)
+            }
     }
 
     fun saveNumberOfTrain(trainDataID: String, number: Int?) {
@@ -100,7 +168,7 @@ class AddTrainViewModel : ViewModel(), KoinComponent {
                 }
                 .subscribeBy(
                     onSuccess = {
-                        lifeDataToObserve.postValue(AddTrainState.Success(station))
+                        addStationLifeData.postValue(AddTrainState.Success(station))
                         saveStationToTrainData(trainDataID, station)
                     }
                 )

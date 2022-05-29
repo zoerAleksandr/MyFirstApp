@@ -50,7 +50,7 @@ class MainViewHolder(
 
             if (itinerary.trainDataList.isNotEmpty()) {
                 itemTextWork.text =
-                    itinerary.trainDataList[0].stations?.let { stations ->
+                    itinerary.trainDataList[0].stations.let { stations ->
                         resources.getString(
                             R.string.text_through_defise,
                             stations.first().stationName,
