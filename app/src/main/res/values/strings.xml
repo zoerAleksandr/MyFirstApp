@@ -35,6 +35,7 @@
 
     // Header Screen
     <string name="header_train">Поезд</string>
+    <string name="header_passenger">Следование пассажиром</string>
 
     // TrainData Layout
     <string name="hint_number">Номер</string>
@@ -70,11 +71,12 @@
     <string name="subtitle_block_diesel_fuel_sec_2">Секция 2</string>
     <string name="subtitle_block_diesel_fuel_sec_3">Секция 3</string>
     <string name="subtitle_block_diesel_fuel_sec_4">Секция 4</string>
-    
-    // test
-    <string-array name="drop">
-        <item>One</item>
-        <item>Two</item>
-        <item>Three</item>
-    </string-array>
+
+    // Add Passenger
+    <string name="hint_notes">Примечания</string>
+    <string name="hint_station_departure">От станции</string>
+    <string name="hint_station_arrival">До станции</string>
+    <string name="hint_number_train">Поезд №</string>
+    <string name="hint_time_departure">Время отправления</string>
+    <string name="hint_time_arrival">Время прибытия</string>
 </resources>

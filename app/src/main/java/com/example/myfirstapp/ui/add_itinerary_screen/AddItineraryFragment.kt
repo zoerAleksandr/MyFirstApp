@@ -11,7 +11,7 @@ import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.ui.add_loco_screen.*
-import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
+import com.example.myfirstapp.ui.add_passenger_screen.AddPassengerFragment
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
 import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_ID
 import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_PARENT_ID
@@ -119,7 +119,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddPassenger.setOnClickListener {
-            controller.openScreen(AddPassangerFragment())
+            controller.openScreen(AddPassengerFragment())
         }
 
         binding.btnAddTrain.setOnClickListener {

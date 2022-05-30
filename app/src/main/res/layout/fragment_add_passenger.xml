@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.add_passenger_screen.AddPassengerFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:backgroundTint="@color/transparent"
+        app:elevation="28dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_mini"
+            app:layout_scrollFlags="exitUntilCollapsed">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/ic_back_24" />
+
+                <TextView
+                    style="@style/StyleTextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/header_passenger"
+                    android:textColor="@color/white" />
+            </FrameLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/shape_background_main_block"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/number_train_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/background_data"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/number_train_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/hint_number_train"
+                android:imeOptions="actionNext"
+                android:inputType="numberDecimal"
+                android:paddingBottom="10dp"
+                android:textAppearance="@style/StyleTextInputTextHint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/station_departure_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:boxBackgroundColor="@color/background_data"
+            app:endIconMode="dropdown_menu"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toStartOf="@id/station_arrival_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/number_train_layout">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/station_departure_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/hint_station_departure"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textAppearance="@style/StyleTextInputTextHint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/station_arrival_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundColor="@color/background_data"
+            app:endIconMode="dropdown_menu"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/station_departure_layout"
+            app:layout_constraintTop_toBottomOf="@id/number_train_layout">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/station_arrival_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/hint_station_arrival"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:paddingBottom="10dp"
+                android:singleLine="true"
+                android:textAppearance="@style/StyleTextInputTextHint" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/date_departure_layout"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/shape_background_data_block"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toStartOf="@id/date_arrival_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/station_departure_layout">
+
+            <TextView
+                android:id="@+id/date_departure_text_view"
+                style="@style/StyleTextDataMini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.2"
+                android:text="@string/text_for_date_default"
+                tools:text="01.01.22" />
+
+            <TextView
+                android:id="@+id/time_departure_text_view"
+                style="@style/StyleTextDataMini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.2"
+                android:text="@string/hint_empty_time"
+                tools:text="@string/hint_empty_time" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/date_arrival_layout"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_background_data_block"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_departure_layout"
+            app:layout_constraintTop_toBottomOf="@id/station_arrival_layout">
+
+            <TextView
+                android:id="@+id/date_arrival_text_view"
+                style="@style/StyleTextDataMini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.2"
+                android:text="@string/text_for_date_default"
+                tools:text="01.01.22" />
+
+            <TextView
+                android:id="@+id/time_arrival_text_view"
+                style="@style/StyleTextDataMini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.2"
+                android:text="@string/hint_empty_time"
+                tools:text="12:00" />
+
+        </LinearLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/notes_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundColor="@color/background_data"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_departure_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/notes_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/hint_notes"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="10"
+                android:paddingBottom="10dp"
+                android:textAppearance="@style/StyleTextInputTextHint" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
