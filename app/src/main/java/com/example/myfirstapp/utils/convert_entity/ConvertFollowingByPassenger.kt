@@ -25,6 +25,7 @@ fun toFollowingByPassenger(
         entityRoom.departureStation,
         entityRoom.arrivalStation,
         entityRoom.numberOfTrain,
+        entityRoom.notes
     )
 }
 fun toFollowingByPassengerRoomEntity(
@@ -38,5 +39,6 @@ fun toFollowingByPassengerRoomEntity(
         followingByPassenger.departureStation,
         followingByPassenger.arrivalStation,
         followingByPassenger.numberOfTrain,
+        followingByPassenger.notes
     )
 }

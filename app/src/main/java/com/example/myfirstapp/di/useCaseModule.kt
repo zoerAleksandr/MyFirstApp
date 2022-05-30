@@ -2,6 +2,10 @@ package com.example.myfirstapp.di
 
 import com.example.myfirstapp.domain.usecase.itinerary.*
 import com.example.myfirstapp.domain.usecase.locomotive.*
+import com.example.myfirstapp.domain.usecase.passenger.AddPassengerUseCase
+import com.example.myfirstapp.domain.usecase.passenger.ChangePassengerUseCase
+import com.example.myfirstapp.domain.usecase.passenger.GetPassengerByIdUseCase
+import com.example.myfirstapp.domain.usecase.passenger.RemovePassengerUseCase
 import com.example.myfirstapp.domain.usecase.section.diesel.*
 import com.example.myfirstapp.domain.usecase.section.electric.*
 import com.example.myfirstapp.domain.usecase.station.*
@@ -64,4 +68,10 @@ val useCaseModule = module {
     single { GetListStationUseCase(repository = get()) }
     single { RemoveStationUseCase(repository = get()) }
     single { ChangeStationUseCase(repository = get()) }
+
+    // FallowingByPassenger
+    single{ AddPassengerUseCase(repository = get())}
+    single{ GetPassengerByIdUseCase(repository = get()) }
+    single{ RemovePassengerUseCase(repository = get()) }
+    single{ ChangePassengerUseCase(repository = get()) }
 }

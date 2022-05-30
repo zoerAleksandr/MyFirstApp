@@ -9,5 +9,6 @@ data class FollowingByPassenger(
     var arrivalTime: Calendar?,
     var departureStation: String?,
     var arrivalStation: String?,
-    var numberOfTrain: Int?
+    var numberOfTrain: String?,
+    var notes: String?
 )
