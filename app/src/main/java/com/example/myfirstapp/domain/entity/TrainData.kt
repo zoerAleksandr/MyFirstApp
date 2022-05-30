@@ -7,5 +7,5 @@ data class TrainData(
     var weight: Int?,
     var wheelAxle: Int?,
     var conditionalLength: Int?,
-    var stations: MutableList<Station>?
+    var stations: MutableList<Station>
 )

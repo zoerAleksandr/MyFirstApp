@@ -33,6 +33,16 @@
     <string name="text_unit_liter">л</string>
     <string name="text_expense">расход:</string>
 
+    // Header Screen
+    <string name="header_train">Поезд</string>
+
+    // TrainData Layout
+    <string name="hint_number">Номер</string>
+    <string name="hint_weight">Вес</string>
+    <string name="hint_axle">оси</string>
+    <string name="hint_conditional_length">УД</string>
+    <string name="text_for_empty_station_list">Добавьте станцию отправления</string>
+
     // item
     <string name="text_empty"> </string>
     <string name="text_over_time">%1$sч %2$sм</string>
@@ -43,6 +53,11 @@
     <string name="item_placeholder_loco_text">Локомотив</string>
     <string name="add_loco_subtitle_acceptance">приемка</string>
     <string name="add_loco_subtitle_delivery">сдача</string>
+
+    // Item Station Layout
+    <string name="hint_station">Станция</string>
+    <string name="hint_empty_time">00:00</string>
+    <string name="text_time">%1$s:%2$s</string>
 
     // block energy
     <string name="subtitle_block_energy_sec_1">Секция 1</string>
@@ -55,4 +70,11 @@
     <string name="subtitle_block_diesel_fuel_sec_2">Секция 2</string>
     <string name="subtitle_block_diesel_fuel_sec_3">Секция 3</string>
     <string name="subtitle_block_diesel_fuel_sec_4">Секция 4</string>
+    
+    // test
+    <string-array name="drop">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+    </string-array>
 </resources>

@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Поезд"
+                    android:text="@string/header_train"
                     android:textColor="@color/white" />
 
             </FrameLayout>
@@ -64,10 +64,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Номер"
                 app:boxBackgroundColor="@color/background_data"
-                app:endIconMode="clear_text"
-                app:hintAnimationEnabled="true"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/weight_train"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -78,9 +76,10 @@
                     android:id="@+id/data_number_train"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:paddingBottom="8dp"
+                    android:hint="@string/hint_number"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="10dp"
                     android:textAppearance="@style/StyleTextInputTextHint" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,9 +89,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="Вес"
                 app:boxBackgroundColor="@color/background_data"
-                app:endIconMode="clear_text"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/axle_train"
                 app:layout_constraintStart_toEndOf="@id/number_train"
@@ -102,9 +100,10 @@
                     android:id="@+id/data_weight_train"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:paddingBottom="8dp"
+                    android:hint="@string/hint_weight"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="10dp"
                     android:textAppearance="@style/StyleTextInputTextHint" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,9 +113,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="Оси"
                 app:boxBackgroundColor="@color/background_data"
-                app:endIconMode="clear_text"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/conditional_length_train"
                 app:layout_constraintStart_toEndOf="@id/weight_train"
@@ -126,9 +124,10 @@
                     android:id="@+id/data_axle_train"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:paddingBottom="8dp"
+                    android:hint="@string/hint_axle"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="10dp"
                     android:textAppearance="@style/StyleTextInputTextHint" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,9 +137,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="УД"
                 app:boxBackgroundColor="@color/background_data"
-                app:endIconMode="clear_text"
+                app:hintEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/axle_train"
@@ -150,9 +148,10 @@
                     android:id="@+id/data_conditional_length_train"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:hint="@string/hint_conditional_length"
                     android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:paddingBottom="8dp"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="10dp"
                     android:textAppearance="@style/StyleTextInputTextHint" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,10 +165,10 @@
                 android:id="@+id/text_empty_station_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Добавьте станцию отправления"
+                android:alpha="0.3"
+                android:text="@string/text_for_empty_station_list"
                 android:textSize="20sp"
-                android:visibility="gone"
-                android:alpha="0.3"/>
+                android:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_train"

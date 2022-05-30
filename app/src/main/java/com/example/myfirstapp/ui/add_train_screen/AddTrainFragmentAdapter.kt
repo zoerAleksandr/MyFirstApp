@@ -1,138 +1,57 @@
 package com.example.myfirstapp.ui.add_train_screen
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.databinding.ItemStationBinding
 import com.example.myfirstapp.domain.entity.Station
-import com.example.myfirstapp.ui.add_loco_screen.PREFERENCES
-import com.example.myfirstapp.utils.setTextTime
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import java.util.*
-
-const val LIST_STATION = "LIST_STATION"
 
 class AddTrainFragmentAdapter(
-    val fragmentActivity: FragmentActivity,
-    val customAdapterDropDown: CustomAdapterDropDown
-) :
-    RecyclerView.Adapter<AddTrainFragmentAdapter.MainViewHolder>() {
+    private val timeArrivalClickListener: (Station) -> Unit,
+    private val timeDepartureClickListener: (Station) -> Unit,
+    private val textStationChangedListener: (String?, String) -> Unit,
+//    private val dropDownAdapter: ArrayAdapter<String>
+) : RecyclerView.Adapter<AddTrainViewHolder>() {
+    private lateinit var dropDownAdapter: ArrayAdapter<String>
+    private var listStation: MutableList<Station> = mutableListOf()
 
-    inner class MainViewHolder(private val binding: ItemStationBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        private val dateAndTimeNow = Calendar.getInstance()
-        private val titleArrivalTimePicker = "Время прибытия"
-        private val titleDepartureTimePicker = "Время отправления"
-
-        @SuppressLint("CommitPrefEdits")
-        fun bind(station: Station) {
-            binding.apply {
-                timeArrival.setOnClickListener {
-                    val timePicker = MaterialTimePicker.Builder()
-                        .setTimeFormat(TimeFormat.CLOCK_24H)
-                        .setTitleText(titleArrivalTimePicker)
-                        .setHour(dateAndTimeNow.get(Calendar.HOUR_OF_DAY))
-                        .setMinute(dateAndTimeNow.get(Calendar.MINUTE))
-                        .build()
-                    timePicker.show(fragmentActivity.supportFragmentManager, "TIME_PICKER_ARRIVAL")
-                    timePicker.addOnPositiveButtonClickListener {
-                        // TODO
-//                        station.arrivalTime = setTextTime(timePicker)
-                        binding.dataTimeArrival.text = setTextTime(timePicker)
-                        binding.dataTimeArrival.alpha = 1f
-                    }
-                }
-
-                timeDeparture.setOnClickListener {
-                    val timePicker = MaterialTimePicker.Builder()
-                        .setTimeFormat(TimeFormat.CLOCK_24H)
-                        .setTitleText(titleDepartureTimePicker)
-                        .setHour(dateAndTimeNow.get(Calendar.HOUR_OF_DAY))
-                        .setMinute(dateAndTimeNow.get(Calendar.MINUTE))
-                        .build()
-                    timePicker.show(
-                        fragmentActivity.supportFragmentManager,
-                        "TIME_PICKER_DEPARTURE"
-                    )
-                    timePicker.addOnPositiveButtonClickListener {
-                        // TODO
-//                        station.departureTime = setTextTime(timePicker)
-                        binding.dataTimeDeparture.text = setTextTime(timePicker)
-                        binding.dataTimeDeparture.alpha = 1f
-                    }
-                }
-//                dataStation.addTextChangedListener {
-// // TODO
-//                }
-                // SharedPreferences
-                val sharedPreferences = fragmentActivity.getSharedPreferences(
-                    PREFERENCES,
-                    Context.MODE_PRIVATE
-                )
-                val editor = sharedPreferences?.edit()
-
-// экземпляр настроек полученых из сохраненного состояния
-                val set: MutableSet<String>? =
-                    sharedPreferences?.getStringSet(LIST_STATION, mutableSetOf())
-// копия настроек для редактирования
-                val setCopy: MutableSet<String> = mutableSetOf<String>().apply {
-                    addAll(set!!)
-                }
-// список для адаптера AutoCompileTextView
-                val string: MutableList<String> = mutableListOf<String>().apply {
-                    addAll(setCopy)
-                }
-
-                binding.dataStation.setAdapter(customAdapterDropDown)
-
-                binding.dataStation.threshold = 1
-//                ArrayAdapter(
-//                    fragmentActivity,
-//                    R.layout.simple_spinner_dropdown_item,
-//                    string
-//                ).also { arrayAdapter ->
-//                    binding.dataStation.setAdapter(arrayAdapter)
-//                }
-// Сохранение введеных данных при потере фокуса
-                binding.dataStation.setOnFocusChangeListener { _, _ ->
-                    if (binding.dataStation.text.toString()
-                            .isNotBlank() && setCopy.add(binding.dataStation.text.toString())
-                    ) {
-                        editor?.putStringSet(LIST_STATION, setCopy)?.apply()
-                    }
-                }
-            }
-        }
+    fun addStation(station: Station) {
+        listStation.add(station)
+        notifyItemInserted(listStation.size - 1)
     }
 
-    private var listStationRoomEntity: MutableList<Station> = mutableListOf()
-
-    fun setData(list: MutableList<Station>) {
-        listStationRoomEntity.addAll(list)
+    fun updateStation(station: Station) {
+        val index = listStation.indexOf(
+            listStation.find { it.stationID == station.stationID }
+        )
+        listStation[index] = station
+        notifyItemChanged(index)
     }
 
-//    fun addStation(station: Station) {
-//        listStation.add(station)
-//        notifyItemInserted(listStation.size - 1)
-//    }
+    fun initDropDownAdapter(adapter: ArrayAdapter<String>){
+        dropDownAdapter = adapter
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddTrainViewHolder {
         val binding = ItemStationBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MainViewHolder(binding)
+        return AddTrainViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(listStationRoomEntity[position])
+    override fun onBindViewHolder(holder: AddTrainViewHolder, position: Int) {
+        val station = listStation[position]
+        holder.bind(
+            station,
+            timeArrivalClickListener,
+            timeDepartureClickListener,
+            textStationChangedListener,
+            dropDownAdapter
+        )
     }
 
-    override fun getItemCount() = listStationRoomEntity.size
+    override fun getItemCount() = listStation.size
 }

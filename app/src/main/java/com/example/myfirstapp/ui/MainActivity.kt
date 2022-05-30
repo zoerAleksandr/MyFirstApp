@@ -14,7 +14,8 @@ import com.example.myfirstapp.ui.main_screen.MainFragment
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 
-
+const val PREFERENCE = "preference"
+const val DROP_DOWN_STATION_PREF = "dropDownStation"
 class MainActivity : AppCompatActivity(), Controller {
 
     private val binding: ActivityMainBinding by viewBinding()

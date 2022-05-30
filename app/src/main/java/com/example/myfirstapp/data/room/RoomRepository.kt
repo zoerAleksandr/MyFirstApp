@@ -15,10 +15,11 @@ class RoomRepository : IRepository, KoinComponent {
         return toItineraryList(localStorage.getListItinerary())
     }
 
-    override fun getItinerary(itineraryID: String): Single<Itinerary> =
-        Single.just(
+    override fun getItinerary(itineraryID: String): Single<Itinerary> {
+        return Single.just(
             toItinerary(localStorage.getItinerary(itineraryID))
         )
+    }
 
     override fun getLocomotiveData(locomotiveDataID: String): Single<LocomotiveData> =
         Single.just(
@@ -38,11 +39,6 @@ class RoomRepository : IRepository, KoinComponent {
     override fun getListTrainData(itineraryID: String): Single<MutableList<TrainData>> =
         Single.just(
             toTrainDataList(localStorage.getListTrainData(itineraryID))
-        )
-
-    override fun getListStation(trainDataID: String): Single<MutableList<Station>> =
-        Single.just(
-            toStationList(localStorage.getListStation(trainDataID))
         )
 
     override fun getFollowingByPassenger(followingByPassengerID: String): Single<FollowingByPassenger> =
@@ -252,6 +248,7 @@ class RoomRepository : IRepository, KoinComponent {
             )
         )
     }
+
     override fun updateConsumptionDieselFuelSection(
         sectionID: String,
         consumption: Int?
@@ -402,6 +399,46 @@ class RoomRepository : IRepository, KoinComponent {
         return Single.just(
             localStorage.updateItineraryLocomotive(
                 itineraryID, locomotiveData
+            )
+        )
+    }
+
+    override fun addStation(station: Station): Single<Long> {
+        return Single.just(
+            localStorage.addStation(
+                toStationRoomEntity(station)
+            )
+        )
+    }
+
+    override fun getStation(stationId: String): Single<Station> {
+        return Single.just(
+            toStation(
+                localStorage.getStation(stationId)
+            )
+        )
+    }
+
+    override fun getListStation(trainDataID: String): Single<MutableList<Station>> {
+        return Single.just(
+            toStationList(
+                localStorage.getListStation(trainDataID)
+            )
+        )
+    }
+
+    override fun removeStation(station: Station): Single<Int> {
+        return Single.just(
+            localStorage.removeStation(
+                toStationRoomEntity(station)
+            )
+        )
+    }
+
+    override fun changeStation(station: Station): Single<Int> {
+        return Single.just(
+            localStorage.changeStation(
+                toStationRoomEntity(station)
             )
         )
     }
