@@ -1,6 +1,7 @@
 package com.example.myfirstapp.ui.add_train_screen
 
 import android.text.SpannableStringBuilder
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.ItemStationBinding
@@ -16,7 +17,8 @@ class AddTrainViewHolder(
         station: Station,
         timeArrivalClickListener: (Station) -> Unit,
         timeDepartureClickListener: (Station) -> Unit,
-        textStationChangedListener: (String?, String) -> Unit
+        textStationChangedListener: (String?, String) -> Unit,
+        dropDownAdapter: ArrayAdapter<String>
     ) {
         binding.timeArrivalLayout.setOnClickListener {
             timeArrivalClickListener.invoke(station)
@@ -24,6 +26,7 @@ class AddTrainViewHolder(
         binding.timeDepartureLayout.setOnClickListener {
             timeDepartureClickListener.invoke(station)
         }
+        binding.dataStation.setAdapter(dropDownAdapter)
 
         binding.dataStation.text =
             if (station.stationName.isNullOrBlank()) {

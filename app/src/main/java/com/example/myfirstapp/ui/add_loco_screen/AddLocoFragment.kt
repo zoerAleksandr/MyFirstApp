@@ -16,6 +16,7 @@ import com.example.myfirstapp.databinding.BlockEnergyBinding
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
 import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.TypeOfTraction
+import com.example.myfirstapp.ui.PREFERENCE
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -26,7 +27,6 @@ import java.util.*
 import java.util.Calendar.*
 import kotlin.properties.Delegates
 
-const val PREFERENCES = "preferences"
 private const val LIST_SERIES = "LIST_SERIES"
 
 // для Bundle
@@ -123,7 +123,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             resources.getString(R.string.subtitle_block_diesel_fuel_sec_4)
 
         // SharedPreferences
-        val sharedPreferences = requireActivity().getSharedPreferences(PREFERENCES, MODE_PRIVATE)
+        val sharedPreferences = requireActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
 
         // экземпляр настроек полученых из сохраненного состояния

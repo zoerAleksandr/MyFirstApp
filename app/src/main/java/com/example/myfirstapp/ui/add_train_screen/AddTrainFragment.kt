@@ -1,10 +1,10 @@
 package com.example.myfirstapp.ui.add_train_screen
 
-import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +12,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddTrainBinding
 import com.example.myfirstapp.domain.entity.Station
+import com.example.myfirstapp.ui.DROP_DOWN_STATION_PREF
+import com.example.myfirstapp.ui.PREFERENCE
 import com.example.myfirstapp.utils.AddTrainState
 import com.example.myfirstapp.utils.generateStringID
 import com.example.myfirstapp.utils.getTimePicker
@@ -41,8 +43,15 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
     private lateinit var adapter: AddTrainFragmentAdapter
 
     private val viewModel: AddTrainViewModel by viewModel()
+    private lateinit var editor: SharedPreferences.Editor
+    private lateinit var preference: SharedPreferences
 
-    @SuppressLint("CommitPrefEdits")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preference = requireActivity().getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+        editor = preference.edit()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -90,6 +99,22 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
         }
     }
 
+    private fun getListStation(): List<String> {
+        var setStation: MutableSet<String> = mutableSetOf()
+        if (preference.contains(DROP_DOWN_STATION_PREF)) {
+            setStation = preference.getStringSet(DROP_DOWN_STATION_PREF, null)!!
+        }
+        return mutableListOf<String>().apply { addAll(setStation) }
+    }
+
+    private fun getDropDownAdapter(listStation: List<String>): ArrayAdapter<String> {
+        return ArrayAdapter(
+            requireContext(),
+            R.layout.station_drop_down_menu,
+            listStation
+        )
+    }
+
     private fun initAdapter() {
         adapter = AddTrainFragmentAdapter(
             { station ->
@@ -100,26 +125,23 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             },
             { editable, stationId ->
                 textStationChangedListener(editable, stationId)
-            }
-        )
+            },
+        ).apply {
+            initDropDownAdapter(getDropDownAdapter(getListStation()))
+        }
         binding.recyclerTrain.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerTrain.recycledViewPool.setMaxRecycledViews(0,0)
+        binding.recyclerTrain.recycledViewPool.setMaxRecycledViews(0, 0)
         binding.recyclerTrain.adapter = adapter
     }
 
     private fun renderData(state: AddTrainState) {
         when (state) {
-            is AddTrainState.Loading -> {
-
-            }
+            is AddTrainState.Loading -> {}
             is AddTrainState.Success -> {
-                // передал в адаптер новый массив станций
                 binding.textEmptyStationList.visibility = View.GONE
                 adapter.addStation(state.station)
             }
-            is AddTrainState.Error -> {
-
-            }
+            is AddTrainState.Error -> {}
         }
     }
 
@@ -136,7 +158,6 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
     /** Сюда нужно передать Calendar приемки локомотива или явки на работу*/
     private fun timeArrivalClickListener(station: Station) {
         val currentTime = Calendar.getInstance()
-        Log.d("DEBUG", "Calendar.getInstance()")
         getTimePicker("Время прибытия", Calendar.getInstance()).also { timePicker ->
             timePicker.show(requireActivity().supportFragmentManager, "TIME_PICKER_ARRIVAL")
             timePicker.addOnPositiveButtonClickListener {
@@ -158,7 +179,19 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             }
         }
     }
-    private fun textStationChangedListener(stationName: String?, stationId: String){
+
+    private fun textStationChangedListener(stationName: String?, stationId: String) {
         viewModel.saveStationName(stationId, stationName.toString())
+
+        val setStation = getListStation()
+        val copySetStation: MutableSet<String?> = mutableSetOf<String?>().apply {
+            addAll(setStation)
+            add(stationName)
+        }
+
+        editor.putStringSet(DROP_DOWN_STATION_PREF, copySetStation).apply {
+            apply()
+        }
+        adapter.initDropDownAdapter(getDropDownAdapter(getListStation()))
     }
 }

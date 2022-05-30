@@ -70,4 +70,11 @@
     <string name="subtitle_block_diesel_fuel_sec_2">Секция 2</string>
     <string name="subtitle_block_diesel_fuel_sec_3">Секция 3</string>
     <string name="subtitle_block_diesel_fuel_sec_4">Секция 4</string>
+    
+    // test
+    <string-array name="drop">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+    </string-array>
 </resources>
