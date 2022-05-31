@@ -1,11 +1,16 @@
 package com.example.myfirstapp.ui.add_passenger_screen
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddPassengerBinding
+import com.example.myfirstapp.ui.DROP_DOWN_STATION_PREF
+import com.example.myfirstapp.ui.PREFERENCE
 import com.example.myfirstapp.utils.getDatePicker
 import com.example.myfirstapp.utils.getTimePicker
 import com.example.myfirstapp.utils.setTextDate
@@ -31,6 +36,15 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
 
     private val binding: FragmentAddPassengerBinding by viewBinding()
     private val viewModel: AddPassengerViewModel by viewModel()
+    private lateinit var preference: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+    private lateinit var arrayAdapter: ArrayAdapter<String>
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        preference = requireActivity().getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE)
+        editor = preference.edit()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +52,7 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             passengerId = bundle.getString(KEY_PASSENGER_ID).toString()
             parentId = bundle.getString(KEY_PARENT_ID).toString()
         }
+
         binding.numberTrainEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 viewModel.saveNumberTrain(passengerId, binding.numberTrainEditText.text.toString())
@@ -50,7 +65,18 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
                     passengerId,
                     binding.stationDepartureEditText.text.toString()
                 )
+                saveStationInPreference(
+                    binding.stationDepartureEditText.text.toString()
+                )
             }
+        }
+
+        binding.stationDepartureEditText.setOnClickListener {
+            binding.stationDepartureEditText.setAdapter(
+                initDropDownAdapter(
+                    getListStationFromPreference()
+                )
+            )
         }
 
         binding.stationArrivalEditText.setOnFocusChangeListener { _, hasFocus ->
@@ -59,7 +85,18 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
                     passengerId,
                     binding.stationArrivalEditText.text.toString()
                 )
+                saveStationInPreference(
+                    binding.stationArrivalEditText.text.toString()
+                )
             }
+        }
+
+        binding.stationArrivalEditText.setOnClickListener {
+            binding.stationArrivalEditText.setAdapter(
+                initDropDownAdapter(
+                    getListStationFromPreference()
+                )
+            )
         }
 
         binding.dateDepartureLayout.setOnClickListener {
@@ -132,5 +169,36 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
                 )
             }
         }
+    }
+
+    private fun getListStationFromPreference(): List<String> {
+        var setStation: MutableSet<String> = mutableSetOf()
+        if (preference.contains(DROP_DOWN_STATION_PREF)) {
+            setStation = preference.getStringSet(DROP_DOWN_STATION_PREF, null)!!
+        }
+        return mutableListOf<String>().apply { addAll(setStation) }
+    }
+
+    private fun saveStationInPreference(stationName: String?) {
+        if (!stationName.isNullOrBlank()) {
+            val setStation = getListStationFromPreference()
+            val copySetStation: MutableSet<String?> = mutableSetOf<String?>().apply {
+                addAll(setStation)
+                add(stationName)
+            }
+
+            editor.putStringSet(DROP_DOWN_STATION_PREF, copySetStation).apply {
+                apply()
+            }
+        }
+    }
+
+    private fun initDropDownAdapter(stations: List<String>): ArrayAdapter<String> {
+        arrayAdapter = ArrayAdapter(
+            requireContext(),
+            R.layout.station_drop_down_menu,
+            stations
+        )
+        return arrayAdapter
     }
 }

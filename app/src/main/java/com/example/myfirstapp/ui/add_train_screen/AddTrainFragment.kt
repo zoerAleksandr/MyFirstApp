@@ -183,15 +183,17 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
     private fun textStationChangedListener(stationName: String?, stationId: String) {
         viewModel.saveStationName(stationId, stationName.toString())
 
-        val setStation = getListStation()
-        val copySetStation: MutableSet<String?> = mutableSetOf<String?>().apply {
-            addAll(setStation)
-            add(stationName)
-        }
+        if (!stationName.isNullOrBlank()) {
+            val setStation = getListStation()
+            val copySetStation: MutableSet<String?> = mutableSetOf<String?>().apply {
+                addAll(setStation)
+                add(stationName)
+            }
 
-        editor.putStringSet(DROP_DOWN_STATION_PREF, copySetStation).apply {
-            apply()
+            editor.putStringSet(DROP_DOWN_STATION_PREF, copySetStation).apply {
+                apply()
+            }
+            adapter.initDropDownAdapter(getDropDownAdapter(getListStation()))
         }
-        adapter.initDropDownAdapter(getDropDownAdapter(getListStation()))
     }
 }
