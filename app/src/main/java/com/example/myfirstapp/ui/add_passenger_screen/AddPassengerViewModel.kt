@@ -18,7 +18,7 @@ class AddPassengerViewModel : ViewModel(), KoinComponent {
     private val getPassengerByIdUseCase: GetPassengerByIdUseCase by inject()
     private val changePassengerUseCase: ChangePassengerUseCase by inject()
 
-    fun saveNotes(passengerId: String, notes: String){
+    fun saveNotes(passengerId: String, notes: String?){
         compositeDisposable.add(
             getPassenger(passengerId)
                 .subscribeBy(
@@ -30,7 +30,7 @@ class AddPassengerViewModel : ViewModel(), KoinComponent {
         )
     }
 
-    fun saveDateArrival(passengerId: String, date: Calendar){
+    fun saveDateArrival(passengerId: String, date: Calendar?){
         compositeDisposable.add(
             getPassenger(passengerId)
                 .subscribeBy(
@@ -42,7 +42,7 @@ class AddPassengerViewModel : ViewModel(), KoinComponent {
         )
     }
 
-    fun saveDateDeparture(passengerId: String, date: Calendar){
+    fun saveDateDeparture(passengerId: String, date: Calendar?){
         compositeDisposable.add(
             getPassenger(passengerId)
                 .subscribeBy(
@@ -54,7 +54,7 @@ class AddPassengerViewModel : ViewModel(), KoinComponent {
         )
     }
 
-    fun saveStationArrival(passengerId: String, station: String){
+    fun saveStationArrival(passengerId: String, station: String?){
         compositeDisposable.add(
             getPassenger(passengerId)
                 .subscribeBy(
@@ -66,7 +66,7 @@ class AddPassengerViewModel : ViewModel(), KoinComponent {
         )
     }
 
-    fun saveStationDeparture(passengerId: String, station: String){
+    fun saveStationDeparture(passengerId: String, station: String?){
         compositeDisposable.add(
             getPassenger(passengerId)
                 .subscribeBy(
@@ -78,7 +78,7 @@ class AddPassengerViewModel : ViewModel(), KoinComponent {
         )
     }
 
-    fun saveNumberTrain(passengerId: String, number: String) {
+    fun saveNumberTrain(passengerId: String, number: String?) {
         compositeDisposable.add(
             getPassenger(passengerId)
                 .subscribeBy(
