@@ -16,6 +16,7 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.*
 
 class AddItineraryViewModel(
     private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase,
@@ -27,6 +28,71 @@ class AddItineraryViewModel(
 ) : ViewModel(), KoinComponent {
     private val compositeDisposable = CompositeDisposable()
     private val addPassengerUseCase: AddPassengerUseCase by inject()
+
+    fun saveNotes(itineraryId: String, notes: String){
+        compositeDisposable.add(
+            getItinerary(itineraryId)
+                .observeOn(Schedulers.io())
+                .subscribeBy(
+                    onSuccess = {
+                        it.notes = notes
+                        changeItinerary(it)
+                    }
+                )
+        )
+    }
+
+    fun saveRest(itineraryId: String, rest: Boolean){
+        compositeDisposable.add(
+            getItinerary(itineraryId)
+                .observeOn(Schedulers.io())
+                .subscribeBy(
+                    onSuccess = {
+                        it.restAtThePointOfTurnover = rest
+                        changeItinerary(it)
+                    }
+                )
+        )
+    }
+
+    fun saveCalendarEnding(itineraryId: String, ending: Calendar?){
+        compositeDisposable.add(
+            getItinerary(itineraryId)
+                .observeOn(Schedulers.io())
+                .subscribeBy(
+                    onSuccess = {
+                        it.endOfWork = ending
+                        changeItinerary(it)
+                    }
+                )
+        )
+    }
+
+    fun saveCalendarTurnout(itineraryId: String, turnout: Calendar?){
+        compositeDisposable.add(
+            getItinerary(itineraryId)
+                .observeOn(Schedulers.io())
+                .subscribeBy(
+                    onSuccess = {
+                        it.appearanceAtWork = turnout
+                        changeItinerary(it)
+                    }
+                )
+        )
+    }
+
+    fun saveNumberItinerary(itineraryId: String, number: String){
+        compositeDisposable.add(
+            getItinerary(itineraryId)
+                .observeOn(Schedulers.io())
+                .subscribeBy(
+                    onSuccess = {
+                        it.number = number
+                        changeItinerary(it)
+                    }
+                )
+        )
+    }
 
     fun addPassengerData(passenger: FollowingByPassenger) {
         compositeDisposable.add(

@@ -117,7 +117,6 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingVertical="4dp"
-
                     app:layout_constraintEnd_toStartOf="@id/block_ending"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/turnout_label">

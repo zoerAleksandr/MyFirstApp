@@ -58,6 +58,16 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         arguments?.let { bundle ->
             itineraryID = bundle.getString(ITINERARY_ID).toString()
         }
+
+        binding.etNumberItinerary.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                viewModel.saveNumberItinerary(
+                    itineraryID,
+                    binding.etNumberItinerary.text.toString()
+                )
+            }
+        }
+
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(
@@ -75,9 +85,11 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                     when (tab?.position) {
                         0 -> {
                             restPointOfTurnover = false
+                            viewModel.saveRest(itineraryID, false)
                         }
                         1 -> {
                             restPointOfTurnover = true
+                            viewModel.saveRest(itineraryID, true)
                         }
                     }
                 }
@@ -173,6 +185,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                                 timeTurnout.alpha = 1f
                             }
                             verificationWorkTime()
+                            viewModel.saveCalendarTurnout(itineraryID, dateAndTimeTurnout)
                         }
                     }
 
@@ -217,6 +230,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                             timeEnding.alpha = 1f
                         }
                         verificationWorkTime()
+                        viewModel.saveCalendarEnding(itineraryID, dateAndTimeEnding)
                     }
 
                 }
@@ -246,6 +260,12 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
                 }
             datePickerEnding.show(requireActivity().supportFragmentManager, "DATE_PICKER_ENDING")
+        }
+
+        binding.notesText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus){
+                viewModel.saveNotes(itineraryID, binding.notesText.text.toString())
+            }
         }
     }
 
@@ -398,7 +418,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         viewModel.addTrainData(itineraryID, trainData)
     }
 
-    private fun createPassengerData(passenger: FollowingByPassenger){
+    private fun createPassengerData(passenger: FollowingByPassenger) {
         viewModel.addPassengerData(passenger)
     }
 }

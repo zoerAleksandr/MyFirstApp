@@ -46,7 +46,7 @@
         <entry key="app/src/main/res/layout/block_diesel_fuel.xml" value="0.375" />
         <entry key="app/src/main/res/layout/block_energy.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_add.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_add_itinerary.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_add_itinerary.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_add_loco.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_add_other_work.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_add_passanger.xml" value="0.335" />
