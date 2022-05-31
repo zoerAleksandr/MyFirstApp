@@ -11,7 +11,8 @@ import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.ui.add_loco_screen.*
-import com.example.myfirstapp.ui.add_passenger_screen.AddPassangerFragment
+import com.example.myfirstapp.ui.add_passenger_screen.AddPassengerFragment
+import com.example.myfirstapp.ui.add_passenger_screen.KEY_PASSENGER_ID
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
 import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_ID
 import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_PARENT_ID
@@ -100,7 +101,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 generateStringID(),
                 generateStringID()
             )
-            createLocomotiveDataEntity(
+            createLocomotiveData(
                 itineraryID,
                 locomotiveDataID,
                 listDieselFuelSectionID,
@@ -119,7 +120,23 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddPassenger.setOnClickListener {
-            controller.openScreen(AddPassangerFragment())
+            val passengerId = generateStringID()
+            val passenger = FollowingByPassenger(
+                followingByPassengerID = passengerId,
+                itineraryID = itineraryID,
+                departureTime = null,
+                arrivalTime = null,
+                departureStation = null,
+                arrivalStation = null,
+                numberOfTrain = null,
+                notes = null
+            )
+            createPassengerData(passenger)
+            val bundle = Bundle().apply {
+                putString(KEY_PARENT_ID, itineraryID)
+                putString(KEY_PASSENGER_ID, passengerId)
+            }
+            controller.openScreen(AddPassengerFragment.newInstance(bundle))
         }
 
         binding.btnAddTrain.setOnClickListener {
@@ -258,7 +275,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         } else setDefaultBackground(requireContext(), binding.blockEnding)
     }
 
-    private fun createLocomotiveDataEntity(
+    private fun createLocomotiveData(
         itineraryID: String,
         locomotiveDataID: String,
         listDieselFuelSectionID: ArrayList<String>,
@@ -379,5 +396,9 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     private fun createTrainData(trainData: TrainData) {
         viewModel.addTrainData(itineraryID, trainData)
+    }
+
+    private fun createPassengerData(passenger: FollowingByPassenger){
+        viewModel.addPassengerData(passenger)
     }
 }

@@ -48,7 +48,7 @@ class MainViewHolder(
                 itemTextOvertimeWork.text = getOverTimeWork(itinerary.getOverTimeMillis())
             }
 
-            if (itinerary.trainDataList.isNotEmpty()) {
+            if (itinerary.trainDataList.isNotEmpty() && itinerary.trainDataList[0].stations.isNotEmpty()) {
                 itemTextWork.text =
                     itinerary.trainDataList[0].stations.let { stations ->
                         resources.getString(

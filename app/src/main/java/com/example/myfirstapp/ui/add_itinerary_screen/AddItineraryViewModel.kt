@@ -1,19 +1,21 @@
 package com.example.myfirstapp.ui.add_itinerary_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.domain.usecase.itinerary.ChangeItineraryUseCase
 import com.example.myfirstapp.domain.usecase.itinerary.GetItineraryByIdUseCase
 import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
+import com.example.myfirstapp.domain.usecase.passenger.AddPassengerUseCase
 import com.example.myfirstapp.domain.usecase.section.diesel.AddDieselFuelSectionUseCase
 import com.example.myfirstapp.domain.usecase.section.electric.AddElectricSectionUseCase
 import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
+import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class AddItineraryViewModel(
     private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase,
@@ -24,6 +26,18 @@ class AddItineraryViewModel(
     private val addElectricSectionUseCase: AddElectricSectionUseCase
 ) : ViewModel(), KoinComponent {
     private val compositeDisposable = CompositeDisposable()
+    private val addPassengerUseCase: AddPassengerUseCase by inject()
+
+    fun addPassengerData(passenger: FollowingByPassenger) {
+        compositeDisposable.add(
+            Single.just(passenger)
+                .observeOn(Schedulers.io())
+                .concatMap {
+                    addPassengerUseCase.execute(passenger)
+                }
+                .subscribe()
+        )
+    }
 
     fun addLocomotiveData(locomotiveData: LocomotiveData) {
         compositeDisposable.add(
