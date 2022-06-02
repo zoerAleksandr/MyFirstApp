@@ -59,6 +59,9 @@
         <entry key="app/src/main/res/layout/item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_autocompile.xml" value="0.18703703703703703" />
         <entry key="app/src/main/res/layout/item_drop_down_btn_remove.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_itinerary_loco.xml" value="0.2629328772979906" />
+        <entry key="app/src/main/res/layout/item_itinerary_passenger.xml" value="0.26378794356562635" />
+        <entry key="app/src/main/res/layout/item_itinerary_train.xml" value="0.2629328772979906" />
         <entry key="app/src/main/res/layout/item_station.xml" value="0.375" />
         <entry key="app/src/main/res/layout/station_drop_down_menu.xml" value="0.2629328772979906" />
         <entry key="app/src/main/res/layout/unit_kilo.xml" value="0.28564814814814815" />
