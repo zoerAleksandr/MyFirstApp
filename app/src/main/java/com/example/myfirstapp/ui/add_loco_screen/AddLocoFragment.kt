@@ -815,7 +815,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             } else {
                 layout.acceptanceKiloGroup.visibility = View.VISIBLE
                 layout.dataDieselFuelKiloAcceptance.text =
-                    setDataDieselFuelInKilograms(coefficient, data.toString().toIntOrNull())
+                    setDataDieselFuelInKilograms(coefficient, data.toString().toDoubleOrNull())
             }
         }
 
@@ -830,7 +830,7 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             } else {
                 layout.deliveryKiloGroup.visibility = View.VISIBLE
                 layout.dataDieselFuelKiloDelivery.text =
-                    setDataDieselFuelInKilograms(coefficient, data.toString().toIntOrNull())
+                    setDataDieselFuelInKilograms(coefficient, data.toString().toDoubleOrNull())
             }
         }
     }
