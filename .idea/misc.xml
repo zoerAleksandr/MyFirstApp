@@ -54,7 +54,7 @@
         <entry key="app/src/main/res/layout/fragment_add_train.xml" value="0.26610107421875" />
         <entry key="app/src/main/res/layout/fragment_details_change.xml" value="0.25181701581872595" />
         <entry key="app/src/main/res/layout/fragment_details_viewing.xml" value="0.27742805755395683" />
-        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_viewing.xml" value="0.2604474461798227" />
         <entry key="app/src/main/res/layout/item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_autocompile.xml" value="0.18703703703703703" />
