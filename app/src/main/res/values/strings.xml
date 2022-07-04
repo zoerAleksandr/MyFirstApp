@@ -36,6 +36,7 @@
     // Header Screen
     <string name="header_train">Поезд</string>
     <string name="header_passenger">Следование пассажиром</string>
+    <string name="header_itinerary">Маршрут</string>
 
     // TrainData Layout
     <string name="hint_number">Номер</string>
@@ -79,4 +80,13 @@
     <string name="hint_number_train">Поезд №</string>
     <string name="hint_time_departure">Время отправления</string>
     <string name="hint_time_arrival">Время прибытия</string>
+
+    // Add Itinerary
+    <string name="hint_itinerary_number">№</string>
+    <string name="subtitle_work_time">Время работы</string>
+    <string name="subtitle_locomotive">Локомотив</string>
+    <string name="subtitle_train">Поезд</string>
+    <string name="subtitle_passenger">Следование пасссажиром</string>
+    <string name="subtitle_notes">Примечания</string>
+
 </resources>
