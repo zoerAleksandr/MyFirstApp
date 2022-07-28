@@ -9,7 +9,7 @@ interface IRepository {
     fun getItinerary(itineraryID: String): Single<Itinerary>
 
     fun getLocomotiveData(locomotiveDataID: String): Single<LocomotiveData>
-    fun getListLocomotiveData(itineraryID: String): Single<MutableList<LocomotiveData>>
+    fun getListLocomotiveData(itineraryID: String): Single<List<LocomotiveData>>
 
     fun getTrainData(trainDataID: String): Single<TrainData>
     fun getListTrainData(itineraryID: String): Single<MutableList<TrainData>>

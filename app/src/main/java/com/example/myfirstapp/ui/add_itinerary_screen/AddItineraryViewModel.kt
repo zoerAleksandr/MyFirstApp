@@ -1,15 +1,14 @@
 package com.example.myfirstapp.ui.add_itinerary_screen
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.domain.usecase.itinerary.ChangeItineraryUseCase
 import com.example.myfirstapp.domain.usecase.itinerary.GetItineraryByIdUseCase
 import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
+import com.example.myfirstapp.domain.usecase.locomotive.GetListLocomotiveByItineraryId
 import com.example.myfirstapp.domain.usecase.passenger.AddPassengerUseCase
-import com.example.myfirstapp.domain.usecase.section.diesel.AddDieselFuelSectionUseCase
-import com.example.myfirstapp.domain.usecase.section.electric.AddElectricSectionUseCase
 import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
-import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -22,14 +21,36 @@ class AddItineraryViewModel(
     private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase,
     private val changeItineraryUseCase: ChangeItineraryUseCase,
     private val getItineraryByIdUseCase: GetItineraryByIdUseCase,
-    private val addTrainDataUseCase: AddTrainDataUseCase,
-    private val addDieselFuelSectionUseCase: AddDieselFuelSectionUseCase,
-    private val addElectricSectionUseCase: AddElectricSectionUseCase
+    private val addTrainDataUseCase: AddTrainDataUseCase
 ) : ViewModel(), KoinComponent {
     private val compositeDisposable = CompositeDisposable()
     private val addPassengerUseCase: AddPassengerUseCase by inject()
+    private val getListLocomotiveByItineraryId: GetListLocomotiveByItineraryId by inject()
+    val listLocoLiveData: MutableLiveData<ListState> = MutableLiveData()
 
-    fun saveNotes(itineraryId: String, notes: String){
+    fun getListLoco(itineraryId: String) {
+        compositeDisposable.add(
+            Single.just(itineraryId)
+                .subscribeOn(Schedulers.io())
+                .concatMap {
+                    getListLocomotiveByItineraryId.execute(it)
+                }
+                .subscribeBy(
+                    onSuccess = { list ->
+                        if (list.isEmpty()) {
+                            listLocoLiveData.postValue(ListState.Empty)
+                        } else {
+                            listLocoLiveData.postValue(ListState.Success(list))
+                        }
+                    },
+                    onError = {
+                        listLocoLiveData.postValue(ListState.Error(it))
+                    }
+                )
+        )
+    }
+
+    fun saveNotes(itineraryId: String, notes: String) {
         compositeDisposable.add(
             getItinerary(itineraryId)
                 .observeOn(Schedulers.io())
@@ -42,7 +63,7 @@ class AddItineraryViewModel(
         )
     }
 
-    fun saveRest(itineraryId: String, rest: Boolean){
+    fun saveRest(itineraryId: String, rest: Boolean) {
         compositeDisposable.add(
             getItinerary(itineraryId)
                 .observeOn(Schedulers.io())
@@ -55,7 +76,7 @@ class AddItineraryViewModel(
         )
     }
 
-    fun saveCalendarEnding(itineraryId: String, ending: Calendar?){
+    fun saveCalendarEnding(itineraryId: String, ending: Calendar?) {
         compositeDisposable.add(
             getItinerary(itineraryId)
                 .observeOn(Schedulers.io())
@@ -68,7 +89,7 @@ class AddItineraryViewModel(
         )
     }
 
-    fun saveCalendarTurnout(itineraryId: String, turnout: Calendar?){
+    fun saveCalendarTurnout(itineraryId: String, turnout: Calendar?) {
         compositeDisposable.add(
             getItinerary(itineraryId)
                 .observeOn(Schedulers.io())
@@ -81,7 +102,7 @@ class AddItineraryViewModel(
         )
     }
 
-    fun saveNumberItinerary(itineraryId: String, number: String){
+    fun saveNumberItinerary(itineraryId: String, number: String) {
         compositeDisposable.add(
             getItinerary(itineraryId)
                 .observeOn(Schedulers.io())
@@ -162,28 +183,6 @@ class AddItineraryViewModel(
             .concatMap {
                 getItineraryByIdUseCase.execute(it)
             }
-    }
-
-    fun addDieselFuelSection(dieselFuelSection: DieselFuelSection) {
-        compositeDisposable.add(
-            Single.just(dieselFuelSection)
-                .observeOn(Schedulers.io())
-                .concatMap {
-                    addDieselFuelSectionUseCase.execute(it)
-                }
-                .subscribe()
-        )
-    }
-
-    fun addElectricSection(electricSection: ElectricSection) {
-        compositeDisposable.add(
-            Single.just(electricSection)
-                .observeOn(Schedulers.io())
-                .concatMap {
-                    addElectricSectionUseCase.execute(it)
-                }
-                .subscribe()
-        )
     }
 
     override fun onCleared() {

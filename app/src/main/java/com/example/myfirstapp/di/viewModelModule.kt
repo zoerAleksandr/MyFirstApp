@@ -20,9 +20,7 @@ val viewModelModule = module {
             addLocomotiveDataUseCase = get(),
             changeItineraryUseCase = get(),
             getItineraryByIdUseCase = get(),
-            addTrainDataUseCase = get(),
-            addDieselFuelSectionUseCase = get(),
-            addElectricSectionUseCase = get()
+            addTrainDataUseCase = get()
         )
     }
 

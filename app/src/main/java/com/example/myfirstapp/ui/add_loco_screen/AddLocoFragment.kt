@@ -166,7 +166,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             } else {
                 it.toString()
             }
-            viewModel.saveSeriesLoco(locomotiveDataID, data)
         }
 
         binding.etNumberLoco.addTextChangedListener {
@@ -175,7 +174,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
             } else {
                 it.toString()
             }
-            viewModel.saveNumberLoco(locomotiveDataID, data)
         }
 
 /*Селектор выбора типа тяги*/
@@ -261,7 +259,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                             calendar.set(HOUR_OF_DAY, timePicker.hour)
                             calendar.set(MINUTE, timePicker.minute)
                         }
-                        viewModel.saveStartAcceptance(locomotiveDataID, dateAndTimeStartAcceptance)
                         binding.apply {
                             timeLocoStartAcceptance.text = setTextTime(timePicker)
                             timeLocoStartAcceptance.alpha = 1f
@@ -310,7 +307,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                             calendar.set(HOUR_OF_DAY, timePicker.hour)
                             calendar.set(MINUTE, timePicker.minute)
                         }
-                        viewModel.saveEndAcceptance(locomotiveDataID, dateAndTimeEndAcceptance)
                         binding.apply {
                             timeLocoEndAcceptance.text = setTextTime(timePicker)
                             timeLocoEndAcceptance.alpha = 1f
@@ -367,7 +363,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                             calendar.set(HOUR_OF_DAY, timePicker.hour)
                             calendar.set(MINUTE, timePicker.minute)
                         }
-                        viewModel.saveStartDelivery(locomotiveDataID, dateAndTimeStartDelivery)
                         binding.apply {
                             timeLocoStartDelivery.text = setTextTime(timePicker)
                             timeLocoStartDelivery.alpha = 1f
@@ -419,7 +414,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                             calendar.set(HOUR_OF_DAY, timePicker.hour)
                             calendar.set(MINUTE, timePicker.minute)
                         }
-                        viewModel.saveEndDelivery(locomotiveDataID, dateAndTimeEndDelivery)
                         binding.apply {
                             timeLocoEndDelivery.text = setTextTime(timePicker)
                             timeLocoEndDelivery.alpha = 1f
@@ -532,25 +526,21 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         binding.btnMinusBrakeShoes.setOnClickListener {
             if (countBrakeShoes > 0) {
                 countBrakeShoes -= 1
-                viewModel.saveBreakShoes(locomotiveDataID, countBrakeShoes)
                 binding.dataBrakeShoes.text = countBrakeShoes.toString()
             } else binding.root.snack(getString(R.string.text_for_snackbar_input_less_zero))
         }
         binding.btnPlusBrakeShoes.setOnClickListener {
             countBrakeShoes += 1
-            viewModel.saveBreakShoes(locomotiveDataID, countBrakeShoes)
             binding.dataBrakeShoes.text = countBrakeShoes.toString()
         }
         binding.btnMinusExtinguishers.setOnClickListener {
             if (countExtinguishers > 0) {
                 countExtinguishers -= 1
-                viewModel.saveExtinguishers(locomotiveDataID, countExtinguishers)
                 binding.dataExtinguishers.text = countExtinguishers.toString()
             } else binding.root.snack(getString(R.string.text_for_snackbar_input_less_zero))
         }
         binding.btnPlusExtinguishers.setOnClickListener {
             countExtinguishers += 1
-            viewModel.saveExtinguishers(locomotiveDataID, countExtinguishers)
             binding.dataExtinguishers.text = countExtinguishers.toString()
         }
     }
@@ -805,11 +795,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     /** Ввод данных о количестве топлива */
     private fun resultInputDieselFuel(layout: BlockDieselFuelBinding, sectionIndex: Int) {
         layout.dataDieselFuelAcceptance.addTextChangedListener { data ->
-            viewModel.saveAcceptedInRoom(
-                sectionIndex,
-                listDieselFuelSectionID[sectionIndex],
-                data.toString().toIntOrNull()
-            )
             if (data.isNullOrBlank()) {
                 layout.acceptanceKiloGroup.visibility = View.GONE
             } else {
@@ -820,11 +805,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
         }
 
         layout.dataDieselFuelDelivery.addTextChangedListener { data ->
-            viewModel.saveDeliveryInRoom(
-                sectionIndex,
-                listDieselFuelSectionID[sectionIndex],
-                data.toString().toIntOrNull()
-            )
             if (data.isNullOrBlank()) {
                 layout.deliveryKiloGroup.visibility = View.GONE
             } else {
@@ -837,37 +817,16 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
 
     /** Ввод данных счетчиков электроэнергии */
     private fun resultInputEnergy(layout: BlockEnergyBinding, sectionIndex: Int) {
-        layout.dataEnergyAcceptance1.addTextChangedListener { data ->
-            viewModel.saveAcceptedEnergyInRoom(
-                sectionIndex,
-                listElectricSectionID[sectionIndex],
-                data.toString().toIntOrNull()
-            )
-        }
-        layout.dataEnergyDelivery1.addTextChangedListener { data ->
-            viewModel.saveDeliveryEnergyInRoom(
-                sectionIndex,
-                listElectricSectionID[sectionIndex],
-                data.toString().toIntOrNull()
-            )
-        }
+        layout.dataEnergyAcceptance1.addTextChangedListener { data -> }
+        layout.dataEnergyDelivery1.addTextChangedListener { data -> }
     }
+
 
     /** Ввод данных счетчиков рекуперации */
     private fun resultInputRecovery(layout: BlockEnergyBinding, sectionIndex: Int) {
         layout.dataRecoveryAcceptance.addTextChangedListener { data ->
-            viewModel.saveAcceptedRecoveryInRoom(
-                sectionIndex,
-                listElectricSectionID[sectionIndex],
-                data.toString().toIntOrNull()
-            )
         }
         layout.dataRecoveryDelivery.addTextChangedListener { data ->
-            viewModel.saveDeliveryRecoveryInRoom(
-                sectionIndex,
-                listElectricSectionID[sectionIndex],
-                data.toString().toIntOrNull()
-            )
         }
     }
 
@@ -898,7 +857,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 binding.containerSec4.visibility = View.VISIBLE
             }
         }
-        viewModel.saveCountSection(locomotiveDataID, countSections)
     }
 
     private fun setTypeOfTraction(typeOfTraction: TypeOfTraction) {
@@ -933,7 +891,6 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 }
             }
         }
-        viewModel.saveTypeOfTraction(locomotiveDataID, typeOfTraction)
     }
 
     /* Метод для определения корректности введенных данных о времени приемки локомотива*/

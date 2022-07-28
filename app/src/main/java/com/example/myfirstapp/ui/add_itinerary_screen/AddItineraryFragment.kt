@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.app
@@ -38,6 +39,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private val binding: FragmentAddItineraryBinding by viewBinding()
     private val viewModel: AddItineraryViewModel by viewModel()
     private val controller by lazy { activity as Controller }
+    private val locoAdapter = LocoAdapter()
 
     private var dateTurnout: Long = 0
     private val dateAndTimeNow by lazy { getInstance() }
@@ -58,6 +60,13 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         arguments?.let { bundle ->
             itineraryID = bundle.getString(ITINERARY_ID).toString()
         }
+
+        initLocoAdapter()
+
+        viewModel.listLocoLiveData.observe(viewLifecycleOwner) {
+            renderListLoco(it)
+        }
+        viewModel.getListLoco(itineraryID)
 
         binding.etNumberItinerary.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -263,10 +272,33 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.notesText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus){
+            if (!hasFocus) {
                 viewModel.saveNotes(itineraryID, binding.notesText.text.toString())
             }
         }
+    }
+
+    private fun renderListLoco(state: ListState) {
+        when (state) {
+            is ListState.Loading -> {
+                //TODO
+            }
+            is ListState.Empty -> {
+                //TODO
+            }
+            is ListState.Success<*> -> {
+                locoAdapter.setData(state.list as List<LocomotiveData>)
+            }
+            is ListState.Error -> {
+                //TODO
+            }
+        }
+
+    }
+
+    private fun initLocoAdapter() {
+        binding.locoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.locoRecyclerView.adapter = locoAdapter
     }
 
     override fun onDestroyView() {
@@ -323,9 +355,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                     ElectricSection(
                         sectionID = listElectricSectionID[1],
                         locomotiveDataId = locomotiveDataID,
@@ -335,9 +365,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                     ElectricSection(
                         sectionID = listElectricSectionID[2],
                         locomotiveDataId = locomotiveDataID,
@@ -347,9 +375,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                     ElectricSection(
                         sectionID = listElectricSectionID[3],
                         locomotiveDataId = locomotiveDataID,
@@ -359,9 +385,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                 ),
                 dieselFuelSectionList = mutableListOf(
                     DieselFuelSection(
@@ -371,9 +395,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    },
+                    ),
 
                     DieselFuelSection(
                         sectionID = listDieselFuelSectionID[1],
@@ -382,9 +404,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    },
+                    ),
 
                     DieselFuelSection(
                         sectionID = listDieselFuelSectionID[2],
@@ -393,9 +413,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    },
+                    ),
 
                     DieselFuelSection(
                         sectionID = listDieselFuelSectionID[3],
@@ -404,9 +422,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    }
+                    )
                 ),
                 countBrakeShoes = null,
                 countExtinguishers = null

@@ -26,7 +26,7 @@ class RoomRepository : IRepository, KoinComponent {
             toLocomotiveData(localStorage.getLocomotiveData(locomotiveDataID))
         )
 
-    override fun getListLocomotiveData(itineraryID: String): Single<MutableList<LocomotiveData>> =
+    override fun getListLocomotiveData(itineraryID: String): Single<List<LocomotiveData>> =
         Single.just(
             toLocomotiveDataList(localStorage.getListLocomotiveData(itineraryID))
         )
