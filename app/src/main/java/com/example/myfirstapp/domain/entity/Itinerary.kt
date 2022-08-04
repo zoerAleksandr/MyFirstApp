@@ -10,7 +10,7 @@ data class Itinerary(
     var restAtThePointOfTurnover: Boolean,
     var notes: String?,
 
-    var followingByPassengerList: MutableList<FollowingByPassenger>,
+    var followingByPassengerList: MutableList<Passenger>,
     var locomotiveDataList: MutableList<LocomotiveData>,
     var trainDataList: MutableList<TrainData>
 ) {

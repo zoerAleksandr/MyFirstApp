@@ -23,7 +23,7 @@ fun toDieselFuelSection(roomEntity: DieselFuelSectionRoomEntity): DieselFuelSect
     )
 }
 
-fun toDieselFuelSectionRoomEntity(entity: DieselFuelSection): DieselFuelSectionRoomEntity{
+fun toDieselFuelSectionRoomEntity(entity: DieselFuelSection): DieselFuelSectionRoomEntity {
     return DieselFuelSectionRoomEntity(
         entity.sectionID,
         entity.locomotiveDataID,

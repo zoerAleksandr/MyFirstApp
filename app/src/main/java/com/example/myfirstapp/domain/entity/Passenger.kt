@@ -2,7 +2,7 @@ package com.example.myfirstapp.domain.entity
 
 import java.util.*
 
-data class FollowingByPassenger(
+data class Passenger(
     var followingByPassengerID: String,
     var itineraryID: String,
     var departureTime: Calendar?,

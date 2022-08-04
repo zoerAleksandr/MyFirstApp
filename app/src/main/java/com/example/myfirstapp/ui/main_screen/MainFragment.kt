@@ -35,10 +35,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getCurrentData(1)
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        viewModel.getCurrentData(1)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

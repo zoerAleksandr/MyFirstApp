@@ -29,7 +29,7 @@ class AddTrainFragmentAdapter(
         notifyItemChanged(index)
     }
 
-    fun initDropDownAdapter(adapter: ArrayAdapter<String>){
+    fun initDropDownAdapter(adapter: ArrayAdapter<String>) {
         dropDownAdapter = adapter
     }
 

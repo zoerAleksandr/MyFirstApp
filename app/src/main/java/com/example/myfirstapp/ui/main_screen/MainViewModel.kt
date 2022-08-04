@@ -3,27 +3,35 @@ package com.example.myfirstapp.ui.main_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.domain.usecase.itinerary.AddItineraryUseCase
 import com.example.myfirstapp.domain.usecase.itinerary.GetItineraryListByMonth
 import com.example.myfirstapp.utils.AppState
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.*
 
-class MainViewModel(
-    private val getItineraryListUseCase: GetItineraryListByMonth,
-    private val addItineraryUseCase: AddItineraryUseCase
-) : ViewModel(), KoinComponent {
+class MainViewModel : ViewModel(), KoinComponent {
+    private val getItineraryListUseCase: GetItineraryListByMonth by inject()
+    private val addItineraryUseCase: AddItineraryUseCase by inject()
+    private val liveData: MutableLiveData<AppState> = MutableLiveData()
 
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
-    private val compositeDisposable = CompositeDisposable()
+//    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+//        liveData.postValue(AppState.Error(throwable))
+//    }
+
+    private val scope = CoroutineScope(
+        Dispatchers.IO + SupervisorJob()
+                + CoroutineExceptionHandler { _, throwable ->
+            liveData.postValue(AppState.Error(throwable))
+        }
+    )
+
     fun getCurrentData(month: Int): LiveData<AppState> {
-        requestItineraryListByMonth(month)
-        return liveDataToObserve
+        getItineraryListByMonth(month)
+        return liveData
     }
 
     fun saveItinerary(
@@ -45,41 +53,28 @@ class MainViewModel(
             mutableListOf(),
             mutableListOf()
         )
-        compositeDisposable.add(
-            Single.just(itinerary)
-                .observeOn(Schedulers.io())
-                .map {
-                    addItineraryUseCase.execute(itinerary)
+        scope.launch {
+            kotlin.runCatching { addItineraryUseCase.execute(itinerary) }
+                .onSuccess {
+                    //TODO
                 }
-                .subscribe()
-        )
+                .onFailure {
+                    //TODO
+                }
+        }
     }
 
-    private fun requestItineraryListByMonth(month: Int) {
-        liveDataToObserve.postValue(AppState.Loading)
-        compositeDisposable.add(
-            Single.just(month)
-                .observeOn(Schedulers.io())
-                .concatMap {
-                    getItineraryListUseCase.execute(month)
-                }
-                .subscribeBy(
-                    onSuccess = { answerList ->
-                        liveDataToObserve.postValue(
-                            AppState.Success(answerList)
-                        )
-                    },
-                    onError = { throwable ->
-                        liveDataToObserve.postValue(
-                            AppState.Error(throwable)
-                        )
-                    }
-                )
-        )
+    private fun getItineraryListByMonth(month: Int) {
+        liveData.postValue(AppState.Loading)
+        scope.launch {
+            kotlin.runCatching { getItineraryListUseCase.execute(month) }
+                .onSuccess { liveData.postValue(AppState.Success(it)) }
+                .onFailure { liveData.postValue(AppState.Error(it)) }
+        }
     }
 
     override fun onCleared() {
-        compositeDisposable.clear()
         super.onCleared()
+        scope.coroutineContext.cancelChildren()
     }
 }

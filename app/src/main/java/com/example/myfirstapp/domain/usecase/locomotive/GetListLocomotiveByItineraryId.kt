@@ -1,11 +1,10 @@
 package com.example.myfirstapp.domain.usecase.locomotive
 
 import com.example.myfirstapp.domain.entity.LocomotiveData
-import com.example.myfirstapp.domain.repository.IRepository
-import io.reactivex.rxjava3.core.Single
+import com.example.myfirstapp.domain.repository.IRepositoryLocomotive
 
-class GetListLocomotiveByItineraryId(private val repository: IRepository) {
-    fun execute(itineraryId: String): Single<List<LocomotiveData>>{
+class GetListLocomotiveByItineraryId(private val repository: IRepositoryLocomotive) {
+    fun execute(itineraryId: String): List<LocomotiveData> {
         return repository.getListLocomotiveData(itineraryId)
     }
 }

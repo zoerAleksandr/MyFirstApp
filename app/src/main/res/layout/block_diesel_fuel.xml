@@ -27,9 +27,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:boxBackgroundColor="@color/background_data"
-        app:hintEnabled="false"
         app:endIconMode="clear_text"
         app:errorIconDrawable="@null"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toStartOf="@id/diesel_fuel_delivery"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subtitle_block_diesel_fuel_text_view"
@@ -54,9 +54,9 @@
         android:layout_gravity="end"
         android:layout_marginTop="8dp"
         app:boxBackgroundColor="@color/background_data"
-        app:hintEnabled="false"
         app:endIconMode="clear_text"
         app:errorIconDrawable="@null"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/diesel_fuel_acceptance"
         app:layout_constraintTop_toBottomOf="@id/subtitle_block_diesel_fuel_text_view">
@@ -80,7 +80,7 @@
         android:visibility="gone"
         app:constraint_referenced_ids="
             unit_acceptance_kilo,
-            data_diesel_fuel_kilo_acceptance"/>
+            data_diesel_fuel_kilo_acceptance" />
 
     <TextView
         android:id="@+id/unit_acceptance_kilo"
@@ -108,7 +108,8 @@
         android:visibility="gone"
         app:constraint_referenced_ids="
             unit_delivery_kilo,
-            data_diesel_fuel_kilo_delivery"/>
+            data_diesel_fuel_kilo_delivery" />
+
     <TextView
         android:id="@+id/unit_delivery_kilo"
         android:layout_width="wrap_content"

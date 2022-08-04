@@ -1,13 +1,12 @@
 package com.example.myfirstapp.ui.viewving_screen
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myfirstapp.R
 
 const val KEY_ITINERARY = "keyItinerary"
+
 class ViewingFragment : Fragment(R.layout.fragment_viewing) {
 
     companion object {

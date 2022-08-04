@@ -3,8 +3,8 @@ package com.example.myfirstapp.data.room.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.myfirstapp.domain.entity.FollowingByPassenger
 import com.example.myfirstapp.domain.entity.LocomotiveData
+import com.example.myfirstapp.domain.entity.Passenger
 import com.example.myfirstapp.domain.entity.TrainData
 import java.util.*
 
@@ -23,7 +23,7 @@ data class ItineraryRoomEntity(
     var restAtThePointOfTurnover: Boolean,
     var notes: String?,
     @ColumnInfo(name = "following_by_passenger_list")
-    var followingByPassengerList: MutableList<FollowingByPassenger>,
+    var followingByPassengerList: MutableList<Passenger>,
     @ColumnInfo(name = "locomotive_data_list")
     var locomotiveDataList: MutableList<LocomotiveData>,
     @ColumnInfo(name = "train_data_list")

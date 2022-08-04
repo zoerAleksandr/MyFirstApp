@@ -15,7 +15,7 @@ class LocoAdapter : RecyclerView.Adapter<LocoHolder>() {
         notifyDataSetChanged()
     }
 
-    fun emptyData(){
+    fun emptyData() {
         listLoco.clear()
         notifyDataSetChanged()
     }

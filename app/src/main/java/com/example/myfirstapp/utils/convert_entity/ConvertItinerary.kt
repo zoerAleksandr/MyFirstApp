@@ -6,12 +6,12 @@ import io.reactivex.rxjava3.core.Single
 
 fun toItineraryList(
     roomEntityList: MutableList<ItineraryRoomEntity>
-): Single<MutableList<Itinerary>> {
+): MutableList<Itinerary> {
     val list = mutableListOf<Itinerary>()
     for (item in roomEntityList) {
         list.add(toItinerary(item))
     }
-    return Single.just(list)
+    return list
 }
 
 fun toItinerary(roomEntity: ItineraryRoomEntity): Itinerary {

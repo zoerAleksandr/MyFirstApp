@@ -23,6 +23,7 @@ fun toStation(roomEntity: StationRoomEntity): Station {
         roomEntity.departureTime
     )
 }
+
 fun toStationRoomEntity(station: Station): StationRoomEntity {
     return StationRoomEntity(
         station.stationID,

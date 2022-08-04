@@ -63,20 +63,22 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
         initLocoAdapter()
 
-        viewModel.listLocoLiveData.observe(viewLifecycleOwner) {
+        viewModel.liveData.observe(viewLifecycleOwner) {
             renderListLoco(it)
         }
         viewModel.getListLoco(itineraryID)
 
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.etNumberItinerary.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.saveNumberItinerary(
-                    itineraryID,
-                    binding.etNumberItinerary.text.toString()
-                )
+//                viewModel.saveNumberItinerary(
+//                    itineraryID,
+//                    binding.etNumberItinerary.text.toString()
+//                )
             }
         }
 
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(
@@ -94,11 +96,11 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                     when (tab?.position) {
                         0 -> {
                             restPointOfTurnover = false
-                            viewModel.saveRest(itineraryID, false)
+//                            viewModel.saveRest(itineraryID, false)
                         }
                         1 -> {
                             restPointOfTurnover = true
-                            viewModel.saveRest(itineraryID, true)
+//                            viewModel.saveRest(itineraryID, true)
                         }
                     }
                 }
@@ -142,7 +144,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
         binding.btnAddPassenger.setOnClickListener {
             val passengerId = generateStringID()
-            val passenger = FollowingByPassenger(
+            val passenger = Passenger(
                 followingByPassengerID = passengerId,
                 itineraryID = itineraryID,
                 departureTime = null,
@@ -180,6 +182,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         /** Блок ввода даты и времени явки на работу */
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.blockTurnout.setOnClickListener {
             val timePickerTurnout =
                 getTimePicker(getString(R.string.text_for_time_picker_turnout), dateAndTimeNow)
@@ -194,7 +197,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                                 timeTurnout.alpha = 1f
                             }
                             verificationWorkTime()
-                            viewModel.saveCalendarTurnout(itineraryID, dateAndTimeTurnout)
+//                            viewModel.saveCalendarTurnout(itineraryID, dateAndTimeTurnout)
                         }
                     }
 
@@ -223,6 +226,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         /** Блок ввода даты и времени окончания работы.
          * constraintBuilder обеспечивает невозможность ввода даты
          * ранее указанной в Блоке явки */
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.blockEnding.setOnClickListener {
             val timePickerEnding =
                 getTimePicker(
@@ -239,7 +243,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                             timeEnding.alpha = 1f
                         }
                         verificationWorkTime()
-                        viewModel.saveCalendarEnding(itineraryID, dateAndTimeEnding)
+//                        viewModel.saveCalendarEnding(itineraryID, dateAndTimeEnding)
                     }
 
                 }
@@ -271,9 +275,10 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             datePickerEnding.show(requireActivity().supportFragmentManager, "DATE_PICKER_ENDING")
         }
 
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.notesText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.saveNotes(itineraryID, binding.notesText.text.toString())
+//                viewModel.saveNotes(itineraryID, binding.notesText.text.toString())
             }
         }
     }
@@ -299,11 +304,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private fun initLocoAdapter() {
         binding.locoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.locoRecyclerView.adapter = locoAdapter
-    }
-
-    override fun onDestroyView() {
-        // TODO update Itinerary !! updateLocomotiveDataUseCase
-        super.onDestroyView()
     }
 
     /* Метод для определения корректности введенных данных*/
@@ -434,7 +434,8 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         viewModel.addTrainData(itineraryID, trainData)
     }
 
-    private fun createPassengerData(passenger: FollowingByPassenger) {
-        viewModel.addPassengerData(passenger)
+    // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
+    private fun createPassengerData(passenger: Passenger) {
+//        viewModel.addPassengerData(passenger)
     }
 }

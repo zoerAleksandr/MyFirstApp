@@ -9,8 +9,6 @@ import org.koin.core.component.KoinComponent
 class AddLocoViewModel(
     private val locomotiveDataID: String
 ) : ViewModel(), KoinComponent {
-    private val compositeDisposable = CompositeDisposable()
-
 
     // LiveData for Diesel Section
     private val liveDataDieselResultSecOne: MutableLiveData<StateSection> = MutableLiveData()
