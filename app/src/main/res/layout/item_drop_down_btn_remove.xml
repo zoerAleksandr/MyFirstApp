@@ -7,16 +7,16 @@
 
     <CheckedTextView
         android:id="@+id/text"
-        android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:ellipsize="marquee"
         android:singleLine="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_clear_24"
         android:layout_gravity="center"
-        android:backgroundTint="@color/transparent"/>
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/ic_clear_24" />
 </LinearLayout>

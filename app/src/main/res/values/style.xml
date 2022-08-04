@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-// стили для поля ввода
+    // стили для поля ввода
+
     <style name="TextInputLayoutRedStroke" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/red</item>
         <item name="strokeWidth">2dp</item>
@@ -16,7 +17,8 @@
         <item name="strokeWidth">2dp</item>
     </style>
 
-// стили для item
+    // стили для item
+
     <style name="TextAppearanceItem" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">17sp</item>
         <item name="fontFamily">@font/sora</item>
@@ -28,6 +30,7 @@
     </style>
 
     // for TabLayout
+
     <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:layout_height">40dp</item>
         <item name="android:background">@drawable/shape_background_tab_layout</item>

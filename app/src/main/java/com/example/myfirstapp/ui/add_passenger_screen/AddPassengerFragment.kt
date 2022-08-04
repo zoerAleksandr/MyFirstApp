@@ -52,22 +52,23 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             passengerId = bundle.getString(KEY_PASSENGER_ID).toString()
             parentId = bundle.getString(KEY_PARENT_ID).toString()
         }
-
+    // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.numberTrainEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.saveNumberTrain(passengerId, binding.numberTrainEditText.text.toString())
+//                viewModel.saveNumberTrain(passengerId, binding.numberTrainEditText.text.toString())
             }
         }
 
+        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.stationDepartureEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.saveStationDeparture(
-                    passengerId,
-                    binding.stationDepartureEditText.text.toString()
-                )
-                saveStationInPreference(
-                    binding.stationDepartureEditText.text.toString()
-                )
+//                viewModel.saveStationDeparture(
+//                    passengerId,
+//                    binding.stationDepartureEditText.text.toString()
+//                )
+//                saveStationInPreference(
+//                    binding.stationDepartureEditText.text.toString()
+//                )
             }
         }
 
@@ -79,15 +80,16 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             )
         }
 
+        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.stationArrivalEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.saveStationArrival(
-                    passengerId,
-                    binding.stationArrivalEditText.text.toString()
-                )
-                saveStationInPreference(
-                    binding.stationArrivalEditText.text.toString()
-                )
+//                viewModel.saveStationArrival(
+//                    passengerId,
+//                    binding.stationArrivalEditText.text.toString()
+//                )
+//                saveStationInPreference(
+//                    binding.stationArrivalEditText.text.toString()
+//                )
             }
         }
 
@@ -99,6 +101,7 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             )
         }
 
+        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.dateDepartureLayout.setOnClickListener {
             var dateAndTimeDeparture: Calendar? = null
 
@@ -108,7 +111,7 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
                     it.set(HOUR, timePicker.hour)
                     it.set(MINUTE, timePicker.minute)
                 }
-                viewModel.saveDateDeparture(passengerId, dateAndTimeDeparture)
+//                viewModel.saveDateDeparture(passengerId, dateAndTimeDeparture)
                 binding.apply {
                     timeDepartureTextView.apply {
                         text = setTextTime(timePicker)
@@ -131,6 +134,7 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             }
         }
 
+        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.dateArrivalLayout.setOnClickListener {
             var dateAndTimeArrival: Calendar? = null
 
@@ -140,7 +144,7 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
                     it.set(HOUR, timePicker.hour)
                     it.set(MINUTE, timePicker.minute)
                 }
-                viewModel.saveDateArrival(passengerId, dateAndTimeArrival)
+//                viewModel.saveDateArrival(passengerId, dateAndTimeArrival)
                 binding.timeArrivalTextView.apply {
                     text = setTextTime(timePicker)
                     alpha = 1f
@@ -161,12 +165,13 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             }
         }
 
+        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.notesEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.saveNotes(
-                    passengerId,
-                    binding.notesEditText.text.toString()
-                )
+//                viewModel.saveNotes(
+//                    passengerId,
+//                    binding.notesEditText.text.toString()
+//                )
             }
         }
     }

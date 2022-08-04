@@ -4,7 +4,6 @@ import androidx.room.*
 import com.example.myfirstapp.data.room.entity.*
 import com.example.myfirstapp.domain.entity.CountSections
 import com.example.myfirstapp.domain.entity.LocomotiveData
-import com.example.myfirstapp.domain.entity.Station
 import com.example.myfirstapp.domain.entity.TypeOfTraction
 import java.util.*
 
@@ -27,7 +26,10 @@ interface ItineraryDAO {
     fun changeItinerary(roomEntity: ItineraryRoomEntity): Int
 
     @Query("UPDATE itinerary SET locomotive_data_list = :locomotiveDataList WHERE itineraryID = :itineraryID")
-    fun updateItineraryLocomotive(itineraryID: String, locomotiveDataList: MutableList<LocomotiveData>): Int
+    fun updateItineraryLocomotive(
+        itineraryID: String,
+        locomotiveDataList: MutableList<LocomotiveData>
+    ): Int
 
     // LocomotiveData
     @Query("SELECT * FROM locomotive WHERE locomotiveDataID = :locomotiveDataID")
@@ -200,7 +202,7 @@ interface ItineraryDAO {
     fun addStation(stationRoomEntity: StationRoomEntity): Long
 
     @Query("SELECT * FROM station WHERE stationID = :stationId")
-    fun getStation(stationId: String) : StationRoomEntity
+    fun getStation(stationId: String): StationRoomEntity
 
     @Query("SELECT * FROM station WHERE trainDataID = :trainDataID")
     fun getListStation(trainDataID: String): MutableList<StationRoomEntity>

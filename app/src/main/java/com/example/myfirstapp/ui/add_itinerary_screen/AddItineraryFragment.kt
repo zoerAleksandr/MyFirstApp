@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.app
@@ -38,6 +39,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private val binding: FragmentAddItineraryBinding by viewBinding()
     private val viewModel: AddItineraryViewModel by viewModel()
     private val controller by lazy { activity as Controller }
+    private val locoAdapter = LocoAdapter()
 
     private var dateTurnout: Long = 0
     private val dateAndTimeNow by lazy { getInstance() }
@@ -59,15 +61,24 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             itineraryID = bundle.getString(ITINERARY_ID).toString()
         }
 
+        initLocoAdapter()
+
+        viewModel.liveData.observe(viewLifecycleOwner) {
+            renderListLoco(it)
+        }
+        viewModel.getListLoco(itineraryID)
+
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.etNumberItinerary.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.saveNumberItinerary(
-                    itineraryID,
-                    binding.etNumberItinerary.text.toString()
-                )
+//                viewModel.saveNumberItinerary(
+//                    itineraryID,
+//                    binding.etNumberItinerary.text.toString()
+//                )
             }
         }
 
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
 /*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(
@@ -85,11 +96,11 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                     when (tab?.position) {
                         0 -> {
                             restPointOfTurnover = false
-                            viewModel.saveRest(itineraryID, false)
+//                            viewModel.saveRest(itineraryID, false)
                         }
                         1 -> {
                             restPointOfTurnover = true
-                            viewModel.saveRest(itineraryID, true)
+//                            viewModel.saveRest(itineraryID, true)
                         }
                     }
                 }
@@ -133,7 +144,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
         binding.btnAddPassenger.setOnClickListener {
             val passengerId = generateStringID()
-            val passenger = FollowingByPassenger(
+            val passenger = Passenger(
                 followingByPassengerID = passengerId,
                 itineraryID = itineraryID,
                 departureTime = null,
@@ -171,6 +182,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         /** Блок ввода даты и времени явки на работу */
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.blockTurnout.setOnClickListener {
             val timePickerTurnout =
                 getTimePicker(getString(R.string.text_for_time_picker_turnout), dateAndTimeNow)
@@ -185,7 +197,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                                 timeTurnout.alpha = 1f
                             }
                             verificationWorkTime()
-                            viewModel.saveCalendarTurnout(itineraryID, dateAndTimeTurnout)
+//                            viewModel.saveCalendarTurnout(itineraryID, dateAndTimeTurnout)
                         }
                     }
 
@@ -214,6 +226,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         /** Блок ввода даты и времени окончания работы.
          * constraintBuilder обеспечивает невозможность ввода даты
          * ранее указанной в Блоке явки */
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.blockEnding.setOnClickListener {
             val timePickerEnding =
                 getTimePicker(
@@ -230,7 +243,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                             timeEnding.alpha = 1f
                         }
                         verificationWorkTime()
-                        viewModel.saveCalendarEnding(itineraryID, dateAndTimeEnding)
+//                        viewModel.saveCalendarEnding(itineraryID, dateAndTimeEnding)
                     }
 
                 }
@@ -262,16 +275,35 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             datePickerEnding.show(requireActivity().supportFragmentManager, "DATE_PICKER_ENDING")
         }
 
+        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.notesText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus){
-                viewModel.saveNotes(itineraryID, binding.notesText.text.toString())
+            if (!hasFocus) {
+//                viewModel.saveNotes(itineraryID, binding.notesText.text.toString())
             }
         }
     }
 
-    override fun onDestroyView() {
-        // TODO update Itinerary !! updateLocomotiveDataUseCase
-        super.onDestroyView()
+    private fun renderListLoco(state: ListState) {
+        when (state) {
+            is ListState.Loading -> {
+                //TODO
+            }
+            is ListState.Empty -> {
+                //TODO
+            }
+            is ListState.Success<*> -> {
+                locoAdapter.setData(state.list as List<LocomotiveData>)
+            }
+            is ListState.Error -> {
+                //TODO
+            }
+        }
+
+    }
+
+    private fun initLocoAdapter() {
+        binding.locoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.locoRecyclerView.adapter = locoAdapter
     }
 
     /* Метод для определения корректности введенных данных*/
@@ -323,9 +355,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                     ElectricSection(
                         sectionID = listElectricSectionID[1],
                         locomotiveDataId = locomotiveDataID,
@@ -335,9 +365,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                     ElectricSection(
                         sectionID = listElectricSectionID[2],
                         locomotiveDataId = locomotiveDataID,
@@ -347,9 +375,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                     ElectricSection(
                         sectionID = listElectricSectionID[3],
                         locomotiveDataId = locomotiveDataID,
@@ -359,9 +385,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         acceptanceRecovery = null,
                         deliveryRecovery = null,
                         consumptionRecovery = null
-                    ).apply {
-                        viewModel.addElectricSection(this)
-                    },
+                    ),
                 ),
                 dieselFuelSectionList = mutableListOf(
                     DieselFuelSection(
@@ -371,9 +395,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    },
+                    ),
 
                     DieselFuelSection(
                         sectionID = listDieselFuelSectionID[1],
@@ -382,9 +404,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    },
+                    ),
 
                     DieselFuelSection(
                         sectionID = listDieselFuelSectionID[2],
@@ -393,9 +413,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    },
+                    ),
 
                     DieselFuelSection(
                         sectionID = listDieselFuelSectionID[3],
@@ -404,9 +422,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                         delivery = null,
                         supply = null,
                         consumption = null
-                    ).apply {
-                        viewModel.addDieselFuelSection(this)
-                    }
+                    )
                 ),
                 countBrakeShoes = null,
                 countExtinguishers = null
@@ -418,7 +434,8 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         viewModel.addTrainData(itineraryID, trainData)
     }
 
-    private fun createPassengerData(passenger: FollowingByPassenger) {
-        viewModel.addPassengerData(passenger)
+    // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
+    private fun createPassengerData(passenger: Passenger) {
+//        viewModel.addPassengerData(passenger)
     }
 }

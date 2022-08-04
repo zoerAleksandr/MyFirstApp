@@ -25,9 +25,9 @@
         style="@style/StyleSecondaryText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="1 Секция"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1 Секция" />
 
     <ImageView
         android:id="@+id/image_energy"

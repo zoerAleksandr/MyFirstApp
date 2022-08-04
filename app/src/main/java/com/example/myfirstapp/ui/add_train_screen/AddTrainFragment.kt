@@ -69,22 +69,22 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
         viewModel.changeStationObserve().observe(viewLifecycleOwner) { state ->
             updateStation(state)
         }
-
-        binding.dataNumberTrain.addTextChangedListener {
-            viewModel.saveNumberOfTrain(trainDataId, it.toString().toIntOrNull())
-        }
-
-        binding.dataWeightTrain.addTextChangedListener {
-            viewModel.saveWeight(trainDataId, it.toString().toIntOrNull())
-        }
-
-        binding.dataAxleTrain.addTextChangedListener {
-            viewModel.saveWheelAxle(trainDataId, it.toString().toIntOrNull())
-        }
-
-        binding.dataConditionalLengthTrain.addTextChangedListener {
-            viewModel.saveConditionalLength(trainDataId, it.toString().toIntOrNull())
-        }
+// ПЕРЕДЕЛАТЬ МЕТОД СОХРАНЕНИЯ
+//        binding.dataNumberTrain.addTextChangedListener {
+//            viewModel.saveNumberOfTrain(trainDataId, it.toString().toIntOrNull())
+//        }
+//
+//        binding.dataWeightTrain.addTextChangedListener {
+//            viewModel.saveWeight(trainDataId, it.toString().toIntOrNull())
+//        }
+//
+//        binding.dataAxleTrain.addTextChangedListener {
+//            viewModel.saveWheelAxle(trainDataId, it.toString().toIntOrNull())
+//        }
+//
+//        binding.dataConditionalLengthTrain.addTextChangedListener {
+//            viewModel.saveConditionalLength(trainDataId, it.toString().toIntOrNull())
+//        }
 
         binding.btnAddStation.setOnClickListener {
             val station = Station(
@@ -94,7 +94,7 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
                 arrivalTime = null,
                 departureTime = null
             )
-            viewModel.saveStation(trainDataId, station)
+            viewModel.saveStation(station)
             binding.recyclerTrain.smoothScrollToPosition(0)
         }
     }
@@ -156,6 +156,8 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
     }
 
     /** Сюда нужно передать Calendar приемки локомотива или явки на работу*/
+
+    // ПЕРЕДЕЛАТЬ МЕТОД СОХРАНЕНИЯ
     private fun timeArrivalClickListener(station: Station) {
         val currentTime = Calendar.getInstance()
         getTimePicker("Время прибытия", Calendar.getInstance()).also { timePicker ->
@@ -163,7 +165,7 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             timePicker.addOnPositiveButtonClickListener {
                 currentTime.set(HOUR_OF_DAY, timePicker.hour)
                 currentTime.set(MINUTE, timePicker.minute)
-                viewModel.saveTimeArrival(station.stationID, currentTime)
+//                viewModel.saveTimeArrival(station.stationID, currentTime)
             }
         }
     }
@@ -175,13 +177,13 @@ class AddTrainFragment : Fragment(R.layout.fragment_add_train) {
             timePicker.addOnPositiveButtonClickListener {
                 currentTime.set(HOUR_OF_DAY, timePicker.hour)
                 currentTime.set(MINUTE, timePicker.minute)
-                viewModel.saveTimeDeparture(station.stationID, currentTime)
+//                viewModel.saveTimeDeparture(station.stationID, currentTime)
             }
         }
     }
 
     private fun textStationChangedListener(stationName: String?, stationId: String) {
-        viewModel.saveStationName(stationId, stationName.toString())
+//        viewModel.saveStationName(stationId, stationName.toString())
 
         if (!stationName.isNullOrBlank()) {
             val setStation = getListStation()

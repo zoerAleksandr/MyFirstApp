@@ -31,6 +31,7 @@ fun toLocomotiveData(roomEntity: LocomotiveDataRoomEntity): LocomotiveData {
         countExtinguishers = roomEntity.countExtinguishers
     )
 }
+
 fun toLocomotiveDataRoomEntity(locomotiveData: LocomotiveData): LocomotiveDataRoomEntity {
     return LocomotiveDataRoomEntity(
         locomotiveDataID = locomotiveData.locomotiveDataID,

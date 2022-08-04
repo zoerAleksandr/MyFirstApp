@@ -7,7 +7,7 @@ import com.google.gson.Gson
 class ConvertersLocomotiveData {
     @TypeConverter
     fun listToJson(value: List<LocomotiveData>): String {
-       return Gson().toJson(value)
+        return Gson().toJson(value)
     }
 
     @TypeConverter
