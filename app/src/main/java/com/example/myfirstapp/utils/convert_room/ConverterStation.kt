@@ -1,16 +1,17 @@
 package com.example.myfirstapp.utils.convert_room
 
 import androidx.room.TypeConverter
+import com.example.myfirstapp.data.room.entity.StationRoomEntity
 import com.example.myfirstapp.domain.entity.Station
 import com.google.gson.Gson
 
 class ConverterStation {
     @TypeConverter
-    fun listToJson(value: List<Station>): String {
+    fun listToJson(value: List<StationRoomEntity>): String {
         return Gson().toJson(value)
     }
 
     @TypeConverter
     fun jsonToList(value: String) =
-        Gson().fromJson(value, Array<Station>::class.java).toList()
+        Gson().fromJson(value, Array<StationRoomEntity>::class.java).toList()
 }

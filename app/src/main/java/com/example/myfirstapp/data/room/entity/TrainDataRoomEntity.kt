@@ -1,19 +1,29 @@
 package com.example.myfirstapp.data.room.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import com.example.myfirstapp.domain.entity.Station
 
 @Entity(
-    tableName = "train"
+    tableName = "train",
+    foreignKeys = [
+        ForeignKey(
+            entity = ItineraryRoomEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["itineraryId"],
+            onDelete = CASCADE,
+            onUpdate = CASCADE
+        )
+    ]
 )
 data class TrainDataRoomEntity(
     @PrimaryKey
-    val trainDataID: String,
-    val itineraryID: String,
+    val id: String,
+    val itineraryId: String,
     var numberOfTrain: Int?,
     var weight: Int?,
     var wheelAxle: Int?,
     var conditionalLength: Int?,
-    var stations: MutableList<Station>
+    var stations: MutableList<StationRoomEntity>
 )

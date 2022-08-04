@@ -13,7 +13,7 @@ import java.util.*
 )
 data class ItineraryRoomEntity(
     @PrimaryKey
-    val itineraryID: String,
+    val id: String,
     var number: String?,
     @ColumnInfo(name = "appearance_at_work")
     var appearanceAtWork: Calendar?,
@@ -23,9 +23,9 @@ data class ItineraryRoomEntity(
     var restAtThePointOfTurnover: Boolean,
     var notes: String?,
     @ColumnInfo(name = "following_by_passenger_list")
-    var followingByPassengerList: MutableList<Passenger>,
+    var followingByPassengerList: MutableList<PassengerRoomEntity>,
     @ColumnInfo(name = "locomotive_data_list")
-    var locomotiveDataList: MutableList<LocomotiveData>,
+    var locomotiveDataList: MutableList<LocomotiveDataRoomEntity>,
     @ColumnInfo(name = "train_data_list")
-    var trainDataList: MutableList<TrainData>
+    var trainDataList: MutableList<TrainDataRoomEntity>
 )

@@ -8,22 +8,27 @@ import androidx.room.util.TableInfo
 import java.util.*
 
 @Entity(
-    tableName = "station",
+    tableName = "passenger",
     foreignKeys = [
         ForeignKey(
-            entity = TrainDataRoomEntity::class,
+            entity = ItineraryRoomEntity::class,
             parentColumns = ["id"],
-            childColumns = ["trainDataId"],
+            childColumns = ["itineraryId"],
             onDelete = CASCADE,
             onUpdate = CASCADE
         )
     ],
-    primaryKeys = ["trainDataId", "id"]
+    primaryKeys = ["itineraryId", "id"]
 )
-data class StationRoomEntity(
+data class PassengerRoomEntity(
     val id: String,
-    val trainDataId: String,
-    var stationName: String?,
+    val itineraryId: String,
+    var departureTime: Calendar?,
     var arrivalTime: Calendar?,
-    var departureTime: Calendar?
+    var departureStation: String?,
+    var arrivalStation: String?,
+    var numberOfTrain: String?,
+    var notes: String?
 )
+
+
