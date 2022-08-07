@@ -16,7 +16,7 @@ fun toPassengerList(
 
 fun toPassengerRoomEntityList(passengerList: List<Passenger>): MutableList<PassengerRoomEntity> {
     val list = mutableListOf<PassengerRoomEntity>()
-    for (item in passengerList){
+    for (item in passengerList) {
         list.add(toPassengerRoomEntity(item))
     }
     return list

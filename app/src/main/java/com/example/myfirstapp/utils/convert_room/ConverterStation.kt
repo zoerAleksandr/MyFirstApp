@@ -2,7 +2,6 @@ package com.example.myfirstapp.utils.convert_room
 
 import androidx.room.TypeConverter
 import com.example.myfirstapp.data.room.entity.StationRoomEntity
-import com.example.myfirstapp.domain.entity.Station
 import com.google.gson.Gson
 
 class ConverterStation {

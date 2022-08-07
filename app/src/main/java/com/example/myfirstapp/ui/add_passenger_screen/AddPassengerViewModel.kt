@@ -7,15 +7,10 @@ import com.example.myfirstapp.domain.entity.Passenger
 import com.example.myfirstapp.domain.usecase.passenger.GetPassengerUseCase
 import com.example.myfirstapp.domain.usecase.passenger.UpdatePassengerUseCase
 import com.example.myfirstapp.utils.AddPassengerState
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.*
 
 class AddPassengerViewModel : ViewModel(), KoinComponent {
     private val getPassengerUseCase: GetPassengerUseCase by inject()

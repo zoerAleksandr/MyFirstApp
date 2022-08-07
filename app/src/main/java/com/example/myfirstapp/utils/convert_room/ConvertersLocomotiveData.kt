@@ -2,7 +2,6 @@ package com.example.myfirstapp.utils.convert_room
 
 import androidx.room.TypeConverter
 import com.example.myfirstapp.data.room.entity.LocomotiveDataRoomEntity
-import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.google.gson.Gson
 
 class ConvertersLocomotiveData {

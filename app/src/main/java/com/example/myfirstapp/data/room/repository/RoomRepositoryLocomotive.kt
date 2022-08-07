@@ -1,10 +1,15 @@
 package com.example.myfirstapp.data.room.repository
 
+import com.example.myfirstapp.data.room.ItineraryDAO
 import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.example.myfirstapp.domain.repository.IRepositoryLocomotive
-import io.reactivex.rxjava3.core.Single
+import com.example.myfirstapp.utils.convert_entity.toLocomotiveDataRoomEntity
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class RoomRepositoryLocomotive : IRepositoryLocomotive {
+class RoomRepositoryLocomotive : IRepositoryLocomotive, KoinComponent {
+    private val localStorage: ItineraryDAO by inject()
+
     override fun getLocomotiveData(locomotiveDataID: String): LocomotiveData {
         TODO("Not yet implemented")
     }
@@ -14,7 +19,9 @@ class RoomRepositoryLocomotive : IRepositoryLocomotive {
     }
 
     override fun addLocomotiveData(locomotiveData: LocomotiveData): Long {
-        TODO("Not yet implemented")
+        return localStorage.addLocomotiveData(
+            toLocomotiveDataRoomEntity(locomotiveData)
+        )
     }
 
     override fun deleteLocomotiveData(locomotiveData: LocomotiveData): Int {

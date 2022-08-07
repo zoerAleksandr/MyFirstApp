@@ -47,26 +47,26 @@ class MainViewHolder(
             if (itinerary.appearanceAtWork != null && itinerary.endOfWork != null) {
                 itemTextOvertimeWork.text = getOverTimeWork(itinerary.getOverTimeMillis())
             }
-
-            if (itinerary.trainDataList.isNotEmpty() && itinerary.trainDataList[0].stations.isNotEmpty()) {
-                itemTextWork.text =
-                    itinerary.trainDataList[0].stations.let { stations ->
-                        resources.getString(
-                            R.string.text_through_defise,
-                            stations.first().stationName,
-                            stations.last().stationName
-                        )
-                    }
-            }
-
-            if (itinerary.locomotiveDataList.isNotEmpty()) {
-                itemTextLocomotive.text =
-                    resources.getString(
-                        R.string.text_locomotive_data,
-                        itinerary.locomotiveDataList[0].series.toString(),
-                        itinerary.locomotiveDataList[0].number.toString()
-                    )
-            }
+//
+//            if (itinerary.trainDataList.isNotEmpty() && itinerary.trainDataList[0].stations.isNotEmpty()) {
+//                itemTextWork.text =
+//                    itinerary.trainDataList[0].stations.let { stations ->
+//                        resources.getString(
+//                            R.string.text_through_defise,
+//                            stations.first().stationName,
+//                            stations.last().stationName
+//                        )
+//                    }
+//            }
+//
+//            if (itinerary.locomotiveDataList.isNotEmpty()) {
+//                itemTextLocomotive.text =
+//                    resources.getString(
+//                        R.string.text_locomotive_data,
+//                        itinerary.locomotiveDataList[0].series.toString(),
+//                        itinerary.locomotiveDataList[0].number.toString()
+//                    )
+//            }
 
             root.setOnClickListener {
                 clickListener.invoke(itinerary)

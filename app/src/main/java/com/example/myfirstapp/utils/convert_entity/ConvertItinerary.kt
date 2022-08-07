@@ -20,10 +20,7 @@ fun toItinerary(roomEntity: ItineraryRoomEntity): Itinerary {
         roomEntity.appearanceAtWork,
         roomEntity.endOfWork,
         roomEntity.restAtThePointOfTurnover,
-        roomEntity.notes,
-        toPassengerList(roomEntity.followingByPassengerList),
-        toLocomotiveDataList(roomEntity.locomotiveDataList),
-        toTrainDataList(roomEntity.trainDataList)
+        roomEntity.notes
     )
 }
 
@@ -34,9 +31,6 @@ fun toItineraryRoomEntity(itinerary: Itinerary): ItineraryRoomEntity {
         itinerary.appearanceAtWork,
         itinerary.endOfWork,
         itinerary.restAtThePointOfTurnover,
-        itinerary.notes,
-        toPassengerRoomEntityList(itinerary.followingByPassengerList),
-        toLocomotiveDataRoomEntityList(itinerary.locomotiveDataList),
-        toTrainDataRoomEntityList(itinerary.trainDataList)
+        itinerary.notes
     )
 }

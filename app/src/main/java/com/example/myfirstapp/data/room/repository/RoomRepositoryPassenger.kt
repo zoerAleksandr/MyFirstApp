@@ -1,9 +1,14 @@
 package com.example.myfirstapp.data.room.repository
 
+import com.example.myfirstapp.data.room.ItineraryDAO
 import com.example.myfirstapp.domain.entity.Passenger
 import com.example.myfirstapp.domain.repository.IRepositoryPassenger
+import com.example.myfirstapp.utils.convert_entity.toPassengerList
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class RoomRepositoryPassenger : IRepositoryPassenger {
+class RoomRepositoryPassenger : IRepositoryPassenger, KoinComponent {
+    private val localStorage: ItineraryDAO by inject()
     override fun addPassenger(passenger: Passenger): String {
         TODO("Not yet implemented")
     }
@@ -12,8 +17,10 @@ class RoomRepositoryPassenger : IRepositoryPassenger {
         TODO("Not yet implemented")
     }
 
-    override fun getPassengerListByItineraryId(itineraryId: String): List<Passenger> {
-        TODO("Not yet implemented")
+    override fun getPassengerListByItineraryIdAsync(itineraryId: String): MutableList<Passenger> {
+        return toPassengerList(
+            localStorage.getListFollowingByPassenger(itineraryId)
+        )
     }
 
     override fun updatePassenger(passenger: Passenger): Int {

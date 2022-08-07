@@ -3,8 +3,6 @@ package com.example.myfirstapp.data.room.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
-import androidx.room.util.TableInfo
 import java.util.*
 
 @Entity(

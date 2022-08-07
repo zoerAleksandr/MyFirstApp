@@ -8,11 +8,7 @@ data class Itinerary(
     var appearanceAtWork: Calendar?,
     var endOfWork: Calendar?,
     var restAtThePointOfTurnover: Boolean,
-    var notes: String?,
-
-    var followingByPassengerList: MutableList<Passenger>,
-    var locomotiveDataList: MutableList<LocomotiveData>,
-    var trainDataList: MutableList<TrainData>
+    var notes: String?
 ) {
     fun getOverTimeMillis(): Long {
         return if (appearanceAtWork != null && endOfWork != null) {

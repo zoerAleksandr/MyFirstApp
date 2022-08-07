@@ -32,9 +32,9 @@ fun toLocomotiveData(roomEntity: LocomotiveDataRoomEntity): LocomotiveData {
     )
 }
 
-fun toLocomotiveDataRoomEntityList(locomotiveDataList: List<LocomotiveData>): MutableList<LocomotiveDataRoomEntity>{
+fun toLocomotiveDataRoomEntityList(locomotiveDataList: List<LocomotiveData>): MutableList<LocomotiveDataRoomEntity> {
     val list = mutableListOf<LocomotiveDataRoomEntity>()
-    for (item in locomotiveDataList){
+    for (item in locomotiveDataList) {
         list.add(toLocomotiveDataRoomEntity(item))
     }
     return list

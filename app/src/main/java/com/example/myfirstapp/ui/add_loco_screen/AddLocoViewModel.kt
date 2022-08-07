@@ -3,12 +3,39 @@ package com.example.myfirstapp.ui.add_loco_screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.example.myfirstapp.domain.entity.LocomotiveData
+import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
+import com.example.myfirstapp.utils.AddLocoState
+import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class AddLocoViewModel(
-    private val locomotiveDataID: String
-) : ViewModel(), KoinComponent {
+class AddLocoViewModel : ViewModel(), KoinComponent {
+    private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase by inject()
+
+    private val liveData: MutableLiveData<AddLocoState> = MutableLiveData()
+
+    private val scope = CoroutineScope(
+        Dispatchers.IO + SupervisorJob()
+                + CoroutineExceptionHandler { _, throwable ->
+            liveData.postValue(AddLocoState.Error(throwable))
+        }
+    )
+
+    fun getLiveData(): LiveData<AddLocoState> = liveData
+
+    fun addLocomotive(locomotiveData: LocomotiveData) {
+        scope.launch {
+            kotlin.runCatching { addLocomotiveDataUseCase.execute(locomotiveData) }
+                .onSuccess { liveData.postValue(AddLocoState.Success(locomotiveData)) }
+                .onFailure { liveData.postValue(AddLocoState.Error(it)) }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        scope.coroutineContext.cancelChildren()
+    }
 
     // LiveData for Diesel Section
     private val liveDataDieselResultSecOne: MutableLiveData<StateSection> = MutableLiveData()

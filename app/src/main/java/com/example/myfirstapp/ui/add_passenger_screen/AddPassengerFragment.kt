@@ -52,7 +52,7 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             passengerId = bundle.getString(KEY_PASSENGER_ID).toString()
             parentId = bundle.getString(KEY_PARENT_ID).toString()
         }
-    // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
+        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.numberTrainEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
 //                viewModel.saveNumberTrain(passengerId, binding.numberTrainEditText.text.toString())

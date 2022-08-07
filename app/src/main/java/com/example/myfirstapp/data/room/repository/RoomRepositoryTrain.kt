@@ -2,7 +2,6 @@ package com.example.myfirstapp.data.room.repository
 
 import com.example.myfirstapp.domain.entity.TrainData
 import com.example.myfirstapp.domain.repository.IRepositoryTrain
-import io.reactivex.rxjava3.core.Single
 
 class RoomRepositoryTrain : IRepositoryTrain {
     override fun addTrainData(trainData: TrainData): Long {
