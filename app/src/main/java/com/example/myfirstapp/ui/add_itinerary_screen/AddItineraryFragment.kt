@@ -13,12 +13,8 @@ import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.ui.add_loco_screen.AddLocoFragment
-import com.example.myfirstapp.ui.add_loco_screen.KEY_PARENT_ID
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassengerFragment
-import com.example.myfirstapp.ui.add_passenger_screen.KEY_PASSENGER_ID
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
-import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_ID
-import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_PARENT_ID
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -27,7 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import java.util.Calendar.*
 
-const val ITINERARY_ID = "itineraryId"
+const val KEY_PARENT_ID = "keyParentID"
 
 class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     companion object {
@@ -57,29 +53,14 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        arguments?.let { bundle ->
-//            itineraryID = bundle.getString(ITINERARY_ID).toString()
-//        }
 
         initLocoAdapter()
 
         viewModel.liveData.observe(viewLifecycleOwner) {
             renderListLoco(it)
         }
-//        viewModel.getListLoco(itineraryID)
+        viewModel.getListLoco(itineraryID)
 
-        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
-        binding.etNumberItinerary.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-//                viewModel.saveNumberItinerary(
-//                    itineraryID,
-//                    binding.etNumberItinerary.text.toString()
-//                )
-            }
-        }
-
-        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
-/*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(
                 this.newTab().setText(getString(R.string.text_for_selector_home_rest)),
@@ -96,11 +77,9 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                     when (tab?.position) {
                         0 -> {
                             restPointOfTurnover = false
-//                            viewModel.saveRest(itineraryID, false)
                         }
                         1 -> {
                             restPointOfTurnover = true
-//                            viewModel.saveRest(itineraryID, true)
                         }
                     }
                 }
@@ -111,72 +90,22 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddLoco.setOnClickListener {
-//            val locomotiveDataID = generateStringID()
-//            val listDieselFuelSectionID = arrayListOf(
-//                generateStringID(),
-//                generateStringID(),
-//                generateStringID(),
-//                generateStringID()
-//            )
-//            val listElectricSectionID = arrayListOf(
-//                generateStringID(),
-//                generateStringID(),
-//                generateStringID(),
-//                generateStringID()
-//            )
-//            createLocomotiveData(
-//                itineraryID,
-//                locomotiveDataID,
-//                listDieselFuelSectionID,
-//                listElectricSectionID
-//            )
             val bundle = Bundle().apply {
-//                putParcelable(KEY_TYPE_OF_TRACTION, TypeOfTraction.DieselLocomotive)
-//                putParcelable(KEY_COUNT_SECTIONS, CountSections.TwoSection)
-//                putDouble(KEY_COEFFICIENT, 0.83)
                 putString(KEY_PARENT_ID, itineraryID)
-//                putString(KEY_LOCOMOTIVE_DATA_ID, locomotiveDataID)
-//                putStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID, listDieselFuelSectionID)
-//                putStringArrayList(KEY_LIST_ELECTRIC_SECTION_ID, listElectricSectionID)
             }
             controller.openScreen(AddLocoFragment.newInstance(bundle))
         }
 
         binding.btnAddPassenger.setOnClickListener {
-            val passengerId = generateStringID()
-            val passenger = Passenger(
-                followingByPassengerID = passengerId,
-                itineraryID = itineraryID,
-                departureTime = null,
-                arrivalTime = null,
-                departureStation = null,
-                arrivalStation = null,
-                numberOfTrain = null,
-                notes = null
-            )
-            createPassengerData(passenger)
             val bundle = Bundle().apply {
                 putString(KEY_PARENT_ID, itineraryID)
-                putString(KEY_PASSENGER_ID, passengerId)
             }
             controller.openScreen(AddPassengerFragment.newInstance(bundle))
         }
 
         binding.btnAddTrain.setOnClickListener {
-            val trainDataId = generateStringID()
-            val trainData = TrainData(
-                trainDataID = trainDataId,
-                itineraryID = itineraryID,
-                numberOfTrain = null,
-                weight = null,
-                wheelAxle = null,
-                conditionalLength = null,
-                stations = mutableListOf()
-            )
-            createTrainData(trainData)
             val bundle = Bundle().apply {
-                putString(KEY_TRAIN_DATA_PARENT_ID, itineraryID)
-                putString(KEY_TRAIN_DATA_ID, trainDataId)
+                putString(KEY_PARENT_ID, itineraryID)
             }
             controller.openScreen(AddTrainFragment.newInstance(bundle))
         }

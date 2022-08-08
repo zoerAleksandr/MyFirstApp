@@ -21,9 +21,8 @@ data class TrainDataRoomEntity(
     @PrimaryKey
     val id: String,
     val itineraryId: String,
-    var numberOfTrain: Int?,
-    var weight: Int?,
-    var wheelAxle: Int?,
-    var conditionalLength: Int?,
-    var stations: MutableList<StationRoomEntity>
+    var numberOfTrain: String?,
+    var weight: String?,
+    var wheelAxle: String?,
+    var conditionalLength: String?,
 )

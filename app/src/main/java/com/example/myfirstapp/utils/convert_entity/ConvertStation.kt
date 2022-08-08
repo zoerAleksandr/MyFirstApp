@@ -33,7 +33,7 @@ fun toStationRoomEntityList(stationList: List<Station>): MutableList<StationRoom
 
 fun toStationRoomEntity(station: Station): StationRoomEntity {
     return StationRoomEntity(
-        station.stationID,
+        station.id,
         station.trainDataID,
         station.stationName,
         station.arrivalTime,

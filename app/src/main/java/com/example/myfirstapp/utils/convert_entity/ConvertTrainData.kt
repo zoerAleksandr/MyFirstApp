@@ -21,7 +21,6 @@ fun toTrainData(roomEntity: TrainDataRoomEntity): TrainData {
         roomEntity.weight,
         roomEntity.wheelAxle,
         roomEntity.conditionalLength,
-        toStationList(roomEntity.stations)
     )
 }
 
@@ -35,12 +34,11 @@ fun toTrainDataRoomEntityList(trainDataList: List<TrainData>): MutableList<Train
 
 fun toTrainDataRoomEntity(trainData: TrainData): TrainDataRoomEntity {
     return TrainDataRoomEntity(
-        trainData.trainDataID,
+        trainData.id,
         trainData.itineraryID,
         trainData.numberOfTrain,
         trainData.weight,
         trainData.wheelAxle,
         trainData.conditionalLength,
-        toStationRoomEntityList(trainData.stations)
     )
 }

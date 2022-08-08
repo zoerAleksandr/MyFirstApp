@@ -19,8 +19,8 @@ class ViewingFragment : Fragment(R.layout.fragment_viewing) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let { itinerary ->
-            // TODO create request to Room for itinerary
-        }
+//        arguments?.let { itinerary ->
+//            // TODO create request to Room for itinerary
+//        }
     }
 }

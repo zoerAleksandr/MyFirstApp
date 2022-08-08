@@ -3,7 +3,7 @@ package com.example.myfirstapp.domain.entity
 import java.util.*
 
 data class Passenger(
-    var followingByPassengerID: String,
+    var id: String,
     var itineraryID: String,
     var departureTime: Calendar?,
     var arrivalTime: Calendar?,

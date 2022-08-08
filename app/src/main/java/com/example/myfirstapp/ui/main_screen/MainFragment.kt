@@ -33,11 +33,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        viewModel.getCurrentData(1)
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapterItinerary
@@ -60,18 +55,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 Snackbar.make(binding.fab, "${appState.error}", Snackbar.LENGTH_INDEFINITE)
-//                    .setAction("Обновить") { viewModel.getDataFromLocal() }
+                    .setAction("Обновить") { viewModel.getCurrentData(1) }
                     .show()
             }
         }
     }
 
-
     private fun itemClickListener(itinerary: Itinerary) {
-        viewModel.deleteItinerary(itinerary)
-//        val bundle = Bundle().apply {
-//            putString(KEY_ITINERARY, itinerary.itineraryID)
-//        }
-//        controller.openScreen(ViewingFragment.newInstance(bundle))
+        val bundle = Bundle().apply {
+            putString(KEY_ITINERARY, itinerary.itineraryID)
+        }
+        controller.openScreen(ViewingFragment.newInstance(bundle))
     }
 }

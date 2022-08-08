@@ -3,24 +3,21 @@ package com.example.myfirstapp.ui.add_passenger_screen
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.FragmentAddPassengerBinding
+import com.example.myfirstapp.domain.entity.Passenger
 import com.example.myfirstapp.ui.DROP_DOWN_STATION_PREF
 import com.example.myfirstapp.ui.PREFERENCE
-import com.example.myfirstapp.utils.getDatePicker
-import com.example.myfirstapp.utils.getTimePicker
-import com.example.myfirstapp.utils.setTextDate
-import com.example.myfirstapp.utils.setTextTime
+import com.example.myfirstapp.ui.add_itinerary_screen.KEY_PARENT_ID
+import com.example.myfirstapp.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import java.util.Calendar.*
-
-const val KEY_PARENT_ID = "keyParentId"
-const val KEY_PASSENGER_ID = "keyPassengerId"
 
 class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
     companion object {
@@ -31,7 +28,6 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
         }
     }
 
-    private lateinit var passengerId: String
     private lateinit var parentId: String
 
     private val binding: FragmentAddPassengerBinding by viewBinding()
@@ -39,6 +35,9 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
     private lateinit var preference: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var arrayAdapter: ArrayAdapter<String>
+
+    private var dateAndTimeDeparture: Calendar? = null
+    private var dateAndTimeArrival: Calendar? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,27 +48,7 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { bundle ->
-            passengerId = bundle.getString(KEY_PASSENGER_ID).toString()
             parentId = bundle.getString(KEY_PARENT_ID).toString()
-        }
-        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
-        binding.numberTrainEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-//                viewModel.saveNumberTrain(passengerId, binding.numberTrainEditText.text.toString())
-            }
-        }
-
-        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
-        binding.stationDepartureEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-//                viewModel.saveStationDeparture(
-//                    passengerId,
-//                    binding.stationDepartureEditText.text.toString()
-//                )
-//                saveStationInPreference(
-//                    binding.stationDepartureEditText.text.toString()
-//                )
-            }
         }
 
         binding.stationDepartureEditText.setOnClickListener {
@@ -80,19 +59,6 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             )
         }
 
-        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
-        binding.stationArrivalEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-//                viewModel.saveStationArrival(
-//                    passengerId,
-//                    binding.stationArrivalEditText.text.toString()
-//                )
-//                saveStationInPreference(
-//                    binding.stationArrivalEditText.text.toString()
-//                )
-            }
-        }
-
         binding.stationArrivalEditText.setOnClickListener {
             binding.stationArrivalEditText.setAdapter(
                 initDropDownAdapter(
@@ -101,17 +67,13 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             )
         }
 
-        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.dateDepartureLayout.setOnClickListener {
-            var dateAndTimeDeparture: Calendar? = null
-
             val timePicker = getTimePicker("Время прибытия", getInstance())
             timePicker.addOnPositiveButtonClickListener {
                 dateAndTimeDeparture?.let {
                     it.set(HOUR, timePicker.hour)
                     it.set(MINUTE, timePicker.minute)
                 }
-//                viewModel.saveDateDeparture(passengerId, dateAndTimeDeparture)
                 binding.apply {
                     timeDepartureTextView.apply {
                         text = setTextTime(timePicker)
@@ -134,17 +96,13 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
             }
         }
 
-        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
         binding.dateArrivalLayout.setOnClickListener {
-            var dateAndTimeArrival: Calendar? = null
-
             val timePicker = getTimePicker("Время отправления", getInstance())
             timePicker.addOnPositiveButtonClickListener {
                 dateAndTimeArrival?.let {
                     it.set(HOUR, timePicker.hour)
                     it.set(MINUTE, timePicker.minute)
                 }
-//                viewModel.saveDateArrival(passengerId, dateAndTimeArrival)
                 binding.timeArrivalTextView.apply {
                     text = setTextTime(timePicker)
                     alpha = 1f
@@ -164,16 +122,48 @@ class AddPassengerFragment : Fragment(R.layout.fragment_add_passenger) {
                 timePicker.show(requireActivity().supportFragmentManager, null)
             }
         }
+    }
 
-        // ИЗМЕНИТЬ МОДЕЛЬ СОХРАНЕНИЯ
-        binding.notesEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-//                viewModel.saveNotes(
-//                    passengerId,
-//                    binding.notesEditText.text.toString()
-//                )
-            }
-        }
+    override fun onDestroyView() {
+        savePassenger()
+        super.onDestroyView()
+    }
+
+    private fun savePassenger() {
+        viewModel.savePassenger(passenger = getCurrentPassenger())
+    }
+
+    private fun getCurrentPassenger(): Passenger {
+        return Passenger(
+            id = generateStringID(),
+            itineraryID = parentId,
+            departureTime = dateAndTimeDeparture,
+            arrivalTime = dateAndTimeArrival,
+            departureStation = getDepartureStation(),
+            arrivalStation = getArrivalStation(),
+            numberOfTrain = getNumberOfTrain(),
+            notes = getNotes()
+        )
+    }
+
+    private fun getNotes(): String? {
+        val value = binding.notesEditText.text.toString()
+        return value.ifBlank { null }
+    }
+
+    private fun getNumberOfTrain(): String? {
+        val value = binding.numberTrainEditText.text.toString()
+        return value.ifBlank { null }
+    }
+
+    private fun getArrivalStation(): String? {
+        val value = binding.stationArrivalEditText.text.toString()
+        return value.ifBlank { null }
+    }
+
+    private fun getDepartureStation(): String? {
+        val value = binding.stationDepartureEditText.text.toString()
+        return value.ifBlank { null }
     }
 
     private fun getListStationFromPreference(): List<String> {

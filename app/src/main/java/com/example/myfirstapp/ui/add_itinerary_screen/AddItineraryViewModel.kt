@@ -1,5 +1,6 @@
 package com.example.myfirstapp.ui.add_itinerary_screen
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -53,7 +54,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     fun getListLoco(itineraryId: String) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { getListLocomotiveByItineraryId.execute(itineraryId) }
                 .onSuccess { list ->
                     if (list.isEmpty()) {
@@ -67,7 +68,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     fun addLocomotiveData(locomotiveData: LocomotiveData) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { addLocomotiveDataUseCase.execute(locomotiveData) }
                 .onSuccess {
                     // TODO
@@ -79,7 +80,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     fun addTrainData(itineraryId: String, trainData: TrainData) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { addTrainDataUseCase.execute(trainData) }
                 .onSuccess {
                     // TODO
@@ -91,7 +92,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     private fun changeItinerary(itinerary: Itinerary) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { updateItineraryUseCase.execute(itinerary) }
                 .onSuccess {
                     // TODO
@@ -103,7 +104,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     private fun getItinerary(itineraryId: String) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching {
                 updateItineraryUseCase.execute(
                     getItineraryByIdUseCase.execute(

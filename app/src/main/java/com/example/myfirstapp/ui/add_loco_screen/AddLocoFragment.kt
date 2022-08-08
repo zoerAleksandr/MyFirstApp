@@ -3,6 +3,7 @@ package com.example.myfirstapp.ui.add_loco_screen
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.content.res.ResourcesCompat
@@ -16,6 +17,7 @@ import com.example.myfirstapp.databinding.BlockEnergyBinding
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
 import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.ui.PREFERENCE
+import com.example.myfirstapp.ui.add_itinerary_screen.KEY_PARENT_ID
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -27,15 +29,6 @@ import java.util.Calendar.*
 import kotlin.properties.Delegates
 
 private const val LIST_SERIES = "LIST_SERIES"
-
-// для Bundle
-//const val KEY_TYPE_OF_TRACTION = "keyTypeOfTraction"
-//const val KEY_COUNT_SECTIONS = "keyCountSection"
-//const val KEY_COEFFICIENT = "keyCoefficient"
-const val KEY_PARENT_ID = "keyParentID"
-//const val KEY_LOCOMOTIVE_DATA_ID = "keyLocomotiveDataID"
-//const val KEY_LIST_DIESEL_FUEL_SECTION_ID = "keyListDieselFuelSectionID"
-//const val KEY_LIST_ELECTRIC_SECTION_ID = "keyListElectricSectionID"
 
 class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     companion object {
@@ -87,16 +80,9 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { bundle ->
-//            typeLoco =
-//                bundle.getParcelable(KEY_TYPE_OF_TRACTION) ?: TypeOfTraction.ElectricLocomotive
-//            countSection =
-//                bundle.getParcelable(KEY_COUNT_SECTIONS) ?: CountSections.TwoSection
-//            coefficient = bundle.getDouble(KEY_COEFFICIENT)
             itineraryID = bundle.getString(KEY_PARENT_ID).toString()
-//            locomotiveDataID = bundle.getString(KEY_LOCOMOTIVE_DATA_ID).toString()
-//            listDieselFuelSectionID = bundle.getStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID)!!
-//            listElectricSectionID = bundle.getStringArrayList(KEY_LIST_ELECTRIC_SECTION_ID)!!
         }
+        Log.d("Debug", itineraryID)
         countSection = CountSections.TwoSection
         typeLoco = TypeOfTraction.ElectricLocomotive
         setCountSection(countSection)

@@ -41,7 +41,7 @@ fun toPassengerRoomEntity(
     followingByPassenger: Passenger
 ): PassengerRoomEntity {
     return PassengerRoomEntity(
-        followingByPassenger.followingByPassengerID,
+        followingByPassenger.id,
         followingByPassenger.itineraryID,
         followingByPassenger.departureTime,
         followingByPassenger.arrivalTime,
