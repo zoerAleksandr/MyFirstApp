@@ -15,8 +15,8 @@ fun toLocomotiveDataList(
 
 fun toLocomotiveData(roomEntity: LocomotiveDataRoomEntity): LocomotiveData {
     return LocomotiveData(
-        locomotiveDataID = roomEntity.locomotiveDataID,
-        itineraryID = roomEntity.itineraryID,
+        locomotiveDataID = roomEntity.id,
+        itineraryID = roomEntity.itineraryId,
         series = roomEntity.series,
         number = roomEntity.number,
         typeOfTraction = roomEntity.typeOfTraction,
@@ -32,10 +32,18 @@ fun toLocomotiveData(roomEntity: LocomotiveDataRoomEntity): LocomotiveData {
     )
 }
 
+fun toLocomotiveDataRoomEntityList(locomotiveDataList: List<LocomotiveData>): MutableList<LocomotiveDataRoomEntity> {
+    val list = mutableListOf<LocomotiveDataRoomEntity>()
+    for (item in locomotiveDataList) {
+        list.add(toLocomotiveDataRoomEntity(item))
+    }
+    return list
+}
+
 fun toLocomotiveDataRoomEntity(locomotiveData: LocomotiveData): LocomotiveDataRoomEntity {
     return LocomotiveDataRoomEntity(
-        locomotiveDataID = locomotiveData.locomotiveDataID,
-        itineraryID = locomotiveData.itineraryID,
+        id = locomotiveData.locomotiveDataID,
+        itineraryId = locomotiveData.itineraryID,
         series = locomotiveData.series,
         number = locomotiveData.number,
         typeOfTraction = locomotiveData.typeOfTraction,

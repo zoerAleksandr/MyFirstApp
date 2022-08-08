@@ -15,24 +15,30 @@ fun toTrainDataList(
 
 fun toTrainData(roomEntity: TrainDataRoomEntity): TrainData {
     return TrainData(
-        roomEntity.trainDataID,
-        roomEntity.itineraryID,
+        roomEntity.id,
+        roomEntity.itineraryId,
         roomEntity.numberOfTrain,
         roomEntity.weight,
         roomEntity.wheelAxle,
         roomEntity.conditionalLength,
-        roomEntity.stations
     )
+}
+
+fun toTrainDataRoomEntityList(trainDataList: List<TrainData>): MutableList<TrainDataRoomEntity> {
+    val list = mutableListOf<TrainDataRoomEntity>()
+    for (item in trainDataList) {
+        list.add(toTrainDataRoomEntity(item))
+    }
+    return list
 }
 
 fun toTrainDataRoomEntity(trainData: TrainData): TrainDataRoomEntity {
     return TrainDataRoomEntity(
-        trainData.trainDataID,
+        trainData.id,
         trainData.itineraryID,
         trainData.numberOfTrain,
         trainData.weight,
         trainData.wheelAxle,
         trainData.conditionalLength,
-        trainData.stations
     )
 }

@@ -3,6 +3,7 @@ package com.example.myfirstapp.ui.add_itinerary_screen
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -11,12 +12,9 @@ import com.example.myfirstapp.app
 import com.example.myfirstapp.databinding.FragmentAddItineraryBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.*
-import com.example.myfirstapp.ui.add_loco_screen.*
+import com.example.myfirstapp.ui.add_loco_screen.AddLocoFragment
 import com.example.myfirstapp.ui.add_passenger_screen.AddPassengerFragment
-import com.example.myfirstapp.ui.add_passenger_screen.KEY_PASSENGER_ID
 import com.example.myfirstapp.ui.add_train_screen.AddTrainFragment
-import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_ID
-import com.example.myfirstapp.ui.add_train_screen.KEY_TRAIN_DATA_PARENT_ID
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -25,14 +23,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import java.util.Calendar.*
 
-const val ITINERARY_ID = "itineraryId"
+const val KEY_PARENT_ID = "keyParentID"
 
 class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     companion object {
-        fun newInstance(bundle: Bundle): AddItineraryFragment {
-            val fragment = AddItineraryFragment()
-            fragment.arguments = bundle
-            return fragment
+        fun newInstance(): AddItineraryFragment {
+            return AddItineraryFragment()
         }
     }
 
@@ -46,7 +42,7 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
     private var dateAndTimeTurnout: Calendar? = null
     private var dateAndTimeEnding: Calendar? = null
     private var restPointOfTurnover = false
-    private lateinit var itineraryID: String
+    private val itineraryID: String = generateStringID()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,9 +53,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.let { bundle ->
-            itineraryID = bundle.getString(ITINERARY_ID).toString()
-        }
 
         initLocoAdapter()
 
@@ -68,18 +61,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
         viewModel.getListLoco(itineraryID)
 
-        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
-        binding.etNumberItinerary.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-//                viewModel.saveNumberItinerary(
-//                    itineraryID,
-//                    binding.etNumberItinerary.text.toString()
-//                )
-            }
-        }
-
-        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
-/*Данный селектор выбирает тип отдыха ЛБ*/
         binding.selectorRestPointOfTurnover.apply {
             addTab(
                 this.newTab().setText(getString(R.string.text_for_selector_home_rest)),
@@ -96,11 +77,9 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                     when (tab?.position) {
                         0 -> {
                             restPointOfTurnover = false
-//                            viewModel.saveRest(itineraryID, false)
                         }
                         1 -> {
                             restPointOfTurnover = true
-//                            viewModel.saveRest(itineraryID, true)
                         }
                     }
                 }
@@ -111,78 +90,27 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         }
 
         binding.btnAddLoco.setOnClickListener {
-            val locomotiveDataID = generateStringID()
-            val listDieselFuelSectionID = arrayListOf(
-                generateStringID(),
-                generateStringID(),
-                generateStringID(),
-                generateStringID()
-            )
-            val listElectricSectionID = arrayListOf(
-                generateStringID(),
-                generateStringID(),
-                generateStringID(),
-                generateStringID()
-            )
-            createLocomotiveData(
-                itineraryID,
-                locomotiveDataID,
-                listDieselFuelSectionID,
-                listElectricSectionID
-            )
             val bundle = Bundle().apply {
-                putParcelable(KEY_TYPE_OF_TRACTION, TypeOfTraction.DieselLocomotive)
-                putParcelable(KEY_COUNT_SECTIONS, CountSections.TwoSection)
-                putDouble(KEY_COEFFICIENT, 0.83)
                 putString(KEY_PARENT_ID, itineraryID)
-                putString(KEY_LOCOMOTIVE_DATA_ID, locomotiveDataID)
-                putStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID, listDieselFuelSectionID)
-                putStringArrayList(KEY_LIST_ELECTRIC_SECTION_ID, listElectricSectionID)
             }
             controller.openScreen(AddLocoFragment.newInstance(bundle))
         }
 
         binding.btnAddPassenger.setOnClickListener {
-            val passengerId = generateStringID()
-            val passenger = Passenger(
-                followingByPassengerID = passengerId,
-                itineraryID = itineraryID,
-                departureTime = null,
-                arrivalTime = null,
-                departureStation = null,
-                arrivalStation = null,
-                numberOfTrain = null,
-                notes = null
-            )
-            createPassengerData(passenger)
             val bundle = Bundle().apply {
                 putString(KEY_PARENT_ID, itineraryID)
-                putString(KEY_PASSENGER_ID, passengerId)
             }
             controller.openScreen(AddPassengerFragment.newInstance(bundle))
         }
 
         binding.btnAddTrain.setOnClickListener {
-            val trainDataId = generateStringID()
-            val trainData = TrainData(
-                trainDataID = trainDataId,
-                itineraryID = itineraryID,
-                numberOfTrain = null,
-                weight = null,
-                wheelAxle = null,
-                conditionalLength = null,
-                stations = mutableListOf()
-            )
-            createTrainData(trainData)
             val bundle = Bundle().apply {
-                putString(KEY_TRAIN_DATA_PARENT_ID, itineraryID)
-                putString(KEY_TRAIN_DATA_ID, trainDataId)
+                putString(KEY_PARENT_ID, itineraryID)
             }
             controller.openScreen(AddTrainFragment.newInstance(bundle))
         }
 
         /** Блок ввода даты и времени явки на работу */
-        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.blockTurnout.setOnClickListener {
             val timePickerTurnout =
                 getTimePicker(getString(R.string.text_for_time_picker_turnout), dateAndTimeNow)
@@ -197,7 +125,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                                 timeTurnout.alpha = 1f
                             }
                             verificationWorkTime()
-//                            viewModel.saveCalendarTurnout(itineraryID, dateAndTimeTurnout)
                         }
                     }
 
@@ -226,7 +153,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
         /** Блок ввода даты и времени окончания работы.
          * constraintBuilder обеспечивает невозможность ввода даты
          * ранее указанной в Блоке явки */
-        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
         binding.blockEnding.setOnClickListener {
             val timePickerEnding =
                 getTimePicker(
@@ -243,7 +169,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                             timeEnding.alpha = 1f
                         }
                         verificationWorkTime()
-//                        viewModel.saveCalendarEnding(itineraryID, dateAndTimeEnding)
                     }
 
                 }
@@ -274,13 +199,6 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
                 }
             datePickerEnding.show(requireActivity().supportFragmentManager, "DATE_PICKER_ENDING")
         }
-
-        // ОБНОВИТЬ МЕТОД СОХРАНЕНИЯ
-        binding.notesText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-//                viewModel.saveNotes(itineraryID, binding.notesText.text.toString())
-            }
-        }
     }
 
     private fun renderListLoco(state: ListState) {
@@ -299,6 +217,49 @@ class AddItineraryFragment : Fragment(R.layout.fragment_add_itinerary) {
             }
         }
 
+    }
+
+    private fun saveItinerary(itinerary: Itinerary) {
+        viewModel.saveItinerary(itinerary = itinerary)
+        Toast.makeText(requireContext(), "сохранил", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        saveItinerary(getCurrentItinerary())
+        super.onDestroyView()
+    }
+
+    private fun getCurrentItinerary(): Itinerary {
+        return Itinerary(
+            itineraryID = itineraryID,
+            number = getNumber(),
+            appearanceAtWork = getAppearanceAtWork(),
+            endOfWork = getEndOfWork(),
+            restAtThePointOfTurnover = getRestPointOfTurnover(),
+            notes = getNotes()
+        )
+    }
+
+    private fun getNotes(): String? {
+        val value = binding.notesText.text.toString()
+        return value.ifBlank { null }
+    }
+
+    private fun getRestPointOfTurnover(): Boolean {
+        return restPointOfTurnover
+    }
+
+    private fun getEndOfWork(): Calendar? {
+        return dateAndTimeEnding
+    }
+
+    private fun getAppearanceAtWork(): Calendar? {
+        return dateAndTimeTurnout
+    }
+
+    private fun getNumber(): String? {
+        val value = binding.etNumberItinerary.text.toString()
+        return value.ifBlank { null }
     }
 
     private fun initLocoAdapter() {

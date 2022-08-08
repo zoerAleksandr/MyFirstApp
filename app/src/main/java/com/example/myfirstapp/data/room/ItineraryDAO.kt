@@ -3,7 +3,6 @@ package com.example.myfirstapp.data.room
 import androidx.room.*
 import com.example.myfirstapp.data.room.entity.*
 import com.example.myfirstapp.domain.entity.CountSections
-import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.example.myfirstapp.domain.entity.TypeOfTraction
 import java.util.*
 
@@ -13,7 +12,7 @@ interface ItineraryDAO {
     @Query("SELECT * FROM itinerary")
     fun getListItinerary(): MutableList<ItineraryRoomEntity>
 
-    @Query("SELECT * FROM itinerary WHERE itineraryID = :itineraryID")
+    @Query("SELECT * FROM itinerary WHERE id = :itineraryID")
     fun getItinerary(itineraryID: String): ItineraryRoomEntity
 
     @Insert
@@ -25,17 +24,17 @@ interface ItineraryDAO {
     @Update
     fun changeItinerary(roomEntity: ItineraryRoomEntity): Int
 
-    @Query("UPDATE itinerary SET locomotive_data_list = :locomotiveDataList WHERE itineraryID = :itineraryID")
-    fun updateItineraryLocomotive(
-        itineraryID: String,
-        locomotiveDataList: MutableList<LocomotiveData>
-    ): Int
+//    @Query("UPDATE itinerary SET locomotive_data_list = :locomotiveDataList WHERE id = :itineraryID")
+//    fun updateItineraryLocomotive(
+//        itineraryID: String,
+//        locomotiveDataList: MutableList<LocomotiveData>
+//    ): Int
 
     // LocomotiveData
-    @Query("SELECT * FROM locomotive WHERE locomotiveDataID = :locomotiveDataID")
+    @Query("SELECT * FROM locomotive WHERE id = :locomotiveDataID")
     fun getLocomotiveData(locomotiveDataID: String): LocomotiveDataRoomEntity
 
-    @Query("SELECT * FROM locomotive WHERE itineraryID = :itineraryID")
+    @Query("SELECT * FROM locomotive WHERE itineraryId = :itineraryID")
     fun getListLocomotiveData(itineraryID: String): MutableList<LocomotiveDataRoomEntity>
 
     @Insert
@@ -48,10 +47,10 @@ interface ItineraryDAO {
     fun changeLocomotiveData(roomEntity: LocomotiveDataRoomEntity): Int
 
     // TrainData
-    @Query("SELECT * FROM train WHERE trainDataID = :trainDataID")
+    @Query("SELECT * FROM train WHERE id = :trainDataID")
     fun getTrainData(trainDataID: String): TrainDataRoomEntity
 
-    @Query("SELECT * FROM train WHERE itineraryID = :itineraryID")
+    @Query("SELECT * FROM train WHERE itineraryId = :itineraryID")
     fun getListTrainData(itineraryID: String): MutableList<TrainDataRoomEntity>
 
     @Insert
@@ -64,20 +63,20 @@ interface ItineraryDAO {
     fun changeTrainData(roomEntity: TrainDataRoomEntity): Int
 
     // FollowingByPassenger
-    @Query("SELECT * FROM passenger WHERE followingByPassengerID = :followingByPassengerID")
-    fun getFollowingByPassenger(followingByPassengerID: String): FollowingByPassengerRoomEntity
+    @Query("SELECT * FROM passenger WHERE id = :followingByPassengerID")
+    fun getFollowingByPassenger(followingByPassengerID: String): PassengerRoomEntity
 
-    @Query("SELECT * FROM passenger WHERE itineraryID = :itineraryID")
-    fun getListFollowingByPassenger(itineraryID: String): MutableList<FollowingByPassengerRoomEntity>
+    @Query("SELECT * FROM passenger WHERE itineraryId = :itineraryID")
+    fun getListFollowingByPassenger(itineraryID: String): MutableList<PassengerRoomEntity>
 
     @Insert
-    fun addFollowingByPassenger(roomEntity: FollowingByPassengerRoomEntity): Long
+    fun addFollowingByPassenger(roomEntity: PassengerRoomEntity): Long
 
     @Delete
-    fun removeFollowingByPassenger(roomEntity: FollowingByPassengerRoomEntity): Int
+    fun removeFollowingByPassenger(roomEntity: PassengerRoomEntity): Int
 
     @Update
-    fun changeFollowingByPassenger(roomEntity: FollowingByPassengerRoomEntity): Int
+    fun changeFollowingByPassenger(roomEntity: PassengerRoomEntity): Int
 
     // DieselFuelSection
     @Query("SELECT * FROM dieselSection WHERE locomotiveDataID = :locomotiveDataID")
@@ -168,43 +167,43 @@ interface ItineraryDAO {
         consumption: Int?
     ): Int
 
-    @Query("UPDATE locomotive SET series = :series WHERE locomotiveDataID = :locomotiveDataID")
+    @Query("UPDATE locomotive SET series = :series WHERE id = :locomotiveDataID")
     fun updateSeriesLoco(locomotiveDataID: String, series: String?): Int
 
-    @Query("UPDATE locomotive SET number = :number WHERE locomotiveDataID = :locomotiveDataID")
+    @Query("UPDATE locomotive SET number = :number WHERE id = :locomotiveDataID")
     fun updateNumberLoco(locomotiveDataID: String, number: String?): Int
 
-    @Query("UPDATE locomotive SET typeOfTraction = :typeOfTraction WHERE locomotiveDataID = :locomotiveDataID")
+    @Query("UPDATE locomotive SET typeOfTraction = :typeOfTraction WHERE id = :locomotiveDataID")
     fun updateTypeOfTraction(locomotiveDataID: String, typeOfTraction: TypeOfTraction): Int
 
-    @Query("UPDATE locomotive SET countSections = :countSections WHERE locomotiveDataID = :locomotiveDataID")
+    @Query("UPDATE locomotive SET countSections = :countSections WHERE id = :locomotiveDataID")
     fun updateCountSection(locomotiveDataID: String, countSections: CountSections): Int
 
-    @Query("UPDATE locomotive SET startAcceptance = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    @Query("UPDATE locomotive SET startAcceptance = :calendar WHERE id =:locomotiveDataID")
     fun updateCalendarStartAcceptance(locomotiveDataID: String, calendar: Calendar?): Int
 
-    @Query("UPDATE locomotive SET endAcceptance = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    @Query("UPDATE locomotive SET endAcceptance = :calendar WHERE id =:locomotiveDataID")
     fun updateCalendarEndAcceptance(locomotiveDataID: String, calendar: Calendar?): Int
 
-    @Query("UPDATE locomotive SET startDelivery = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    @Query("UPDATE locomotive SET startDelivery = :calendar WHERE id =:locomotiveDataID")
     fun updateCalendarStartDelivery(locomotiveDataID: String, calendar: Calendar?): Int
 
-    @Query("UPDATE locomotive SET endDelivery = :calendar WHERE locomotiveDataID =:locomotiveDataID")
+    @Query("UPDATE locomotive SET endDelivery = :calendar WHERE id =:locomotiveDataID")
     fun updateCalendarEndDelivery(locomotiveDataID: String, calendar: Calendar?): Int
 
-    @Query("UPDATE locomotive SET countBrakeShoes = :count WHERE locomotiveDataID =:locomotiveDataID")
+    @Query("UPDATE locomotive SET countBrakeShoes = :count WHERE id =:locomotiveDataID")
     fun updateBreakShoes(locomotiveDataID: String, count: Int?): Int
 
-    @Query("UPDATE locomotive SET countExtinguishers = :count WHERE locomotiveDataID =:locomotiveDataID")
+    @Query("UPDATE locomotive SET countExtinguishers = :count WHERE id =:locomotiveDataID")
     fun updateExtinguishers(locomotiveDataID: String, count: Int?): Int
 
     @Insert
     fun addStation(stationRoomEntity: StationRoomEntity): Long
 
-    @Query("SELECT * FROM station WHERE stationID = :stationId")
+    @Query("SELECT * FROM station WHERE id = :stationId")
     fun getStation(stationId: String): StationRoomEntity
 
-    @Query("SELECT * FROM station WHERE trainDataID = :trainDataID")
+    @Query("SELECT * FROM station WHERE trainDataId = :trainDataID")
     fun getListStation(trainDataID: String): MutableList<StationRoomEntity>
 
     @Delete

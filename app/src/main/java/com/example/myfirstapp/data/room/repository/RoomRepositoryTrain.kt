@@ -1,12 +1,19 @@
 package com.example.myfirstapp.data.room.repository
 
+import com.example.myfirstapp.data.room.ItineraryDAO
 import com.example.myfirstapp.domain.entity.TrainData
 import com.example.myfirstapp.domain.repository.IRepositoryTrain
-import io.reactivex.rxjava3.core.Single
+import com.example.myfirstapp.utils.convert_entity.toTrainDataRoomEntity
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class RoomRepositoryTrain : IRepositoryTrain {
+class RoomRepositoryTrain : IRepositoryTrain, KoinComponent {
+    private val localStorage: ItineraryDAO by inject()
+
     override fun addTrainData(trainData: TrainData): Long {
-        TODO("Not yet implemented")
+        return localStorage.addTrainData(
+            toTrainDataRoomEntity(trainData)
+        )
     }
 
     override fun getTrainData(trainDataID: String): TrainData {

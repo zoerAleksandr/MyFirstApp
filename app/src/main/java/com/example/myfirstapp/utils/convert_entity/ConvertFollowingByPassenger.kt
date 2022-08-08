@@ -1,25 +1,33 @@
 package com.example.myfirstapp.utils.convert_entity
 
-import com.example.myfirstapp.data.room.entity.FollowingByPassengerRoomEntity
+import com.example.myfirstapp.data.room.entity.PassengerRoomEntity
 import com.example.myfirstapp.domain.entity.Passenger
 
 
-fun toFollowingByPassengerList(
-    roomEntityList: MutableList<FollowingByPassengerRoomEntity>
+fun toPassengerList(
+    roomEntityList: MutableList<PassengerRoomEntity>
 ): MutableList<Passenger> {
     val list = mutableListOf<Passenger>()
     for (item in roomEntityList) {
-        list.add(toFollowingByPassenger(item))
+        list.add(toPassenger(item))
     }
     return list
 }
 
-fun toFollowingByPassenger(
-    entityRoom: FollowingByPassengerRoomEntity
+fun toPassengerRoomEntityList(passengerList: List<Passenger>): MutableList<PassengerRoomEntity> {
+    val list = mutableListOf<PassengerRoomEntity>()
+    for (item in passengerList) {
+        list.add(toPassengerRoomEntity(item))
+    }
+    return list
+}
+
+fun toPassenger(
+    entityRoom: PassengerRoomEntity
 ): Passenger {
     return Passenger(
-        entityRoom.followingByPassengerID,
-        entityRoom.itineraryID,
+        entityRoom.id,
+        entityRoom.itineraryId,
         entityRoom.departureTime,
         entityRoom.arrivalTime,
         entityRoom.departureStation,
@@ -29,11 +37,11 @@ fun toFollowingByPassenger(
     )
 }
 
-fun toFollowingByPassengerRoomEntity(
+fun toPassengerRoomEntity(
     followingByPassenger: Passenger
-): FollowingByPassengerRoomEntity {
-    return FollowingByPassengerRoomEntity(
-        followingByPassenger.followingByPassengerID,
+): PassengerRoomEntity {
+    return PassengerRoomEntity(
+        followingByPassenger.id,
         followingByPassenger.itineraryID,
         followingByPassenger.departureTime,
         followingByPassenger.arrivalTime,

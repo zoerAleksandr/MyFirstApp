@@ -10,11 +10,9 @@ import com.example.myfirstapp.databinding.FragmentMainBinding
 import com.example.myfirstapp.domain.Controller
 import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.ui.add_itinerary_screen.AddItineraryFragment
-import com.example.myfirstapp.ui.add_itinerary_screen.ITINERARY_ID
 import com.example.myfirstapp.ui.viewving_screen.KEY_ITINERARY
 import com.example.myfirstapp.ui.viewving_screen.ViewingFragment
 import com.example.myfirstapp.utils.AppState
-import com.example.myfirstapp.utils.generateStringID
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,30 +33,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        viewModel.getCurrentData(1)
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapterItinerary
         viewModel.getCurrentData(1).observe(viewLifecycleOwner) { renderData(it) }
 
         binding.fab.setOnClickListener {
-            val itineraryId = generateStringID()
-            viewModel.saveItinerary(
-                itineraryId,
-                null,
-                null,
-                null,
-                false,
-                null
-            )
-            val bundle = Bundle().apply {
-                putString(ITINERARY_ID, itineraryId)
-            }
-            controller.openScreen(AddItineraryFragment.newInstance(bundle))
+            controller.openScreen(AddItineraryFragment.newInstance())
         }
     }
 
@@ -74,12 +55,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 Snackbar.make(binding.fab, "${appState.error}", Snackbar.LENGTH_INDEFINITE)
-//                    .setAction("Обновить") { viewModel.getDataFromLocal() }
+                    .setAction("Обновить") { viewModel.getCurrentData(1) }
                     .show()
             }
         }
     }
-
 
     private fun itemClickListener(itinerary: Itinerary) {
         val bundle = Bundle().apply {

@@ -3,10 +3,10 @@ package com.example.myfirstapp.data.room.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(
-    tableName = "train",
+    tableName = "passenger",
     foreignKeys = [
         ForeignKey(
             entity = ItineraryRoomEntity::class,
@@ -15,14 +15,18 @@ import androidx.room.PrimaryKey
             onDelete = CASCADE,
             onUpdate = CASCADE
         )
-    ]
+    ],
+    primaryKeys = ["itineraryId", "id"]
 )
-data class TrainDataRoomEntity(
-    @PrimaryKey
+data class PassengerRoomEntity(
     val id: String,
     val itineraryId: String,
+    var departureTime: Calendar?,
+    var arrivalTime: Calendar?,
+    var departureStation: String?,
+    var arrivalStation: String?,
     var numberOfTrain: String?,
-    var weight: String?,
-    var wheelAxle: String?,
-    var conditionalLength: String?,
+    var notes: String?
 )
+
+

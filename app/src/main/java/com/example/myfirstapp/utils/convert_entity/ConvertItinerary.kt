@@ -2,7 +2,6 @@ package com.example.myfirstapp.utils.convert_entity
 
 import com.example.myfirstapp.data.room.entity.ItineraryRoomEntity
 import com.example.myfirstapp.domain.entity.Itinerary
-import io.reactivex.rxjava3.core.Single
 
 fun toItineraryList(
     roomEntityList: MutableList<ItineraryRoomEntity>
@@ -16,15 +15,12 @@ fun toItineraryList(
 
 fun toItinerary(roomEntity: ItineraryRoomEntity): Itinerary {
     return Itinerary(
-        roomEntity.itineraryID,
+        roomEntity.id,
         roomEntity.number,
         roomEntity.appearanceAtWork,
         roomEntity.endOfWork,
         roomEntity.restAtThePointOfTurnover,
-        roomEntity.notes,
-        roomEntity.followingByPassengerList,
-        roomEntity.locomotiveDataList,
-        roomEntity.trainDataList
+        roomEntity.notes
     )
 }
 
@@ -35,9 +31,6 @@ fun toItineraryRoomEntity(itinerary: Itinerary): ItineraryRoomEntity {
         itinerary.appearanceAtWork,
         itinerary.endOfWork,
         itinerary.restAtThePointOfTurnover,
-        itinerary.notes,
-        itinerary.followingByPassengerList,
-        itinerary.locomotiveDataList,
-        itinerary.trainDataList
+        itinerary.notes
     )
 }

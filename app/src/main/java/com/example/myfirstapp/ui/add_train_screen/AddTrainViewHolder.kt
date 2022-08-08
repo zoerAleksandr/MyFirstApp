@@ -38,7 +38,7 @@ class AddTrainViewHolder(
         /** Здесь происходит сохранение stationName в Room*/
         binding.dataStation.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                textStationChangedListener(binding.dataStation.text.toString(), station.stationID)
+                textStationChangedListener(binding.dataStation.text.toString(), station.id)
             }
         }
 

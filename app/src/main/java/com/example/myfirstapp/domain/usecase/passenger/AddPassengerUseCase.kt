@@ -4,7 +4,7 @@ import com.example.myfirstapp.domain.entity.Passenger
 import com.example.myfirstapp.domain.repository.IRepositoryPassenger
 
 class AddPassengerUseCase(private val repository: IRepositoryPassenger) {
-    fun execute(passenger: Passenger): String {
+    fun execute(passenger: Passenger): Long {
         return repository.addPassenger(passenger)
     }
 }

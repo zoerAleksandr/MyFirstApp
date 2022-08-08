@@ -23,7 +23,7 @@ class AddTrainFragmentAdapter(
 
     fun updateStation(station: Station) {
         val index = listStation.indexOf(
-            listStation.find { it.stationID == station.stationID }
+            listStation.find { it.id == station.id }
         )
         listStation[index] = station
         notifyItemChanged(index)

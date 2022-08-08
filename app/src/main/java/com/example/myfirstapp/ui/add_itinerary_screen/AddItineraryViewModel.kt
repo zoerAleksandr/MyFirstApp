@@ -1,37 +1,60 @@
 package com.example.myfirstapp.ui.add_itinerary_screen
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myfirstapp.domain.entity.Itinerary
 import com.example.myfirstapp.domain.entity.LocomotiveData
 import com.example.myfirstapp.domain.entity.TrainData
+import com.example.myfirstapp.domain.usecase.itinerary.AddItineraryUseCase
 import com.example.myfirstapp.domain.usecase.itinerary.GetItineraryByIdUseCase
 import com.example.myfirstapp.domain.usecase.itinerary.UpdateItineraryUseCase
 import com.example.myfirstapp.domain.usecase.locomotive.AddLocomotiveDataUseCase
 import com.example.myfirstapp.domain.usecase.locomotive.GetListLocomotiveByItineraryId
 import com.example.myfirstapp.domain.usecase.passenger.AddPassengerUseCase
+import com.example.myfirstapp.domain.usecase.passenger.GetPassengerListByItineraryIdUseCase
 import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class AddItineraryViewModel : ViewModel(), KoinComponent {
+    private val addItineraryUseCase: AddItineraryUseCase by inject()
     private val addLocomotiveDataUseCase: AddLocomotiveDataUseCase by inject()
     private val updateItineraryUseCase: UpdateItineraryUseCase by inject()
     private val getItineraryByIdUseCase: GetItineraryByIdUseCase by inject()
     private val addTrainDataUseCase: AddTrainDataUseCase by inject()
     private val addPassengerUseCase: AddPassengerUseCase by inject()
     private val getListLocomotiveByItineraryId: GetListLocomotiveByItineraryId by inject()
+    private val getPassengerListUseCase: GetPassengerListByItineraryIdUseCase by inject()
 
     val liveData: MutableLiveData<ListState> = MutableLiveData()
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         liveData.postValue(ListState.Error(throwable))
     }
 
+    private val scope = CoroutineScope(
+        Dispatchers.IO + SupervisorJob()
+                + CoroutineExceptionHandler { _, throwable ->
+            liveData.postValue(ListState.Error(throwable))
+        }
+    )
+
+    fun saveItinerary(itinerary: Itinerary) {
+        scope.launch {
+            kotlin.runCatching { addItineraryUseCase.execute(itinerary) }
+                .onSuccess {
+                    // TODO Single event complete add itinerary
+                }
+                .onFailure {
+                    // TODO Single event not complete add itinerary
+                }
+        }
+    }
+
     fun getListLoco(itineraryId: String) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { getListLocomotiveByItineraryId.execute(itineraryId) }
                 .onSuccess { list ->
                     if (list.isEmpty()) {
@@ -45,7 +68,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     fun addLocomotiveData(locomotiveData: LocomotiveData) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { addLocomotiveDataUseCase.execute(locomotiveData) }
                 .onSuccess {
                     // TODO
@@ -57,7 +80,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     fun addTrainData(itineraryId: String, trainData: TrainData) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { addTrainDataUseCase.execute(trainData) }
                 .onSuccess {
                     // TODO
@@ -69,7 +92,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     private fun changeItinerary(itinerary: Itinerary) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching { updateItineraryUseCase.execute(itinerary) }
                 .onSuccess {
                     // TODO
@@ -81,7 +104,7 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
     }
 
     private fun getItinerary(itineraryId: String) {
-        viewModelScope.launch(exceptionHandler) {
+        scope.launch(exceptionHandler) {
             kotlin.runCatching {
                 updateItineraryUseCase.execute(
                     getItineraryByIdUseCase.execute(
@@ -96,5 +119,10 @@ class AddItineraryViewModel : ViewModel(), KoinComponent {
                     // TODO
                 }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        scope.coroutineContext.cancelChildren()
     }
 }

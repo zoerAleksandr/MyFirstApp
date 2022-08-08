@@ -10,8 +10,8 @@ import com.example.myfirstapp.domain.usecase.passenger.GetPassengerUseCase
 import com.example.myfirstapp.domain.usecase.passenger.UpdatePassengerUseCase
 import com.example.myfirstapp.domain.usecase.station.*
 import com.example.myfirstapp.domain.usecase.train.AddTrainDataUseCase
-import com.example.myfirstapp.domain.usecase.train.UpdateTrainDataUseCase
 import com.example.myfirstapp.domain.usecase.train.GetTrainDataUseCase
+import com.example.myfirstapp.domain.usecase.train.UpdateTrainDataUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {

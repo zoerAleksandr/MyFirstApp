@@ -3,6 +3,7 @@ package com.example.myfirstapp.ui.add_loco_screen
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.core.content.res.ResourcesCompat
@@ -14,9 +15,9 @@ import com.example.myfirstapp.R
 import com.example.myfirstapp.databinding.BlockDieselFuelBinding
 import com.example.myfirstapp.databinding.BlockEnergyBinding
 import com.example.myfirstapp.databinding.FragmentAddLocoBinding
-import com.example.myfirstapp.domain.entity.CountSections
-import com.example.myfirstapp.domain.entity.TypeOfTraction
+import com.example.myfirstapp.domain.entity.*
 import com.example.myfirstapp.ui.PREFERENCE
+import com.example.myfirstapp.ui.add_itinerary_screen.KEY_PARENT_ID
 import com.example.myfirstapp.utils.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -29,15 +30,6 @@ import kotlin.properties.Delegates
 
 private const val LIST_SERIES = "LIST_SERIES"
 
-// для Bundle
-const val KEY_TYPE_OF_TRACTION = "keyTypeOfTraction"
-const val KEY_COUNT_SECTIONS = "keyCountSection"
-const val KEY_COEFFICIENT = "keyCoefficient"
-const val KEY_PARENT_ID = "keyParentID"
-const val KEY_LOCOMOTIVE_DATA_ID = "keyLocomotiveDataID"
-const val KEY_LIST_DIESEL_FUEL_SECTION_ID = "keyListDieselFuelSectionID"
-const val KEY_LIST_ELECTRIC_SECTION_ID = "keyListElectricSectionID"
-
 class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     companion object {
         fun newInstance(bundle: Bundle): AddLocoFragment {
@@ -49,11 +41,8 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
 
     private val binding: FragmentAddLocoBinding by viewBinding()
 
-    private val viewModel: AddLocoViewModel by viewModels {
-        AddLocoViewModelFactory(
-            locomotiveDataID = arguments?.getString(KEY_LOCOMOTIVE_DATA_ID).toString()
-        )
-    }
+    private val viewModel: AddLocoViewModel by viewModels()
+
     private lateinit var itineraryID: String
     private lateinit var locomotiveDataID: String
     private lateinit var listDieselFuelSectionID: ArrayList<String>
@@ -91,16 +80,11 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let { bundle ->
-            typeLoco =
-                bundle.getParcelable(KEY_TYPE_OF_TRACTION) ?: TypeOfTraction.ElectricLocomotive
-            countSection =
-                bundle.getParcelable(KEY_COUNT_SECTIONS) ?: CountSections.TwoSection
-            coefficient = bundle.getDouble(KEY_COEFFICIENT)
             itineraryID = bundle.getString(KEY_PARENT_ID).toString()
-            locomotiveDataID = bundle.getString(KEY_LOCOMOTIVE_DATA_ID).toString()
-            listDieselFuelSectionID = bundle.getStringArrayList(KEY_LIST_DIESEL_FUEL_SECTION_ID)!!
-            listElectricSectionID = bundle.getStringArrayList(KEY_LIST_ELECTRIC_SECTION_ID)!!
         }
+        Log.d("Debug", itineraryID)
+        countSection = CountSections.TwoSection
+        typeLoco = TypeOfTraction.ElectricLocomotive
         setCountSection(countSection)
         setTypeOfTraction(typeLoco)
 
@@ -963,5 +947,84 @@ class AddLocoFragment : Fragment(R.layout.fragment_add_loco), KoinComponent {
                 deliveryView.error = null
             }
         }
+    }
+
+    private fun getSeriesLocomotive(): String? {
+        val value = binding.etSeriesLoco.text.toString()
+        return value.ifBlank { null }
+    }
+
+    private fun getNumberLocomotive(): String? {
+        val value = binding.etNumberLoco.text.toString()
+        return value.ifBlank { null }
+    }
+
+    private fun getTypeOfTraction(): TypeOfTraction {
+        return typeLoco
+    }
+
+    private fun getCountSection(): CountSections {
+        return countSection
+    }
+
+    private fun getStartAcceptance(): Calendar? {
+        return dateAndTimeStartAcceptance
+    }
+
+    private fun getEndAcceptance(): Calendar? {
+        return dateAndTimeEndAcceptance
+    }
+
+    private fun getStartDelivery(): Calendar? {
+        return dateAndTimeStartDelivery
+    }
+
+    private fun getEndDelivery(): Calendar? {
+        return dateAndTimeEndDelivery
+    }
+
+    private fun getElectricSectionList(): MutableList<ElectricSection> {
+        return mutableListOf()
+    }
+
+    private fun getDieselFuelSectionList(): MutableList<DieselFuelSection> {
+        return mutableListOf()
+    }
+
+    private fun getCountBrakeShoes(): Int {
+        return countBrakeShoes
+    }
+
+    private fun getCountExtinguishers(): Int {
+        return countExtinguishers
+    }
+
+
+    private fun getCurrentLocomotiveData(): LocomotiveData {
+        return LocomotiveData(
+            locomotiveDataID = generateStringID(),
+            itineraryID = itineraryID,
+            series = getSeriesLocomotive(),
+            number = getNumberLocomotive(),
+            typeOfTraction = getTypeOfTraction(),
+            countSections = getCountSection(),
+            startAcceptance = getStartAcceptance(),
+            endAcceptance = getEndAcceptance(),
+            startDelivery = getStartDelivery(),
+            endDelivery = getEndDelivery(),
+            electricSectionList = getElectricSectionList(),
+            dieselFuelSectionList = getDieselFuelSectionList(),
+            countBrakeShoes = getCountBrakeShoes(),
+            countExtinguishers = getCountExtinguishers()
+        )
+    }
+
+    private fun saveLocomotive() {
+        viewModel.addLocomotive(getCurrentLocomotiveData())
+    }
+
+    override fun onDestroyView() {
+        saveLocomotive()
+        super.onDestroyView()
     }
 }

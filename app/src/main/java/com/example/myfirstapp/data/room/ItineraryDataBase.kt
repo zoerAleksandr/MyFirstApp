@@ -9,7 +9,7 @@ import com.example.myfirstapp.utils.convert_room.*
 @Database(
     entities = [
         ItineraryRoomEntity::class,
-        FollowingByPassengerRoomEntity::class,
+        PassengerRoomEntity::class,
         LocomotiveDataRoomEntity::class,
         TrainDataRoomEntity::class,
         StationRoomEntity::class,
